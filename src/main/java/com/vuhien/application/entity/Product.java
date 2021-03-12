@@ -1,0 +1,64 @@
+package com.vuhien.application.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@Entity
+@Table(name = "product")
+public class Product {
+    @Id
+    @Column(name = "id")
+    private String id;
+    @Column(name = "name",nullable = false,length = 300)
+    private String name;
+    @Column(name = "description",columnDefinition = "TEXT")
+    private String description;
+    @Column(name = "price")
+    private long price;
+    @Column(name = "sale_price")
+    private long salePrice;
+    @Column(name = "slug",nullable = false)
+    private String slug;
+    @Type(type = "json")
+    @Column(name = "images",columnDefinition = "json")
+    private ArrayList<String> images;
+    @Type(type = "json")
+    @Column(name = "image_feedback",columnDefinition = "json")
+    private ArrayList<String> imageFeedBack;
+    @Column(name = "total_sold")
+    private long totalSold;
+    @Column(name = "status",columnDefinition = "TINYINT(1)")
+    private boolean status;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_category",
+            joinColumns =@JoinColumn(name = "product_id"),
+            inverseJoinColumns =@JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private List<CartProduct> cartProducts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "product")
+    private List<Rate> rates;
+}
