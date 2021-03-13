@@ -1,0 +1,99 @@
+<!doctype html>
+<html class="fixed" xmlns:th="http://www.thymeleaf.org" th:fragment="main-fragment(title, header,sidebar, cssResources, jsResources, mainContent)">
+
+<!-- Mirrored from www.okler.net/previews/porto-admin/3.1.0/layouts-default.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 03 Mar 2021 05:30:02 GMT -->
+
+<head>
+
+    <meta charset="UTF-8">
+    <title  th:replace="${title}"> Trang chủ</title>
+    <meta name="keywords" content="HTML5 Admin Template"/>
+    <meta name="description" content="Porto Admin - Responsive HTML5 Template">
+    <meta name="author" content="okler.net">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+<!--    <link th:href="@{/adminlte/fonts/css6525.css}" rel="stylesheet" type="text/css">-->
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/animate/animate.compat.css}">
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/font-awesome/css/all.min.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/boxicons/css/boxicons.min.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/magnific-popup/magnific-popup.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/jquery-ui/jquery-ui.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/jquery-ui/jquery-ui.theme.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/bootstrap-multiselect/css/bootstrap-multiselect.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/vendor/morris/morris.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/css/theme.css}"/>
+    <link rel="stylesheet" th:href="@{/adminlte/css/custom.css}">
+    <script th:src="@{/adminlte/vendor/modernizr/modernizr.js}"></script>
+    <!--    <script th:src="@{/adminlte/master/style-switcher/style.switcher.localstorage.js}"></script>-->
+    <th:block th:replace="${cssResources} ?: ~{}"></th:block>
+</head>
+
+<body>
+<section class="body">
+    <!-- HEADER -->
+    <th:block th:replace="~{fragment/header_admin :: ${header}}"></th:block>
+
+    <div class="inner-wrapper">
+        <!-- SIDEBAR -->
+        <th:block th:replace="~{fragment/sidebar_admin :: ${sidebar}}"></th:block>
+        <!-- BODY -->
+        <th:block th:replace="${mainContent} ?: ~{}"></th:block>
+    </div>
+</section>
+
+<script th:src="@{/adminlte/vendor/jquery/jquery.js}"></script>
+<script th:src="@{/adminlte/vendor/jquery-browser-mobile/jquery.browser.mobile.js}"></script>
+<script th:src="@{/adminlte/vendor/jquery-cookie/jquery.cookie.js}"></script>
+<!--<script th:src="@{/adminlte/master/style-switcher/style.switcher.js}"></script>-->
+<script th:src="@{/adminlte/vendor/popper/umd/popper.min.js}"></script>
+<script th:src="@{/adminlte/vendor/bootstrap/js/bootstrap.js}"></script>
+<script th:src="@{/adminlte/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+<script th:src="@{/adminlte/vendor/common/common.js}"></script>
+<script th:src="@{/adminlte/vendor/nanoscroller/nanoscroller.js}"></script>
+<script th:src="@{/adminlte/vendor/magnific-popup/jquery.magnific-popup.js}"></script>
+<script th:src="@{/adminlte/vendor/jquery-placeholder/jquery.placeholder.js}"></script>
+<script th:src="@{/adminlte/vendor/jquery-ui/jquery-ui.js}"></script>
+<script th:src="@{/adminlte/vendor/jqueryui-touch-punch/jquery.ui.touch-punch.js}"></script>
+<script th:src="@{/adminlte/vendor/jquery-appear/jquery.appear.js}"></script>
+<script th:src="@{/adminlte/vendor/bootstrap-multiselect/js/bootstrap-multiselect.js}"></script>
+<script th:src="@{/adminlte/vendor/jquery.easy-pie-chart/jquery.easypiechart.js}"></script>
+<script th:src="@{/adminlte/vendor/flot/jquery.flot.js}"></script>
+<script th:src="@{/adminlte/vendor/flot.tooltip/jquery.flot.tooltip.js}"></script>
+<script th:src="@{/adminlte/vendor/flot/jquery.flot.pie.js}"></script>
+<script th:src="@{/adminlte/vendor/flot/jquery.flot.categories.js}"></script>
+<script th:src="@{/adminlte/vendor/flot/jquery.flot.resize.js}"></script>
+<script th:src="@{/adminlte/vendor/jquery-sparkline/jquery.sparkline.js}"></script>
+<script th:src="@{/adminlte/vendor/raphael/raphael.js}"></script>
+<script th:src="@{/adminlte/vendor/morris/morris.js}"></script>
+<script th:src="@{/adminlte/vendor/gauge/gauge.js}"></script>
+<script th:src="@{/adminlte/vendor/snap.svg/snap.svg.js}"></script>
+<script th:src="@{/adminlte/vendor/liquid-meter/liquid.meter.js}"></script>
+<script th:src="@{/adminlte/vendor/jqvmap/jquery.vmap.js}"></script>
+<script th:src="@{/adminlte/vendor/jqvmap/data/jquery.vmap.sampledata.js}"></script>
+<script th:src="@{/adminlte/vendor/jqvmap/maps/jquery.vmap.world.js}"></script>
+<script th:src="@{/adminlte/vendor/jqvmap/maps/continents/jquery.vmap.africa.js}"></script>
+<script th:src="@{/adminlte/vendor/jqvmap/maps/continents/jquery.vmap.asia.js}"></script>
+<script th:src="@{/adminlte/vendor/jqvmap/maps/continents/jquery.vmap.australia.js}"></script>
+<script th:src="@{/adminlte/vendor/jqvmap/maps/continents/jquery.vmap.europe.js}"></script>
+<script th:src="@{/adminlte/vendor/jqvmap/maps/continents/jquery.vmap.north-america.js}"></script>
+<script th:src="@{/adminlte/vendor/jqvmap/maps/continents/jquery.vmap.south-america.js}"></script>
+
+
+<script th:src="@{/adminlte/js/theme.js}"></script>
+
+<script th:src="@{/adminlte/js/custom.js}"></script>
+
+<script th:src="@{/adminlte/js/theme.init.js}"></script>
+
+
+<script th:src="@{/adminlte/js/examples/examples.dashboard.js}"></script>
+
+<th:block th:replace="${jsResources} ?: ~{}"></th:block>
+</body>
+
+<!-- Mirrored from www.okler.net/previews/porto-admin/3.1.0/layouts-default.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 03 Mar 2021 05:32:40 GMT -->
+
+</html>
