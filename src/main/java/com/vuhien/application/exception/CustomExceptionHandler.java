@@ -58,10 +58,9 @@ public class CustomExceptionHandler {
         BindingResult result = ex.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
         String message = "";
-        StringBuilder sb = new StringBuilder(message);
         for (FieldError error : fieldErrors) {
             String temp = processFieldError(error);
-            sb.append(temp).append(" ; ");
+            message += temp + " ; ";
         }
         ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST, message);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
