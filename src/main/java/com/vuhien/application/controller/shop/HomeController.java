@@ -1,4 +1,4 @@
-package com.vuhien.application.controller;
+package com.vuhien.application.controller.shop;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
     @GetMapping
     public String dashboard(Model model){
-        return "admin/category/list";
+        return "shop/index";
     }
 }

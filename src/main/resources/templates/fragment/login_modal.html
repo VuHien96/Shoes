@@ -1,5 +1,6 @@
 <!-- Modal -->
-<div th:fragment="login_modal" class="modal fade " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div th:fragment="login_modal" class="modal fade " id="exampleModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -11,59 +12,48 @@
             <div class="modal-body">
                 <div class="row row-sparse">
                     <div class="col-md-6">
-                        <h3 class="title mb-2">Login</h3>
+                        <h3 class="title mb-2">Đăng nhập</h3>
 
-                        <form action="#" class="mb-1">
-                            <label for="login-email">Email address <span class="required">*</span></label>
-                            <input type="email" class="form-input form-wide mb-2" id="login-email" required="">
-
-                            <label for="login-password">Password <span class="required">*</span></label>
-                            <input type="password" class="form-input form-wide mb-2" id="login-password" required="">
-
+                        <form class="mb-1" id="loginForm">
+                            <label for="login_email">Email <span class="required">*</span></label>
+                            <input type="email" class="form-input form-wide mb-2" name="login_email" id="login_email">
+                            <br>
+                            <label for="login_password">Mật khẩu <span class="required">*</span></label>
+                            <input type="password" class="form-input form-wide mb-2" name="login_password"
+                                   id="login_password">
+                            <br>
                             <div class="form-footer">
-                                <button type="submit" class="btn btn-primary btn-md">LOGIN</button>
-
-                                <div class="custom-control custom-checkbox form-footer-right">
-                                    <input type="checkbox" class="custom-control-input" id="lost-password">
-                                    <label class="custom-control-label form-footer-right" for="lost-password">Remember
-                                        Me</label>
-                                </div>
+                                <button type="submit" class="btn btn-primary btn-md">Đăng nhập</button>
                             </div><!-- End .form-footer -->
-                            <a href="#" class="forget-password">Forgot your password?</a>
                         </form>
-                        <div class="btn-group" style="margin: auto">
-                            <a class="btn btn-social-login btn-md btn-gplus mb-1"><i class="fab fa-google pt-1"></i><span>Google</span></a>
+                        <div class="btn-group">
+                            <a class="btn btn-social-login btn-md btn-gplus mb-1"><i
+                                    class="fab fa-google pt-1"></i><span>Google</span></a>
                             <a class="btn btn-social-login btn-md btn-facebook mb-1"><i class="icon-facebook"></i><span>Facebook</span></a>
                         </div>
                     </div><!-- End .col-md-6 -->
 
                     <div class="col-md-6">
-                        <h3 class="title mb-2">Register</h3>
+                        <h3 class="title mb-2">Đăng ký</h3>
 
-                        <form action="#">
-                            <label for="register-email">Email address <span class="required">*</span></label>
-                            <input type="email" class="form-input form-wide mb-2" id="register-email" required="">
-
-                            <label for="register-password">Password <span class="required">*</span></label>
-                            <input type="password" class="form-input form-wide mb-2" id="register-password" required="">
-
-                            <label for="register-password">Password <span class="required">*</span></label>
-                            <input type="password" class="form-input form-wide mb-2" id="register-password" required="">
-
-                            <label for="register-password">Password <span class="required">*</span></label>
-                            <input type="password" class="form-input form-wide mb-2" id="register-password" required="">
-
-                            <label for="register-password">Password <span class="required">*</span></label>
-                            <input type="password" class="form-input form-wide mb-2" id="register-password" required="">
+                        <form action="#" id="registerForm">
+                            <label for="register_full_name">Họ và tên <span class="required">*</span></label>
+                            <input type="text" class="form-input form-wide mb-2" name="register_full_name" id="register_full_name">
+                            <br>
+                            <label for="register_phone">Số điện thoại <span class="required">*</span></label>
+                            <input type="text" class="form-input form-wide mb-2" name="register_phone" id="register_phone">
+                            <br>
+                            <label for="register_email">Email <span class="required">*</span></label>
+                            <input type="email" class="form-input form-wide mb-2" name="register_email" id="register_email">
+                            <br>
+                            <label for="register_password">Mật khẩu <span class="required">*</span></label>
+                            <input type="password" class="form-input form-wide mb-2" name="register_password" id="register_password">
+                            <br>
+                            <label for="register_confirm_password">Nhập lại mật khẩu <span class="required">*</span></label>
+                            <input type="password" class="form-input form-wide mb-2" name="register_confirm_password" id="register_confirm_password">
 
                             <div class="form-footer">
-                                <button type="submit" class="btn btn-primary btn-md">Register</button>
-
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="newsletter-signup">
-                                    <label class="custom-control-label" for="newsletter-signup">Sing up our
-                                        Newsletter</label>
-                                </div><!-- End .custom-checkbox -->
+                                <button type="submit" class="btn btn-primary btn-md">Đăng ký</button>
                             </div><!-- End .form-footer -->
                         </form>
                     </div><!-- End .col-md-6 -->
