@@ -24,8 +24,8 @@ public class Category {
     private String name;
     @Column(name = "slug",nullable = false)
     private String slug;
-    @Column(name = "description")
-    private String description;
+//    @Column(name = "description")
+//    private String description;
     @Column(name = "orders")
     private int order;
     @Column(name = "status",columnDefinition = "BOOLEAN")
@@ -35,6 +35,6 @@ public class Category {
     @Column(name = "modified_at")
     private Timestamp modifiedAt;
 
-    @ManyToMany(mappedBy = "categories")
-    private List<Product> products;
+//    @ManyToMany(mappedBy = "categories")
+//    private List<Product> products;
 }

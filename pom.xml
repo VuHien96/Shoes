@@ -89,6 +89,12 @@
             <version>0.9.1</version>
         </dependency>
 
+        <!--Slug-->
+        <dependency>
+            <groupId>com.github.slugify</groupId>
+            <artifactId>slugify</artifactId>
+            <version>2.4</version>
+        </dependency>
     </dependencies>
 
     <build>

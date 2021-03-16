@@ -10,15 +10,78 @@
                                                )}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Danh sách danh mục</title>
     <th:block id="css-resources">
+        <link rel="stylesheet" th:href="@{/adminlte/pagination/simplePagination.css}">
 
+        <style>
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 60px;
+                height: 34px;
+            }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #4fe04a;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+        </style>
     </th:block>
 </head>
 <body>
 <section role="main" class="content-body" id="main-content">
     <header class="page-header">
-        <h2>Editable Tables</h2>
+        <!--        <h2>Editable Tables</h2>-->
         <div class="right-wrapper text-right">
             <ol class="breadcrumbs">
                 <li>
@@ -40,78 +103,314 @@
                 <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
                 <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
             </div>
-            <h2 class="card-title">Default</h2>
+            <h2 class="card-title">Danh sách danh mục </h2>
         </header>
         <div class="card-body">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="mb-3">
-                        <button id="addToTable" class="btn btn-primary">Add <i
+                        <button id="addToTable" class="btn btn-primary" data-toggle="modal"
+                                data-target="#modal-add-new-category">Thêm mới danh mục <i
                                 class="fas fa-plus"></i></button>
+                        <a href="/admin/categories" class="btn btn-primary">Refresh <i
+                                class="fas fa-redo-alt"></i></a>
+                        <button id="btn-search" class="btn btn-primary">Tìm kiếm <i
+                                class="fas fa-search"></i></button>
                     </div>
                 </div>
             </div>
             <table class="table table-bordered table-striped mb-0" id="datatable-editable">
                 <thead>
                 <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Actions</th>
+                    <th>ID</th>
+                    <th>Tên danh mục</th>
+                    <th>Trạng thái danh mục</th>
+                    <th>Thứ tự danh mục</th>
+                    <th>Ngày tạo danh mục</th>
+                    <th>Ngày sửa danh mục</th>
+                    <th>Thao tác</th>
+                </tr>
+                <tr>
+                    <form method="GET" id="search-form">
+                        <th>
+                            <input type="text" name="id" id="id" class="form-control search-input">
+                        </th>
+                        <th>
+                            <input type="text" name="name" id="name" class="form-control search-input">
+                        </th>
+                        <th>
+                            <select name="status" class="form-control search-select" id="status">
+                                <option value="">Tất cả</option>
+                                <option value="0">Ẩn</option>
+                                <option value="1">Hiển thị</option>
+                            </select>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <input type="hidden" name="page" id="page">
+                    </form>
                 </tr>
                 </thead>
-                <tbody>
-                <tr data-item-id="1">
-                    <td>Trident</td>
-                    <td>Internet
-                        Explorer 4.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td class="actions">
-                        <a href="#" class="hidden on-editing save-row"><i class="fas fa-save"></i></a>
-                        <a href="#" class="hidden on-editing cancel-row"><i
-                                class="fas fa-times"></i></a>
-                        <a href="#" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="on-default remove-row"><i class="far fa-trash-alt"></i></a>
-                    </td>
-                </tr>
-                <tr data-item-id="2">
-                    <td>Trident</td>
-                    <td>Internet
-                        Explorer 5.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td class="actions">
-                        <a href="#" class="hidden on-editing save-row"><i class="fas fa-save"></i></a>
-                        <a href="#" class="hidden on-editing cancel-row"><i
-                                class="fas fa-times"></i></a>
-                        <a href="#" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="on-default remove-row"><i class="far fa-trash-alt"></i></a>
-                    </td>
-                </tr>
-                <tr data-item-id="3">
-                    <td>Trident</td>
-                    <td>Internet
-                        Explorer 5.5
-                    </td>
-                    <td>Win 95+</td>
-                    <td class="actions">
-                        <a href="#" class="hidden on-editing save-row"><i class="fas fa-save"></i></a>
-                        <a href="#" class="hidden on-editing cancel-row"><i
-                                class="fas fa-times"></i></a>
-                        <a href="#" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="on-default remove-row"><i class="far fa-trash-alt"></i></a>
-                    </td>
-                </tr>
+                <tbody id="category_order" class="list_category">
+                <th:block th:each="category : ${categories}">
+                    <tr data-item-id="1" th:attr="data-id = ${category.id}">
+                        <td th:text="${category.id}"></td>
+                        <td class="category-name" th:data-id="${category.id}" th:text="${category.name}"></td>
+                        <th:block th:if="${category.status} == true">
+                            <td><label class="switch" style="margin-left: 60px;">
+                                <input type="checkbox" checked disabled>
+                                <span class="slider round"></span>
+                            </label></td>
+                        </th:block>
+                        <th:block th:if="${category.status} == false">
+                            <td><label class="switch" style="margin-left: 60px;">
+                                <input type="checkbox" disabled>
+                                <span class="slider round"></span>
+                            </label></td>
+                        </th:block>
+                        <td th:text="${category.order}"></td>
+                        <td th:text="${#dates.format(category.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
+                        <td th:text="${#dates.format(category.modifiedAt, 'dd-MM-yyyy HH:mm')}"></td>
+                        <td class="actions">
+                            <!--                            <a href="#" class="hidden on-editing save-row"><i class="fas fa-save"></i></a>-->
+                            <!--                            <a href="#" class="on-default on-editing cancel-row"><i class="fas fa-times"></i></a>-->
+                            <a href="#" class="on-default edit-row edit-category" th:data-id="${category.id}"><i
+                                    class="fas fa-pencil-alt"></i></a>
+                            <a href="#" id="btn-delete-category" class="on-default remove-row delete-category"
+                               th:data-id="${category.id}"><i
+                                    class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                </th:block>
                 </tbody>
             </table>
+            <br>
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination" id="pagination"></ul>
+            </nav>
         </div>
+
+        <!-- Modal add new category-->
+        <div class="modal fade" id="modal-add-new-category" tabindex="-1" role="dialog"
+             aria-labelledby="modalAddNewCategory" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thêm danh mục</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formCategory">
+                            <input type="text" class="form-control" name="new_category" id="new_category"
+                                   placeholder="Nhập tên danh mục mới">
+                            <br>
+                            <label>Trạng thái</label>
+                            <br>
+                            <label class="switch">
+                                <input type="checkbox" id="new_status">
+                                <span class="slider round"></span>
+                            </label>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal update new category-->
+        <div class="modal fade" id="modal-update-category" tabindex="-1" role="dialog"
+             aria-labelledby="modalUpdateCategory" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sửa danh mục</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formUpdateCategory">
+                            <input type="text" class="form-control" name="update_category" id="update_category"
+                                   placeholder="Nhập tên danh mục mới">
+                            <br>
+                            <label>Trạng thái</label>
+                            <br>
+                            <label class="switch">
+                                <input type="checkbox" id="update_status">
+                                <span class="slider round"></span>
+                            </label>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary">Sửa</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 
 </section>
 
 <th:block id="js-resources">
+    <script type="text/javascript" th:src="@{/adminlte/pagination/jquery.simplePagination.js}"></script>
+    <script type="text/javascript" th:src="@{/adminlte/js/table.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 
+    <script>
+        let id, name, phone, status, product, page;
+        let dataCategory = {};
+        let dataUpdateCategory = {};
+        $(function () {
+            let vars = parseUrl();
+            id = vars["id"] || ""
+            name = vars["name"] || ""
+            status = vars["status"] || ""
+            page = vars["page"] || "0"
+
+            $('#id').val(id)
+            $('#name').val(name)
+            $('#status').val(status)
+            $('#page').val(page)
+
+            pagination([[${totalPages}]], [[${currentPage}]])
+        });
+        $(document).ready(function () {
+            $("#category_order").sortable({
+                placeholder: 'ui-state-highlight',
+                update: function (e, ui) {
+                    let page_id_array = new Array();
+                    $("#category_order tr").each(function () {
+                        page_id_array.push($(this).data("id"));
+                    })
+                    axios.put("/admin/api/categories", page_id_array).then(function (data) {
+                        toastr.success("Thay đổi thứ tự thành công!");
+                    })
+                }
+            });
+        });
+
+        $("#formCategory").submit(function (e) {
+            e.preventDefault();
+        }).validate({
+            rules: {
+                new_category: {
+                    required: true,
+                    maxlength: 50
+                },
+            },
+            messages: {
+                new_category: {
+                    required: "Vui lòng nhập tên danh mục!",
+                    maxlength: "Tên danh mục có độ dài tối đa 50 ký tự!",
+                },
+            },
+
+            submitHandler: function () {
+                let status = false;
+                if ($("#new_status").is(":checked")) {
+                    status = true;
+                }
+                dataCategory.status = status;
+                dataCategory.name = $("#new_category").val();
+                axios.post("/admin/api/categories", dataCategory).then(function (data) {
+                    toastr.success("Tạo mới danh mục thành công!");
+                    $('.modal').modal('hide');
+                    $('#new_category').val('');
+                    setTimeout(() => location.reload(), 500);
+                }, function (error) {
+                    toastr.warning("Tên danh mục đã tồn tại trong hệ thống!");
+                })
+            }
+        })
+        $(".edit-category").on("click", function () {
+            let id = $(this).data("id");
+            axios.get("/admin/api/categories/" + id).then(function (data) {
+                dataUpdateCategory.id = data.data.id;
+                $("#update_category").val(data.data.name);
+                if (data.data.status == 1) {
+                    $("#update_status").prop('checked', true)
+                } else {
+                    $("#update_status").prop('checked', false)
+                }
+                $("#modal-update-category").modal('show');
+            })
+        })
+
+        $("#formUpdateCategory").submit(function (e) {
+            e.preventDefault();
+        }).validate({
+            rules: {
+                update_category: {
+                    required: true,
+                    maxlength: 50
+                },
+            },
+            messages: {
+                update_category: {
+                    required: "Vui lòng nhập tên danh mục!",
+                    maxlength: "Tên danh mục có độ dài tối đa 50 ký tự!",
+                },
+            },
+
+            submitHandler: function () {
+                let status = false;
+                if ($("#update_status").is(":checked")) {
+                    status = true;
+                }
+                dataUpdateCategory.status = status;
+                dataUpdateCategory.name = $("#update_category").val();
+                axios.put("/admin/api/categories/" + dataUpdateCategory.id, dataUpdateCategory).then(function (data) {
+                    toastr.success("Sửa danh mục thành công!");
+                    $('.modal').modal('hide');
+                    $('#new_category').val('');
+                    setTimeout(() => location.reload(), 500);
+                }, function (error) {
+                    toastr.warning("Tên danh mục đã tồn tại trong hệ thống!");
+                })
+            }
+        })
+
+
+        $("#btn-delete-category").on("click", function () {
+            let id = $(this).data("id");
+            swal({
+                title: 'Bạn chắc chắn muốn xóa!',
+                type: 'warning',
+                showCancelButton: true
+            }).then(function (rs) {
+                if (rs.value) {
+                    axios.delete("/admin/api/categories/" + id).then(function (res) {
+                        swal(
+                            'Xóa thành công',
+                            res.data.messages,
+                            'success'
+                        ).then(function () {
+                            location.reload();
+                        });
+                    }, function (error) {
+                        swal(
+                            'Error',
+                            'Some error when deleting category',
+                            'error'
+                        );
+                    })
+                }
+            })
+        })
+    </script>
 </th:block>
 </body>
 </html>
