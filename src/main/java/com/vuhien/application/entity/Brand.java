@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,7 +18,7 @@ import java.util.List;
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(name = "name",nullable = false,unique = true)
     private String name;
     @Column(name = "description")
@@ -26,6 +27,10 @@ public class Brand {
     private String thumbnail;
     @Column(name = "status",columnDefinition = "BOOLEAN")
     private boolean status;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+    @Column(name = "modified_at")
+    private Timestamp modifiedAt;
     @OneToMany(mappedBy = "brand")
     private List<Product> products;
 }
