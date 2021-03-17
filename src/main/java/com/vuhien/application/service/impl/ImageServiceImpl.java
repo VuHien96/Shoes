@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.util.List;
 
 @Component
 public class ImageServiceImpl implements ImageService {
@@ -34,6 +35,12 @@ public class ImageServiceImpl implements ImageService {
             throw new BadRequestException("File không tồn tại");
         }
 
+        //Kiểm tra ảnh đã được dùng
+        Integer inUse = imageRepository.checkImageInUse(link);
+        if (inUse != null) {
+            throw new BadRequestException("Ảnh đã được sử dụng không thể xóa!");
+        }
+
         //Xóa file trong databases
         imageRepository.delete(image);
 
@@ -45,5 +52,10 @@ public class ImageServiceImpl implements ImageService {
                 throw new InternalServerException("Lỗi khi xóa ảnh!");
             }
         }
+    }
+
+    @Override
+    public List<String> getListImageOfUser(long userId) {
+        return imageRepository.getListImageOfUser(userId);
     }
 }

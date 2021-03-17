@@ -79,16 +79,16 @@ public class ImageController {
             throw new NotFoundException("File không tồn tại!");
         }
 
-        UrlResource urlResource;
+        UrlResource resource;
         try {
-            urlResource = new UrlResource(file.toURI());
+            resource = new UrlResource(file.toURI());
         } catch (MalformedURLException ex) {
             throw new NotFoundException("File không tồn tại!");
         }
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-                .body(urlResource);
+                .body(resource);
     }
 
     @DeleteMapping("/api/delete-image/{filename:.+}")
