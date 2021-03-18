@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,11 @@ public class Product {
     @Column(name = "total_sold")
     private long totalSold;
     @Column(name = "status",columnDefinition = "TINYINT(1)")
-    private boolean status;
+    private int status;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
+    @Column(name = "modified_at")
+    private Timestamp modifiedAt;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
