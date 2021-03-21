@@ -1,5 +1,6 @@
 package com.vuhien.application.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,7 +40,7 @@ public class Product {
     private ArrayList<String> imageFeedBack;
     @Column(name = "total_sold")
     private long totalSold;
-    @Column(name = "status",columnDefinition = "TINYINT(1)")
+    @Column(name = "status")
     private int status;
     @Column(name = "created_at")
     private Timestamp createdAt;

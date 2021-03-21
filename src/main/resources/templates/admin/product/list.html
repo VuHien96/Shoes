@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layout/layout_admin :: main-fragment(
+                                                ~{:: title},
+                                                'header',
+                                                'sidebar',
+                                                ~{:: #css-resources},
+                                                ~{:: #js-resources},
+                                                ~{:: #main-content}
+                                               )}">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sản phẩm</title>
+    <th:block id="css-resources">
+        <link rel="stylesheet" th:href="@{/adminlte/pagination/simplePagination.css}">
+    </th:block>
+</head>
+<body>
+<section role="main" class="content-body" id="main-content">
+    <header class="page-header">
+        <!--        <h2>Editable Tables</h2>-->
+        <div class="right-wrapper text-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="index.html">
+                        <i class="bx bx-home-alt"></i>
+                    </a>
+                </li>
+                <li><span>Danh sách sản phẩm</span></li>
+            </ol>
+            <a class="sidebar-right-toggle" data-open="sidebar-right"><i
+                    class="fas fa-chevron-left"></i></a>
+        </div>
+    </header>
+
+    <section class="card">
+        <header class="card-header">
+            <div class="card-actions">
+                <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+            </div>
+            <h2 class="card-title">Danh sách sản phẩm</h2>
+        </header>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <a href="/admin/products/create" id="addToTable" class="btn btn-primary">Thêm mới sản phẩm <i
+                                class="fas fa-plus"></i></a>
+                        <a href="/admin/products" class="btn btn-primary">Refresh <i
+                                class="fas fa-redo-alt"></i></a>
+                        <button id="btn-search" class="btn btn-primary">Tìm kiếm <i
+                                class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered table-striped mb-0" id="datatable-editable">
+                <thead>
+                <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Nhãn hiệu</th>
+                    <th>Danh mục</th>
+                    <th>Giá sản phẩm</th>
+                    <th>Giá bán sản phẩm</th>
+                    <th>Đã bán</th>
+                    <th>Thao tác</th>
+                </tr>
+                <tr>
+                    <form method="GET" id="search-form">
+                        <th>
+                            <input type="text" name="id" id="id" class="form-control search-input">
+                        </th>
+                        <th>
+                            <input type="text" name="name" id="name" class="form-control search-input">
+                        </th>
+                        <th>
+                            <select name="brand" class="form-control search-select" id="brand">
+                                <option value="">Tất cả</option>
+                                <th:block th:each="brand : ${brands}">
+                                    <option th:value="${brand.id}" th:text="${brand.name}"></option>
+                                </th:block>
+                            </select>
+                        </th>
+                        <th>
+                            <select name="category" class="form-control search-select" id="category">
+                                <option value="">Tất cả</option>
+                                <th:block th:each="category : ${categories}">
+                                    <option th:value="${category.id}" th:text="${category.name}"></option>
+                                </th:block>
+                            </select>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <input type="hidden" name="page" id="page">
+                    </form>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="product : ${products}">
+                    <tr data-item-id="1">
+                        <td th:text="${product.id}"></td>
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.brand.name}"></td>
+                        <td>
+                            <th:block th:each="category,i : ${product.categories}">
+                                <span th:if="${i.first} == true" th:text="${category.name}"></span>
+                                <span th:if="${i.first} == false" th:text="', ' + ${category.name}"></span>
+                            </th:block>
+                        </td>
+                        <td th:text="${product.price}"></td>
+                        <td th:text="${product.salePrice}"></td>
+                        <td th:text="${product.totalSold}"></td>
+                        <td class="actions">
+                            <a href="#" class="hidden on-editing save-row"><i class="fas fa-save"></i></a>
+                            <a href="#" class="hidden on-editing cancel-row"><i
+                                    class="fas fa-times"></i></a>
+                            <a href="#" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
+                            <a href="#" class="on-default remove-row"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+            <br>
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination" id="pagination"></ul>
+            </nav>
+        </div>
+    </section>
+
+</section>
+
+<th:block id="js-resources">
+    <script type="text/javascript" th:src="@{/adminlte/pagination/jquery.simplePagination.js}"></script>
+    <script type="text/javascript" th:src="@{/adminlte/js/table.js}"></script>
+    <script th:inline="javascript">
+        let id, name, category, brand, page;
+        $(function () {
+            let vars = parseUrl();
+            id = vars["id"] || ""
+            name = vars["name"] || ""
+            brand = vars["brand"] || ""
+            category = vars["category"] || ""
+            page = vars["page"] || "1"
+            $('#page').val(page)
+            $('#id').val(id)
+            $('#name').val(name)
+            $('#brand').val(brand)
+            $('#category').val(category)
+
+            pagination([[${totalPages}]], [[${currentPage}]]);
+        });
+    </script>
+</th:block>
+</body>
+</html>

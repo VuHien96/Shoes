@@ -39,6 +39,11 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    public List<Brand> getListBrand() {
+        return brandRepository.findAll();
+    }
+
+    @Override
     public Brand createBrand(CreateBrandRequest createBrandRequest) {
         Brand brand = brandRepository.findByName(createBrandRequest.getName());
         if (brand != null) {

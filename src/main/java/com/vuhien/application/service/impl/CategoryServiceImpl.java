@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import java.util.*;
 
+import static com.vuhien.application.config.Contant.LIMIT_CATEGORY;
+
 @Component
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
@@ -30,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (page <= 0) {
             page = 0;
         }
-        Pageable pageable = PageRequest.of(page, 6, Sort.by("created_at").descending());
+        Pageable pageable = PageRequest.of(page, LIMIT_CATEGORY, Sort.by("created_at").descending());
         return categoryRepository.adminGetListCategory(id, name, status, pageable);
     }
 
@@ -45,13 +47,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDTO> getListCategories() {
-        List<Category> categories = categoryRepository.findAll();
-        List<CategoryDTO> categoryDTOS = new ArrayList<>();
-        for (Category category : categories) {
-            categoryDTOS.add(CategoryMapper.toCategoryDTO(category));
-        }
-        return categoryDTOS;
+    public List<Category> getListCategories() {
+        return categoryRepository.findAll();
     }
 
     @Override
@@ -107,7 +104,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             categoryRepository.deleteById(id);
         } catch (Exception ex) {
-            throw new InternalServerException("Lỗi khi xóa category");
+            throw new InternalServerException("Lỗi khi xóa danh mục!");
         }
     }
 

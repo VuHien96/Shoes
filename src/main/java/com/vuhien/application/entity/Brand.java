@@ -1,5 +1,6 @@
 package com.vuhien.application.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +33,6 @@ public class Brand {
     @Column(name = "modified_at")
     private Timestamp modifiedAt;
     @OneToMany(mappedBy = "brand")
+    @JsonIgnore
     private List<Product> products;
 }

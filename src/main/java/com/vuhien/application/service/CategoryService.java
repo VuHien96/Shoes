@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface CategoryService {
-    List<CategoryDTO> getListCategories();
+    List<Category> getListCategories();
     Category getCategoryById(long id);
     Category createCategory(CreateCategoryRequest createCategoryRequest);
     void updateCategory(CreateCategoryRequest createCategoryRequest, long id);
