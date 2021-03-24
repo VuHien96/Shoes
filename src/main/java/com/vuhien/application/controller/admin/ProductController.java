@@ -100,7 +100,7 @@ public class ProductController {
         return "admin/product/edit";
     }
 
-    @GetMapping("/admin/api/products")
+    @GetMapping("/api/admin/products")
     public ResponseEntity<Object> getListProducts(@RequestParam(defaultValue = "", required = false) String id,
                                                   @RequestParam(defaultValue = "", required = false) String name,
                                                   @RequestParam(defaultValue = "", required = false) String category,
@@ -110,25 +110,25 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/admin/api/products/{id}")
+    @GetMapping("/api/admin/products/{id}")
     public ResponseEntity<Object> getProductDetail(@PathVariable String id){
         Product rs = productService.getProductById(id);
         return ResponseEntity.ok(rs);
     }
 
-    @PostMapping("/admin/api/products")
+    @PostMapping("/api/admin/products")
     public ResponseEntity<Object> createProduct(@Valid @RequestBody CreateProductRequest createProductRequest) {
         Product product = productService.createProduct(createProductRequest);
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/admin/api/products/{id}")
+    @PutMapping("/api/admin/products/{id}")
     public ResponseEntity<Object> updateProduct(@Valid @RequestBody CreateProductRequest createProductRequest, @PathVariable String id) {
         productService.updateProduct(createProductRequest, id);
         return ResponseEntity.ok("Sửa sản phẩm thành công!");
     }
 
-    @DeleteMapping("/admin/api/products")
+    @DeleteMapping("/api/admin/products")
     public ResponseEntity<Object> deleteProduct(@RequestBody String[] ids){
         productService.deleteProduct(ids);
         return ResponseEntity.ok("Xóa sản phẩm thành công!");

@@ -318,7 +318,7 @@
                 }
                 var myJSON = JSON.stringify(req);
                 $.ajax({
-                    url: '/admin/api/brands',
+                    url: '/api/admin/brands',
                     type: 'POST',
                     data: myJSON,
                     contentType: "application/json; charset=utf-8",
@@ -338,7 +338,7 @@
         $('.edit-brand').click(function () {
             brandId = $(this).data('id');
             $.ajax({
-                url: "/admin/api/brands/" + brandId,
+                url: "/api/admin/brands/" + brandId,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
@@ -382,7 +382,7 @@
                 }
                 var myJSON = JSON.stringify(req);
                 $.ajax({
-                    url: '/admin/api/brands/'+brandId,
+                    url: '/api/admin/brands/'+brandId,
                     type: 'PUT',
                     data: myJSON,
                     contentType: "application/json; charset=utf-8",
@@ -410,14 +410,14 @@
             }).then(function (rs){
                 if (rs.value){
                     $.ajax({
-                        url:"/admin/api/brands/"+ id,
+                        url:"/api/admin/brands/"+ id,
                         type: "DELETE",
                         success: function (data){
                             toastr.success("Xóa danh mục thành công!");
                             setTimeout(() => location.reload(), 500);
                         },
                         error: function (error){
-                            toastr.warning(data.responseJSON.message);
+                            toastr.warning(error.responseJSON.message);
                         }
                     })
                 }

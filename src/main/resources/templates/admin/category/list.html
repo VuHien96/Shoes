@@ -13,69 +13,7 @@
     <title>Danh sách danh mục</title>
     <th:block id="css-resources">
         <link rel="stylesheet" th:href="@{/adminlte/pagination/simplePagination.css}">
-
-        <style>
-
-            .switch {
-                position: relative;
-                display: inline-block;
-                width: 60px;
-                height: 34px;
-            }
-
-            .switch input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-            }
-
-            .slider {
-                position: absolute;
-                cursor: pointer;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background-color: #ccc;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            .slider:before {
-                position: absolute;
-                content: "";
-                height: 26px;
-                width: 26px;
-                left: 4px;
-                bottom: 4px;
-                background-color: white;
-                -webkit-transition: .4s;
-                transition: .4s;
-            }
-
-            input:checked + .slider {
-                background-color: #4fe04a;
-            }
-
-            input:focus + .slider {
-                box-shadow: 0 0 1px #2196F3;
-            }
-
-            input:checked + .slider:before {
-                -webkit-transform: translateX(26px);
-                -ms-transform: translateX(26px);
-                transform: translateX(26px);
-            }
-
-            /* Rounded sliders */
-            .slider.round {
-                border-radius: 34px;
-            }
-
-            .slider.round:before {
-                border-radius: 50%;
-            }
-        </style>
+        <link rel="stylesheet" th:href="@{/adminlte/css/custom.css}">
     </th:block>
 </head>
 <body>
@@ -153,7 +91,7 @@
                     </form>
                 </tr>
                 </thead>
-                <tbody id="category_order" class="list_category">
+                <tbody>
                 <th:block th:each="category : ${categories}">
                     <tr data-item-id="1" th:attr="data-id = ${category.id}">
                         <td th:text="${category.id}"></td>
@@ -174,8 +112,6 @@
                         <td th:text="${#dates.format(category.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
                         <td th:text="${#dates.format(category.modifiedAt, 'dd-MM-yyyy HH:mm')}"></td>
                         <td class="actions">
-                            <!--                            <a href="#" class="hidden on-editing save-row"><i class="fas fa-save"></i></a>-->
-                            <!--                            <a href="#" class="on-default on-editing cancel-row"><i class="fas fa-times"></i></a>-->
                             <a href="#" class="on-default edit-row edit-category" th:data-id="${category.id}"><i
                                     class="fas fa-pencil-alt"></i></a>
                             <a href="#" id="btn-delete-category" class="on-default remove-row delete-category"
@@ -211,11 +147,9 @@
                             <br>
                             <label>Trạng thái</label>
                             <br>
-                            <label class="switch">
-                                <input type="checkbox" id="new_status">
-                                <span class="slider round"></span>
-                            </label>
-
+                            <div class="switch switch-success">
+                                <input type="checkbox" name="switch" data-plugin-ios-switch id="new_status"/>
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                                 <button type="submit" class="btn btn-primary">Thêm</button>
@@ -226,7 +160,7 @@
             </div>
         </div>
 
-        <!-- Modal update new category-->
+        <!-- Modal update category-->
         <div class="modal fade" id="modal-update-category" tabindex="-1" role="dialog"
              aria-labelledby="modalUpdateCategory" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -248,7 +182,6 @@
                                 <input type="checkbox" id="update_status">
                                 <span class="slider round"></span>
                             </label>
-
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                                 <button type="submit" class="btn btn-primary">Sửa</button>
@@ -270,9 +203,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 
     <script>
-        let id, name, phone, status, product, page;
-        let dataCategory = {};
-        let dataUpdateCategory = {};
+        let id, name, status, page;
         $(function () {
             let vars = parseUrl();
             id = vars["id"] || ""
@@ -287,20 +218,20 @@
 
             pagination([[${totalPages}]], [[${currentPage}]])
         });
-        $(document).ready(function () {
-            $("#category_order").sortable({
-                placeholder: 'ui-state-highlight',
-                update: function (e, ui) {
-                    let page_id_array = new Array();
-                    $("#category_order tr").each(function () {
-                        page_id_array.push($(this).data("id"));
-                    })
-                    axios.put("/admin/api/categories", page_id_array).then(function (data) {
-                        toastr.success("Thay đổi thứ tự thành công!");
-                    })
-                }
-            });
-        });
+        // $(document).ready(function () {
+        //     $("#category_order").sortable({
+        //         placeholder: 'ui-state-highlight',
+        //         update: function (e, ui) {
+        //             let page_id_array = new Array();
+        //             $("#category_order tr").each(function () {
+        //                 page_id_array.push($(this).data("id"));
+        //             })
+        //             axios.put("/admin/api/categories", page_id_array).then(function (data) {
+        //                 toastr.success("Thay đổi thứ tự thành công!");
+        //             })
+        //         }
+        //     });
+        // });
 
         $("#formCategory").submit(function (e) {
             e.preventDefault();
@@ -323,29 +254,47 @@
                 if ($("#new_status").is(":checked")) {
                     status = true;
                 }
-                dataCategory.status = status;
-                dataCategory.name = $("#new_category").val();
-                axios.post("/admin/api/categories", dataCategory).then(function (data) {
-                    toastr.success("Tạo mới danh mục thành công!");
-                    $('.modal').modal('hide');
-                    $('#new_category').val('');
-                    setTimeout(() => location.reload(), 500);
-                }, function (error) {
-                    toastr.warning("Tên danh mục đã tồn tại trong hệ thống!");
-                })
+                let name = $("#new_category").val();
+                req = {
+                    name: name,
+                    status: status
+                }
+                let myJson = JSON.stringify(req)
+                $.ajax({
+                    url: "/api/admin/categories",
+                    type: 'POST',
+                    data: myJson,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        toastr.success("Thêm danh mục thành công");
+                        $('.modal').modal('hide');
+                        setTimeout(() => location.reload(), 500);
+                    },
+                    error: function (error) {
+                        toastr.warning(error.responseJSON.message);
+                    }
+                });
             }
         })
+        let idCategory;
         $(".edit-category").on("click", function () {
-            let id = $(this).data("id");
-            axios.get("/admin/api/categories/" + id).then(function (data) {
-                dataUpdateCategory.id = data.data.id;
-                $("#update_category").val(data.data.name);
-                if (data.data.status == 1) {
-                    $("#update_status").prop('checked', true)
-                } else {
-                    $("#update_status").prop('checked', false)
+            idCategory = $(this).data("id");
+            $.ajax({
+                url: '/api/admin/categories/' + idCategory,
+                type: 'GET',
+                contentType: "application/json; charset=utf-8",
+                success:function (data){
+                    $("#update_category").val(data.name);
+                    if (data.status == 1) {
+                        $("#update_status").prop('checked', true)
+                    } else {
+                        $("#update_status").prop('checked', false)
+                    }
+                    $('#modal-update-category').modal('show');
+                },
+                error:function (error){
+                    toastr.warning(error.responseJSON.message);
                 }
-                $("#modal-update-category").modal('show');
             })
         })
 
@@ -370,42 +319,51 @@
                 if ($("#update_status").is(":checked")) {
                     status = true;
                 }
-                dataUpdateCategory.status = status;
-                dataUpdateCategory.name = $("#update_category").val();
-                axios.put("/admin/api/categories/" + dataUpdateCategory.id, dataUpdateCategory).then(function (data) {
-                    toastr.success("Sửa danh mục thành công!");
-                    $('.modal').modal('hide');
-                    $('#new_category').val('');
-                    setTimeout(() => location.reload(), 500);
-                }, function (error) {
-                    toastr.warning("Tên danh mục đã tồn tại trong hệ thống!");
-                })
+                let name = $("#update_category").val();
+                req = {
+                    name: name,
+                    status: status
+                }
+                let myJson = JSON.stringify(req)
+                $.ajax({
+                    url: "/api/admin/categories/" +idCategory,
+                    type: 'PUT',
+                    data: myJson,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        toastr.success("Sửa danh mục thành công");
+                        $('.modal').modal('hide');
+                        setTimeout(() => location.reload(), 500);
+                    },
+                    error: function (error) {
+                        toastr.warning(error.responseJSON.message);
+                    }
+                });
             }
         })
 
 
-        $("#btn-delete-category").on("click", function () {
+        $(".delete-category").on("click", function () {
             let id = $(this).data("id");
             swal({
                 title: 'Bạn chắc chắn muốn xóa!',
                 type: 'warning',
-                showCancelButton: true
+                showCancelButton: true,
+                confirmButtonColor: "#dd6b55",
+                cancelButtonText: "Không",
+                confirmButtonText: "Có",
             }).then(function (rs) {
                 if (rs.value) {
-                    axios.delete("/admin/api/categories/" + id).then(function (res) {
-                        swal(
-                            'Xóa thành công',
-                            res.data.messages,
-                            'success'
-                        ).then(function () {
-                            location.reload();
-                        });
-                    }, function (error) {
-                        swal(
-                            'Error',
-                            'Some error when deleting category',
-                            'error'
-                        );
+                    $.ajax({
+                        url: "/api/admin/categories/" + id,
+                        type: "DELETE",
+                        success: function (data) {
+                            toastr.success("Xóa danh mục thành công!");
+                            setTimeout(() => location.reload(), 500);
+                        },
+                        error: function (error) {
+                            toastr.warning(error.responseJSON.message);
+                        }
                     })
                 }
             })

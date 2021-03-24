@@ -46,24 +46,24 @@ public class BrandController {
         return "admin/brand/list";
     }
 
-    @PostMapping("/admin/api/brands")
+    @PostMapping("/api/admin/brands")
     public ResponseEntity<Object> createBrand(@Valid @RequestBody CreateBrandRequest createBrandRequest) {
         Brand brand = brandService.createBrand(createBrandRequest);
         return ResponseEntity.ok(BrandMapper.toBrandDTO(brand));
     }
 
-    @PutMapping("/admin/api/brands/{id}")
+    @PutMapping("/api/admin/brands/{id}")
     public ResponseEntity<Object> updateBrand(@Valid @RequestBody CreateBrandRequest createBrandRequest, @PathVariable long id) {
         brandService.updateBrand(createBrandRequest, id);
         return ResponseEntity.ok("Sửa nhãn hiệu thành công!");
     }
 
-    @DeleteMapping("/admin/api/brands/{id}")
+    @DeleteMapping("/api/admin/brands/{id}")
     public ResponseEntity<Object> deleteBrand(@PathVariable long id) {
         brandService.deleteBrand(id);
         return ResponseEntity.ok("Xóa nhãn hiệu thành công!");
     }
-    @GetMapping("/admin/api/brands/{id}")
+    @GetMapping("/api/admin/brands/{id}")
     public ResponseEntity<Object> getBrandById(@PathVariable long id){
         Brand brand = brandService.getBrandById(id);
         return ResponseEntity.ok(brand);

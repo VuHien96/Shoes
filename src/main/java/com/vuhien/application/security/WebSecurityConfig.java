@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .cors()
@@ -47,7 +48,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/users").hasAnyRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .logout()

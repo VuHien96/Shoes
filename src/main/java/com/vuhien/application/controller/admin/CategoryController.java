@@ -1,7 +1,6 @@
 package com.vuhien.application.controller.admin;
 
 import com.vuhien.application.entity.Category;
-import com.vuhien.application.model.dto.CategoryDTO;
 import com.vuhien.application.model.mapper.CategoryMapper;
 import com.vuhien.application.model.request.CreateCategoryRequest;
 import com.vuhien.application.service.CategoryService;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class CategoryController {
@@ -36,7 +34,7 @@ public class CategoryController {
     }
 
 
-    @GetMapping("/admin/api/categories")
+    @GetMapping("/api/admin/categories")
     public ResponseEntity<Object> adminGetListCategories(@RequestParam(defaultValue = "",required = false) String id,
                                                          @RequestParam(defaultValue = "",required = false) String name,
                                                          @RequestParam(defaultValue = "",required = false) String status,
@@ -45,31 +43,31 @@ public class CategoryController {
         return ResponseEntity.ok(categories);
 
     }
-    @GetMapping("/admin/api/categories/{id}")
+    @GetMapping("/api/admin/categories/{id}")
     public ResponseEntity<Object> getCategoryById(@PathVariable long id) {
         Category category = categoryService.getCategoryById(id);
         return ResponseEntity.ok(CategoryMapper.toCategoryDTO(category));
     }
 
-    @PostMapping("/admin/api/categories")
+    @PostMapping("/api/admin/categories")
     public ResponseEntity<Object> createCategory(@Valid @RequestBody CreateCategoryRequest createCategoryRequest) {
         Category category = categoryService.createCategory(createCategoryRequest);
         return ResponseEntity.ok(CategoryMapper.toCategoryDTO(category));
     }
 
-    @PutMapping("/admin/api/categories/{id}")
+    @PutMapping("/api/admin/categories/{id}")
     public ResponseEntity<Object> updateCategory(@Valid @RequestBody CreateCategoryRequest createCategoryRequest, @PathVariable long id) {
         categoryService.updateCategory(createCategoryRequest, id);
         return ResponseEntity.ok("Sửa danh mục thành công!");
     }
 
-    @DeleteMapping("/admin/api/categories/{id}")
+    @DeleteMapping("/api/admin/categories/{id}")
     public ResponseEntity<Object> deleteCategory(@PathVariable long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok("Xóa danh mục thành công!");
     }
 
-    @PutMapping("/admin/api/categories")
+    @PutMapping("/api/admin/categories")
     public ResponseEntity<Object> updateOrderCategory(@RequestBody int[] ids){
         categoryService.updateOrderCategory(ids);
         return ResponseEntity.ok("Thay đổi thứ tự thành công!");
