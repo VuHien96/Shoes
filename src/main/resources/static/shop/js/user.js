@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    let dataLogin = {};
-    let dataRegister = {};
     $("#loginForm").submit(function (e) {
         e.preventDefault();
     }).validate({
@@ -28,17 +26,28 @@ $(document).ready(function () {
         },
 
         submitHandler: function () {
-            dataLogin.email = $("#login_email").val();
-            dataLogin.password = $("#login_password").val();
+            let email = $("#login_email").val();
+            let password = $("#login_password").val();
 
-            axios.post("/api/login", dataLogin).then(function (data) {
-                toastr.success("Đăng nhập thành công");
-                signedValidate(true, data.data.fullName);
-                // location.reload();
-                $('.modal').modal('hide');
-            }, function (data) {
-                toastr.warning("Tài khoản hoặc mật khẩu không chính xác!");
-            })
+            req = {
+                email: email,
+                password: password
+            }
+            let myJSON = JSON.stringify(req);
+            $.ajax({
+                url: '/api/login',
+                type: 'POST',
+                data: myJSON,
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    toastr.success("Đăng nhập thành công");
+                    signedValidate(true, data.fullName);
+                    $('.modal').modal('hide');
+                },
+                error: function(error) {
+                    toastr.warning(error.responseJSON.message);
+                },
+            });
         }
 
     });
@@ -96,19 +105,32 @@ $(document).ready(function () {
         },
 
         submitHandler: function () {
-            dataRegister.fullName = $("#register_full_name").val();
-            dataRegister.phone = $("#register_phone").val();
-            dataRegister.email = $("#register_email").val();
-            dataRegister.password = $("#register_password").val();
+            let fullName = $("#register_full_name").val();
+            let phone = $("#register_phone").val();
+            let email = $("#register_email").val();
+            let password = $("#register_password").val();
 
-            axios.post("/api/register",dataRegister).then(function (data){
-                toastr.success("Đăng ký thành công");
-                signedValidate(true, data.data.fullName);
-                // location.reload();
-                $('.modal').modal('hide');
-            }, function (data) {
-                toastr.warning("Đăng ký tài khoản không thành công!");
-            })
+            req = {
+                fullName: fullName,
+                email: email,
+                password: password,
+                phone: phone
+            }
+            var myJSON = JSON.stringify(req);
+            $.ajax({
+                url: '/api/register',
+                type: 'POST',
+                data: myJSON,
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    toastr.success("Đăng ký thành công");
+                    signedValidate(true, data.fullName);
+                    $('.modal').modal('hide');
+                },
+                error: function(error) {
+                    toastr.warning(error.responseJSON.message);
+                },
+            });
         }
     })
 });
