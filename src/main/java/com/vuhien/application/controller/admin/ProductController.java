@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.vuhien.application.config.Contant.SIZE_VN;
+
 @Controller
 public class ProductController {
     @Autowired
@@ -72,6 +74,32 @@ public class ProductController {
         return "admin/product/create";
     }
 
+    @GetMapping("/admin/products/{slug}/{id}")
+    public String getProductUpdatePage(Model model, @PathVariable String id){
+
+        // Lấy thông tin sản phẩm theo id
+        Product product = productService.getProductById(id);
+        model.addAttribute("product", product);
+
+        // Lấy danh sách ảnh của user
+        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        List<String> images = imageService.getListImageOfUser(user.getId());
+        model.addAttribute("images", images);
+
+        // Lấy danh sách danh mục
+        List<Category> categories = categoryService.getListCategories();
+        model.addAttribute("categories", categories);
+
+        // Lấy danh sách nhãn hiệu
+        List<Brand> brands = brandService.getListBrand();
+        model.addAttribute("brands", brands);
+
+        //Lấy danh sách size
+        model.addAttribute("sizeVN", SIZE_VN);
+
+        return "admin/product/edit";
+    }
+
     @GetMapping("/admin/api/products")
     public ResponseEntity<Object> getListProducts(@RequestParam(defaultValue = "", required = false) String id,
                                                   @RequestParam(defaultValue = "", required = false) String name,
@@ -80,6 +108,12 @@ public class ProductController {
                                                   @RequestParam(defaultValue = "1", required = false) Integer page) {
         Page<Product> products = productService.adminGetListProduct(id, name, category, brand, page);
         return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/admin/api/products/{id}")
+    public ResponseEntity<Object> getProductDetail(@PathVariable String id){
+        Product rs = productService.getProductById(id);
+        return ResponseEntity.ok(rs);
     }
 
     @PostMapping("/admin/api/products")
@@ -93,10 +127,11 @@ public class ProductController {
         productService.updateProduct(createProductRequest, id);
         return ResponseEntity.ok("Sửa sản phẩm thành công!");
     }
-    @GetMapping("/admin/api/products/{id}")
-    public ResponseEntity<Object> getProductDetail(@PathVariable String id){
-        Product rs = productService.getProductById(id);
-        return ResponseEntity.ok(rs);
+
+    @DeleteMapping("/admin/api/products")
+    public ResponseEntity<Object> deleteProduct(@RequestBody String[] ids){
+        productService.deleteProduct(ids);
+        return ResponseEntity.ok("Xóa sản phẩm thành công!");
     }
 
 }

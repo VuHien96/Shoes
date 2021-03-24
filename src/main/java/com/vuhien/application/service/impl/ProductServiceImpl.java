@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.util.Optional;
-import java.util.Random;
 
 import static com.vuhien.application.config.Contant.LIMIT_PRODUCT;
 
@@ -110,9 +109,13 @@ public class ProductServiceImpl implements ProductService {
         if (product.isEmpty()) {
             throw new NotFoundException("Không tìm thấy sản phẩm trong hệ thống!");
         }
-        Product pro = product.get();
-        pro.setTotalSold(pro.getTotalSold() + 1);
-//        productRepository.save(pro);
-        return pro;
+        return product.get();
+    }
+
+    @Override
+    public void deleteProduct(String[] ids) {
+        for (String id : ids) {
+            productRepository.deleteById(id);
+        }
     }
 }

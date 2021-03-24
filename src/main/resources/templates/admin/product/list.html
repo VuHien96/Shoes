@@ -51,29 +51,37 @@
                                 class="fas fa-redo-alt"></i></a>
                         <button id="btn-search" class="btn btn-primary">Tìm kiếm <i
                                 class="fas fa-search"></i></button>
+                        <button id="btn-delete" onclick="warningBeforeDelete()" type="button" class="btn btn-danger" disabled>Xóa sản phẩm  <i
+                                class="fas fa-trash-alt"></i></button>
                     </div>
                 </div>
             </div>
             <table class="table table-bordered table-striped mb-0" id="datatable-editable">
                 <thead>
                 <tr>
-                    <th>Mã sản phẩm</th>
+                    <th><input type="checkbox" id="checkAll"></th>
+                    <th width="8%">Mã sản phẩm</th>
                     <th>Tên sản phẩm</th>
+                    <th>Ảnh</th>
                     <th>Nhãn hiệu</th>
                     <th>Danh mục</th>
-                    <th>Giá sản phẩm</th>
-                    <th>Giá bán sản phẩm</th>
+                    <th>Giá nhập</th>
+                    <th>Giá bán</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày sửa</th>
                     <th>Đã bán</th>
                     <th>Thao tác</th>
                 </tr>
                 <tr>
                     <form method="GET" id="search-form">
+                        <th></th>
                         <th>
                             <input type="text" name="id" id="id" class="form-control search-input">
                         </th>
                         <th>
                             <input type="text" name="name" id="name" class="form-control search-input">
                         </th>
+                        <th></th>
                         <th>
                             <select name="brand" class="form-control search-select" id="brand">
                                 <option value="">Tất cả</option>
@@ -93,6 +101,9 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <input type="hidden" name="page" id="page">
                     </form>
                 </tr>
@@ -100,8 +111,10 @@
                 <tbody>
                 <th:block th:each="product : ${products}">
                     <tr data-item-id="1">
+                        <td><input type="checkbox" id="checkbox_${product.id}" class="myCheckbox" th:value="${product.id}"></td>
                         <td th:text="${product.id}"></td>
                         <td th:text="${product.name}"></td>
+                        <td><img th:src="${product.images[0]}" width="60px" height="60px"></td>
                         <td th:text="${product.brand.name}"></td>
                         <td>
                             <th:block th:each="category,i : ${product.categories}">
@@ -109,15 +122,14 @@
                                 <span th:if="${i.first} == false" th:text="', ' + ${category.name}"></span>
                             </th:block>
                         </td>
-                        <td th:text="${product.price}"></td>
-                        <td th:text="${product.salePrice}"></td>
+                        <td class="money" th:text="${product.price}"></td>
+                        <td class="money" th:text="${product.salePrice}"></td>
+                        <td th:text="${#dates.format(product.createdAt, 'dd-MM-yyyy')}"></td>
+                        <td th:text="${#dates.format(product.modifiedAt, 'dd-MM-yyyy')}"></td>
                         <td th:text="${product.totalSold}"></td>
                         <td class="actions">
-                            <a href="#" class="hidden on-editing save-row"><i class="fas fa-save"></i></a>
-                            <a href="#" class="hidden on-editing cancel-row"><i
-                                    class="fas fa-times"></i></a>
-                            <a href="#" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                            <a href="#" class="on-default remove-row"><i class="far fa-trash-alt"></i></a>
+                            <a th:href="@{/admin/products/{slug}/{id}(id=${product.id}, slug=${product.slug})}" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
+                            <a href="#" onclick="warningBeforeDelete()" class="on-default remove-row"><i class="far fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 </th:block>
@@ -139,6 +151,16 @@
     <script th:inline="javascript">
         let id, name, category, brand, page;
         $(function () {
+            $("#checkAll").click(function () {
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+            $('.myCheckbox').click(function () {
+                $('#btn-delete').prop("disabled", !$(".myCheckbox").prop("checked"));
+            })
+            $('#checkAll').click(function () {
+                $('#btn-delete').prop("disabled", !$("#checkAll").prop("checked"));
+            })
+            $('.money').simpleMoneyFormat();
             let vars = parseUrl();
             id = vars["id"] || ""
             name = vars["name"] || ""
@@ -153,6 +175,41 @@
 
             pagination([[${totalPages}]], [[${currentPage}]]);
         });
+        function warningBeforeDelete(){
+            swal({
+                title: "Xác nhận xóa",
+                text: "Bạn có chắc chắn muốn xóa hay không",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-success",
+                cancelButtonClass: "btn-danger",
+                confirmButtonText: "Xác nhận",
+                cancelButtonText: "Hủy bỏ",
+            }).then(function(isConfirm) {
+                if (isConfirm.value) {
+                    var ids = $('tbody input[type=checkbox]:checked').map(function () {
+                        return $(this).val();
+                    }).get();
+                    deleteNew(ids);
+                }
+            });
+        }
+
+        function deleteNew(data) {
+            $.ajax({
+                url: '/admin/api/products',
+                type: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (data){
+                    toastr.success("Xóa sản phẩm thành công!");
+                    setTimeout(() => location.reload(), 500);
+                },
+                error: function (error){
+                    toastr.warning(error.responseJSON.message);
+                }
+            });
+        }
     </script>
 </th:block>
 </body>

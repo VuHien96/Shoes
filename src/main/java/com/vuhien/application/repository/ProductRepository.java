@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, String> {
     Product findByName(String name);
 
-    @Query(value = "SELECT * FROM product p " +
+    @Query(value = "SELECT DISTINCT p.* FROM product p " +
             "INNER JOIN product_category pc ON p.id = pc.product_id " +
             "INNER JOIN category c ON c.id = pc.category_id " +
             "WHERE p.id LIKE CONCAT('%',?1,'%') " +
