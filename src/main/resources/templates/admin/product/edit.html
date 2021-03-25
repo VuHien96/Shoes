@@ -371,7 +371,7 @@
                 }
                 let myJson = JSON.stringify(req)
                 $.ajax({
-                    url: '/admin/api/products/'+[[${product.id}]],
+                    url: '/api/admin/products/'+[[${product.id}]],
                     type: 'PUT',
                     data: myJson,
                     contentType: "application/json; charset=utf-8",
