@@ -45,8 +45,8 @@ $("#upload-thumbnail").change(function () {
         toastr.warning("Chỉ hỗ trợ các định dạng ảnh: jpg, png, svg, jpeg");
         return;
     }
-    if (file.size > 1000000) {
-        toastr.warning("Chỉ hỗ trợ file ảnh có kích thước lớn nhất 1MB");
+    if (file.size > 10000000) {
+        toastr.warning("Chỉ hỗ trợ file ảnh có kích thước lớn nhất 10MB");
         $(this).val('');
         return;
     }
