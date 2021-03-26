@@ -151,6 +151,21 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getLatesPost() {
-        return postRepository.getLatesPosts(PUBLIC_POST,LIMIT_POST_NEW);
+        return postRepository.getLatesPosts(PUBLIC_POST, LIMIT_POST_NEW);
+    }
+
+    @Override
+    public Page<Post> getListPost(int page) {
+        page--;
+        if (page < 0) {
+            page = 0;
+        }
+        Pageable pageable = PageRequest.of(page, LIMIT_POST_SHOP, Sort.by("publishedAt").descending());
+        return postRepository.findAllByStatus(PUBLIC_POST, pageable);
+    }
+
+    @Override
+    public List<Post> getLatestPostsNotId(long id) {
+        return postRepository.getLatestPostsNotId(PUBLIC_POST,id,LIMIT_POST_RELATED);
     }
 }
