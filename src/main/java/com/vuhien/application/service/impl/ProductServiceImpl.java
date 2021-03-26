@@ -4,6 +4,7 @@ import com.vuhien.application.entity.Product;
 import com.vuhien.application.exception.BadRequestException;
 import com.vuhien.application.exception.InternalServerException;
 import com.vuhien.application.exception.NotFoundException;
+import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.mapper.ProductMapper;
 import com.vuhien.application.model.request.CreateProductRequest;
 import com.vuhien.application.repository.ProductRepository;
@@ -17,9 +18,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
-import static com.vuhien.application.config.Contant.LIMIT_PRODUCT;
+import static com.vuhien.application.config.Contant.*;
 
 @Component
 public class ProductServiceImpl implements ProductService {
@@ -117,5 +119,20 @@ public class ProductServiceImpl implements ProductService {
         for (String id : ids) {
             productRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public List<ProductInfoDTO> getListBestSellProducts() {
+        return productRepository.getListBestSellProducts(LIMIT_PRODUCT_SELL);
+    }
+
+    @Override
+    public List<ProductInfoDTO> getListNewProducts() {
+        return productRepository.getListNewProducts(LIMIT_PRODUCT_NEW);
+    }
+
+    @Override
+    public List<ProductInfoDTO> getListViewProducts() {
+        return productRepository.getListViewProducts(LIMIT_PRODUCT_VIEW);
     }
 }

@@ -7,6 +7,8 @@ import com.vuhien.application.model.request.CreatePostRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface PostService {
     PageableDTO adminGetListPost(String title, String status, int page);
@@ -15,4 +17,5 @@ public interface PostService {
     void deletePost(long id);
     Post getPostById(long id);
     Page<Post> adminGetListPosts(String title, String status, Integer page);
+    List<Post> getLatesPost();
 }

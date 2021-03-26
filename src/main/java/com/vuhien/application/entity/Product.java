@@ -1,6 +1,6 @@
 package com.vuhien.application.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vuhien.application.model.dto.ProductInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +11,50 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+@SqlResultSetMappings(
+        value ={
+                @SqlResultSetMapping(
+                        name ="productInfoDto",
+                        classes =@ConstructorResult(
+                                targetClass = ProductInfoDTO.class,
+                                columns ={
+                                        @ColumnResult(name = "id", type = String.class),
+                                        @ColumnResult(name = "name", type = String.class),
+                                        @ColumnResult(name = "slug", type = String.class),
+                                        @ColumnResult(name = "price", type = Long.class),
+                                        @ColumnResult(name = "images", type = String.class),
+                                        @ColumnResult(name = "total_sold", type = Integer.class)
+                                }
+                        )
+                )
+        }
+)
+
+@NamedNativeQuery(
+        name = "getListNewProducts",
+        resultSetMapping = "productInfoDto",
+        query = "SELECT p.id, p.name, p.sale_price as price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
+                "FROM product p WHERE p.status = 1 " +
+                "order by p.created_at DESC limit ?1"
+)
+@NamedNativeQuery(
+        name = "getListBestSellProducts",
+        resultSetMapping = "productInfoDto",
+        query = "SELECT p.id, p.name, p.sale_price as price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
+                "FROM product p " +
+                "WHERE p.status = 1 " +
+                "ORDER BY total_sold DESC LIMIT ?1"
+)
+
+@NamedNativeQuery(
+        name = "getListViewProducts",
+        resultSetMapping = "productInfoDto",
+        query = "SELECT p.id, p.name, p.sale_price as price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
+                "FROM product p " +
+                "WHERE p.status = 1 " +
+                "ORDER BY product_view DESC LIMIT ?1"
+)
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,6 +82,8 @@ public class Product {
     @Type(type = "json")
     @Column(name = "image_feedback",columnDefinition = "json")
     private ArrayList<String> imageFeedBack;
+    @Column(name = "product_view")
+    private int view;
     @Column(name = "total_sold")
     private long totalSold;
     @Column(name = "status")

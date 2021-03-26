@@ -148,4 +148,9 @@ public class PostServiceImpl implements PostService {
         Pageable pageable = PageRequest.of(page, LIMIT_POST, Sort.by("published_at").descending());
         return postRepository.adminGetListPosts(title, status, pageable);
     }
+
+    @Override
+    public List<Post> getLatesPost() {
+        return postRepository.getLatesPosts(PUBLIC_POST,LIMIT_POST_NEW);
+    }
 }

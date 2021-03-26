@@ -1,11 +1,14 @@
 package com.vuhien.application.repository;
 
 import com.vuhien.application.entity.Product;
+import com.vuhien.application.model.dto.ProductInfoDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
@@ -19,4 +22,20 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "AND c.id LIKE CONCAT('%',?3,'%') " +
             "AND p.brand_id LIKE CONCAT('%',?4,'%')", nativeQuery = true)
     Page<Product> adminGetListProducts(String id, String name, String category, String brand, Pageable pageable);
+
+//    @Query(value = "SELECT NEW com.vuhien.application.model.dto.ProductInfoDTO(p.id, p.name, p.slug, p.price ,p.images ->> '$[0]', p.total_sold) " +
+//            "FROM product p " +
+//            "WHERE p.status = 1 " +
+//            "ORDER BY p.created_at DESC limit ?1",nativeQuery = true)
+//    List<ProductInfoDTO> getListBestSellProducts(int limit);
+
+    @Query(nativeQuery = true,name = "getListBestSellProducts")
+    List<ProductInfoDTO> getListBestSellProducts(int limit);
+
+    @Query(nativeQuery = true,name = "getListNewProducts")
+    List<ProductInfoDTO> getListNewProducts(int limit);
+
+    @Query(nativeQuery = true,name = "getListViewProducts")
+    List<ProductInfoDTO> getListViewProducts(int limit);
+
 }
