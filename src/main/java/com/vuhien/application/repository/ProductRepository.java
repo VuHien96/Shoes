@@ -38,4 +38,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query(nativeQuery = true,name = "getListViewProducts")
     List<ProductInfoDTO> getListViewProducts(int limit);
 
+    @Query(nativeQuery = true, name = "getRelatedProducts")
+    List<ProductInfoDTO> getRelatedProducts(String id, int limit);
+
 }

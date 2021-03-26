@@ -1,6 +1,7 @@
 package com.vuhien.application.service;
 
 import com.vuhien.application.entity.Product;
+import com.vuhien.application.model.dto.DetailProductInfoDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.request.CreateProductRequest;
 import org.springframework.data.domain.Page;
@@ -25,5 +26,9 @@ public interface ProductService {
     List<ProductInfoDTO> getListNewProducts();
 
     List<ProductInfoDTO> getListViewProducts();
+
+    DetailProductInfoDTO getDetailProductById(String id);
+
+    List<ProductInfoDTO> getRelatedProducts(String id);
 
 }

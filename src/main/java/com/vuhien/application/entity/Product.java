@@ -56,6 +56,17 @@ import java.util.List;
                 "ORDER BY product_view DESC LIMIT ?1"
 )
 
+@NamedNativeQuery(
+        name = "getRelatedProducts",
+        resultSetMapping = "productInfoDto",
+        query = "SELECT p.id, p.name, p.price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
+                "FROM product p " +
+                "WHERE p.status = 1 " +
+                "AND p.id != ?1 " +
+                "ORDER BY RAND() " +
+                "LIMIT ?2"
+)
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter

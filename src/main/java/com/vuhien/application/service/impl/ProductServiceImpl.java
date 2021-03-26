@@ -4,6 +4,7 @@ import com.vuhien.application.entity.Product;
 import com.vuhien.application.exception.BadRequestException;
 import com.vuhien.application.exception.InternalServerException;
 import com.vuhien.application.exception.NotFoundException;
+import com.vuhien.application.model.dto.DetailProductInfoDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.mapper.ProductMapper;
 import com.vuhien.application.model.request.CreateProductRequest;
@@ -134,5 +135,40 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductInfoDTO> getListViewProducts() {
         return productRepository.getListViewProducts(LIMIT_PRODUCT_VIEW);
+    }
+
+    @Override
+    public DetailProductInfoDTO getDetailProductById(String id) {
+        Optional<Product> rs = productRepository.findById(id);
+        if (rs.isEmpty()) {
+            throw new NotFoundException("Sản phẩm không tồn tại");
+        }
+        Product product = rs.get();
+
+        if (product.getStatus() != 1) {
+            throw new NotFoundException("Sản phâm không tồn tại");
+        }
+        DetailProductInfoDTO dto = new DetailProductInfoDTO();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setPrice(product.getSalePrice());
+        dto.setSlug(product.getSlug());
+        dto.setTotalSold(product.getTotalSold());
+        dto.setDescription(product.getDescription());
+        dto.setBrand(product.getBrand());
+        dto.setProductImages(product.getImages());
+
+        return dto;
+    }
+
+    @Override
+    public List<ProductInfoDTO> getRelatedProducts(String id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isEmpty()) {
+            throw new NotFoundException("Sản phẩm không tồn tại");
+        }
+
+        List<ProductInfoDTO> products = productRepository.getRelatedProducts(id, LIMIT_PRODUCT_RELATED);
+        return products;
     }
 }

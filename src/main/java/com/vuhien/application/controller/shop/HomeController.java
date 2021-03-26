@@ -2,6 +2,8 @@ package com.vuhien.application.controller.shop;
 
 import com.vuhien.application.entity.Brand;
 import com.vuhien.application.entity.Post;
+import com.vuhien.application.exception.NotFoundException;
+import com.vuhien.application.model.dto.DetailProductInfoDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.service.BrandService;
 import com.vuhien.application.service.PostService;
@@ -11,8 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+
+import static com.vuhien.application.config.Contant.*;
 
 @Controller
 public class HomeController {
@@ -50,6 +55,36 @@ public class HomeController {
         model.addAttribute("posts", posts);
 
         return "shop/index";
+    }
+
+    @GetMapping("/{slug}/{id}")
+    public String getProductDetail(Model model, @PathVariable String id){
+
+        //Lấy thông tin sản phẩm
+        DetailProductInfoDTO product;
+        try {
+            product = productService.getDetailProductById(id);
+        } catch (NotFoundException ex) {
+            return "error/404";
+        } catch (Exception ex) {
+            return "error/500";
+        }
+        model.addAttribute("product", product);
+
+        //Lấy sản phẩm liên quan
+        List<ProductInfoDTO> relatedProducts = productService.getRelatedProducts(id);
+        model.addAttribute("relatedProducts", relatedProducts);
+
+        //Lấy danh sách nhãn hiệu
+        List<Brand> brands = brandService.getListBrand();
+        model.addAttribute("brands",brands);
+
+        //Lấy danh sách size giầy
+        model.addAttribute("sizeVn", SIZE_VN);
+        model.addAttribute("sizeUs", SIZE_US);
+        model.addAttribute("sizeCm", SIZE_CM);
+
+        return "shop/detail";
     }
 
     @GetMapping("/products")

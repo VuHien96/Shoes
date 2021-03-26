@@ -14,11 +14,14 @@ public class Contant {
     public static final int LIMIT_CATEGORY = 10;
     public static final int LIMIT_PRODUCT = 10;
     public static final int LIMIT_POST = 10;
+    public static final int LIMIT_POST_SHOP = 8;
+    public static final int LIMIT_POST_RELATED = 5;
 
     //Product
     public static final int LIMIT_PRODUCT_SELL = 10;
     public static final int LIMIT_PRODUCT_NEW = 8;
     public static final int LIMIT_PRODUCT_VIEW = 8;
+    public static final int LIMIT_PRODUCT_RELATED = 8;
 
     //Post
     public static final int LIMIT_POST_NEW = 5;

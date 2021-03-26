@@ -105,13 +105,13 @@
                 <th:block th:each="newProduct :${newProducts}">
                     <div class="product-default">
                     <figure>
-                        <a href="product.html">
+                        <a th:href="@{/{slug}/{id}(id=${newProduct.id},slug=${newProduct.slug})}">
                             <img th:src="${newProduct.images}" alt="product">
                         </a>
                     </figure>
                     <div class="product-details">
                         <h3 class="product-title">
-                            <a href="product.html" th:text="${newProduct.name}"></a>
+                            <a th:href="@{/{slug}/{id}(id=${newProduct.id},slug=${newProduct.slug})}" th:text="${newProduct.name}"></a>
                         </h3>
                         <div class="price-box">
                             <span class="product-price" th:text="${#numbers.formatDecimal(newProduct.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
@@ -144,7 +144,7 @@
                 <th:block th:each="sell : ${bestSellerProducts}">
                     <div class="product-default">
                     <figure>
-                        <a href="product.html">
+                        <a th:href="@{/{slug}/{id}(id=${sell.id},slug=${sell.slug})}">
                             <img th:src="${sell.images}" alt="product">
                         </a>
                         <div class="label-group">
@@ -153,7 +153,7 @@
                     </figure>
                     <div class="product-details">
                         <h3 class="product-title">
-                            <a href="product.html" th:text="${sell.name}"></a>
+                            <a th:href="@{/{slug}/{id}(id=${sell.id},slug=${sell.slug})}" th:text="${sell.name}"></a>
                         </h3>
                         <div class="price-box">
                             <span class="product-price" th:text="${#numbers.formatDecimal(sell.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
@@ -181,13 +181,13 @@
                 <th:block th:each="view : ${viewProducts}">
                     <div class="product-default">
                     <figure>
-                        <a href="product.html">
+                        <a th:href="@{/{slug}/{id}(id=${view.id},slug=${view.slug})}">
                             <img th:src="${view.images}" alt="product">
                         </a>
                     </figure>
                     <div class="product-details">
                         <h3 class="product-title">
-                            <a href="product.html" th:text="${view.name}"></a>
+                            <a th:href="@{/{slug}/{id}(id=${view.id},slug=${view.slug})}" th:text="${view.name}"></a>
                         </h3>
                         <div class="price-box">
                             <span class="product-price" th:text="${#numbers.formatDecimal(view.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
@@ -272,7 +272,7 @@
                 <th:block th:each="post : ${posts}">
                     <article class="post">
                     <div class="post-media">
-                        <a href="single.html">
+                        <a th:href="@{/tin-tuc/{slug}/{id}(id=${post.id},slug=${post.slug})}">
                             <img th:src="${post.thumbnail}" alt="Post" width="225" height="280">
                         </a>
                         <div class="post-date">
@@ -282,7 +282,7 @@
 
                     <div class="post-body">
                         <h2 class="post-title">
-                            <a href="single.html" th:text="${post.title}"></a>
+                            <a th:href="@{/tin-tuc/{slug}/{id}(id=${post.id},slug=${post.slug})}" th:text="${post.title}"></a>
                         </h2>
                         <div class="post-content">
                             <p th:utext="${post.content}"></p>
