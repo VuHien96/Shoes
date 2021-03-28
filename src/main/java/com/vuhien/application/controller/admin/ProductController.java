@@ -2,6 +2,7 @@ package com.vuhien.application.controller.admin;
 
 import com.vuhien.application.entity.*;
 import com.vuhien.application.model.request.CreateProductRequest;
+import com.vuhien.application.model.request.CreateSizeCountRequest;
 import com.vuhien.application.security.CustomUserDetails;
 import com.vuhien.application.service.BrandService;
 import com.vuhien.application.service.CategoryService;
@@ -97,6 +98,10 @@ public class ProductController {
         //Lấy danh sách size
         model.addAttribute("sizeVN", SIZE_VN);
 
+        //Lấy size của sản phẩm
+        List<ProductSize> productSizes = productService.getListSizeOfProduct(id);
+        model.addAttribute("productSizes", productSizes);
+
         return "admin/product/edit";
     }
 
@@ -134,4 +139,10 @@ public class ProductController {
         return ResponseEntity.ok("Xóa sản phẩm thành công!");
     }
 
+    @PutMapping("/api/admin/products/sizes")
+    public ResponseEntity<?> updateSizeCount(@Valid @RequestBody CreateSizeCountRequest createSizeCountRequest) {
+        productService.createSizeCount(createSizeCountRequest);
+
+        return ResponseEntity.ok("Cập nhật thành công!");
+    }
 }

@@ -12,8 +12,11 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, String> {
+
+    //Lấy sản phẩm theo tên
     Product findByName(String name);
 
+    //Lấy tất cả sản phẩm
     @Query(value = "SELECT DISTINCT p.* FROM product p " +
             "INNER JOIN product_category pc ON p.id = pc.product_id " +
             "INNER JOIN category c ON c.id = pc.category_id " +
@@ -29,15 +32,19 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 //            "ORDER BY p.created_at DESC limit ?1",nativeQuery = true)
 //    List<ProductInfoDTO> getListBestSellProducts(int limit);
 
+    //Lấy sản phẩm được bán nhiều
     @Query(nativeQuery = true,name = "getListBestSellProducts")
     List<ProductInfoDTO> getListBestSellProducts(int limit);
 
+    //Lấy sản phẩm mới nhất
     @Query(nativeQuery = true,name = "getListNewProducts")
     List<ProductInfoDTO> getListNewProducts(int limit);
 
+    //Lấy sản phẩm được xem nhiều
     @Query(nativeQuery = true,name = "getListViewProducts")
     List<ProductInfoDTO> getListViewProducts(int limit);
 
+    //Lấy sản phẩm liên quan
     @Query(nativeQuery = true, name = "getRelatedProducts")
     List<ProductInfoDTO> getRelatedProducts(String id, int limit);
 

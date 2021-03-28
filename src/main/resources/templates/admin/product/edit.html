@@ -212,7 +212,9 @@
                                     </div>
                                     <div class=" form-group col-md-2">
                                         <label for="">Thực hiện</label>
-                                        <button type="submit" id="" class="btn btn-primary">Cập nhật số lượng <i class="fas fa-plus"></i></button>
+                                        <button type="submit" id="" class="btn btn-primary btn-update-size-count">Cập nhật số lượng <i class="fas fa-plus"></i></button>
+                                        <br>
+                                        <span class="invalid-feedback" id="invalid-feedback-size">Vui lòng nhập số lượng</span>
                                     </div>
                                 </form>
                             </div>
@@ -226,12 +228,12 @@
                                 </tr>
                                 </thead>
                                 <tbody class="list-product-size">
-<!--                                <th:block th:each="ps : ${productSizes}">-->
-<!--                                    <tr>-->
-<!--                                        <td th:text="${ps.size}" class="product-size" th:data-size="${ps.size}"></td>-->
-<!--                                        <td th:text="${ps.quantity}" class="product-count"></td>-->
-<!--                                    </tr>-->
-<!--                                </th:block>-->
+                                <th:block th:each="ps : ${productSizes}">
+                                    <tr>
+                                        <td th:text="${ps.size}" class="product-size" th:data-size="${ps.size}"></td>
+                                        <td th:text="${ps.quantity}" class="product-count"></td>
+                                    </tr>
+                                </th:block>
                                 </tbody>
                             </table>
                         </div>
@@ -384,9 +386,43 @@
                 })
             }
         })
-        $.validator.addMethod("priceCom", function (value, element) {
 
-        }, "Giá bán phải lớn hơn giá nhập sản phẩm. Vui lòng nhập lại giá bán!")
+        $('.btn-update-size-count').click(function(event) {
+            event.preventDefault();
+            let size = parseInt($('#size').val());
+            let count = parseInt($('#count').val());
+            if (isNaN(count)) {
+                $('#invalid-feedback-size').show();
+                return;
+            }
+            req = {
+                size: size,
+                count: count,
+                product_id: [[${product.id}]]
+            }
+            var myJSON = JSON.stringify(req);
+            $.ajax({
+                url: '/api/admin/products/sizes',
+                type: 'PUT',
+                data: myJSON,
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    let productSize = $('.product-size[data-size='+size+']')
+                    if (productSize.length === 0) {
+                        $('.list-product-size').append(`<tr><td class="product-size" data-size="${size}">${size}</td><td class="product-count">${count}</td></tr>`);
+                    } else {
+                        $(productSize).parent().find('.product-count').text(count);
+                    }
+                    toastr.success("Cập nhật thành công");
+                },
+                error: function(data) {
+                    toastr.warning(data.responseJSON.message);
+                },
+                complete: function() {
+                    $('#invalid-feedback-size').hide();
+                }
+            });
+        })
     </script>
 </th:block>
 </body>
