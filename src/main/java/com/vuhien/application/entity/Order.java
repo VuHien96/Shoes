@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -57,5 +58,23 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "modified_by")
     private User modifiedBy;
+
+    @Type(type = "json")
+    @Column(name = "promotion", columnDefinition = "json")
+    private UsedPromotion promotion;
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UsedPromotion {
+        private String couponCode;
+
+        private int discountType;
+
+        private long discountValue;
+
+        private long maximumDiscountValue;
+    }
 
 }

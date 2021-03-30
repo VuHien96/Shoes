@@ -34,4 +34,16 @@ public class Contant {
     //Trạng thái post
     public static final int PUBLIC_POST = 1;
     public static final int DRAFT_POST = 0;
+
+    //Trạng thái đơn hàng
+    public static final int ORDER_STATUS = 1;
+    public static final int DELIVERY_STATUS = 2;
+    public static final int COMPLETED_STATUS = 3;
+    public static final int RETURNED_STATUS = 4;
+    public static final int CANCELED_STATUS = 5;
+    public static final List<Integer> LIST_ORDER_STATUS = new ArrayList<>(Arrays.asList(ORDER_STATUS,DELIVERY_STATUS, COMPLETED_STATUS, RETURNED_STATUS, CANCELED_STATUS));
+
+    //Loại khuyến mại
+    public static final int DISCOUNT_PERCENT = 1;
+    public static final int DISCOUNT_AMOUNT = 2;
 }
