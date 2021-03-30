@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -79,12 +80,61 @@ public class HomeController {
         List<Brand> brands = brandService.getListBrand();
         model.addAttribute("brands",brands);
 
+        // Lấy size có sẵn
+        List<Integer> availableSizes = productService.getListAvailableSize(id);
+        model.addAttribute("availableSizes", availableSizes);
+        if (!availableSizes.isEmpty()) {
+            model.addAttribute("canBuy", true);
+        } else {
+            model.addAttribute("canBuy", false);
+        }
+
         //Lấy danh sách size giầy
         model.addAttribute("sizeVn", SIZE_VN);
         model.addAttribute("sizeUs", SIZE_US);
         model.addAttribute("sizeCm", SIZE_CM);
 
         return "shop/detail";
+    }
+
+    @GetMapping("/dat-hang")
+    public String getCartPage(Model model, @RequestParam String id,@RequestParam int size){
+
+        //Lấy chi tiết sản phẩm
+        DetailProductInfoDTO product;
+        try {
+            product = productService.getDetailProductById(id);
+        } catch (NotFoundException ex) {
+            return "error/404";
+        } catch (Exception ex) {
+            return "error/500";
+        }
+        model.addAttribute("product", product);
+
+        //Validate size
+        if (size < 35 || size > 42) {
+            return "error/404";
+        }
+
+        //Lấy danh sách size có sẵn
+        List<Integer> availableSizes = productService.getListAvailableSize(id);
+        model.addAttribute("availableSizes", availableSizes);
+        boolean notFoundSize = true;
+        for (Integer availableSize : availableSizes) {
+            if (availableSize == size) {
+                notFoundSize = false;
+                break;
+            }
+        }
+        model.addAttribute("notFoundSize", notFoundSize);
+
+        //Lấy danh sách size
+        model.addAttribute("sizeVn", SIZE_VN);
+        model.addAttribute("sizeUs", SIZE_US);
+        model.addAttribute("sizeCm", SIZE_CM);
+        model.addAttribute("size", size);
+
+        return "shop/payment";
     }
 
     @GetMapping("/products")

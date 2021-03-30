@@ -19,6 +19,8 @@ public class CartProduct {
     private long id;
     @Column(name = "quantity")
     private int quantity;
+    @Column(name = "size")
+    private int size;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
     private Cart cart;
