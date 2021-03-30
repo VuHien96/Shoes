@@ -2,17 +2,20 @@ package com.vuhien.application.service.impl;
 
 import com.vuhien.application.entity.Product;
 import com.vuhien.application.entity.ProductSize;
+import com.vuhien.application.entity.Promotion;
 import com.vuhien.application.exception.BadRequestException;
 import com.vuhien.application.exception.InternalServerException;
 import com.vuhien.application.exception.NotFoundException;
 import com.vuhien.application.model.dto.DetailProductInfoDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
+import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import com.vuhien.application.model.mapper.ProductMapper;
 import com.vuhien.application.model.request.CreateProductRequest;
 import com.vuhien.application.model.request.CreateSizeCountRequest;
 import com.vuhien.application.repository.ProductRepository;
 import com.vuhien.application.repository.ProductSizeRepository;
 import com.vuhien.application.service.ProductService;
+import com.vuhien.application.service.PromotionService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,6 +38,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductSizeRepository productSizeRepository;
+
+    @Autowired
+    private PromotionService promotionService;
 
     @Override
     public Page<Product> adminGetListProduct(String id, String name, String category, String brand, Integer page) {
@@ -130,17 +136,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductInfoDTO> getListBestSellProducts() {
-        return productRepository.getListBestSellProducts(LIMIT_PRODUCT_SELL);
+        List<ProductInfoDTO> productInfoDTOS = productRepository.getListBestSellProducts(LIMIT_PRODUCT_SELL);
+        return checkPublicPromotion(productInfoDTOS);
     }
 
     @Override
     public List<ProductInfoDTO> getListNewProducts() {
-        return productRepository.getListNewProducts(LIMIT_PRODUCT_NEW);
+        List<ProductInfoDTO> productInfoDTOS = productRepository.getListNewProducts(LIMIT_PRODUCT_NEW);
+        return checkPublicPromotion(productInfoDTOS);
+
     }
 
     @Override
     public List<ProductInfoDTO> getListViewProducts() {
-        return productRepository.getListViewProducts(LIMIT_PRODUCT_VIEW);
+        List<ProductInfoDTO> productInfoDTOS = productRepository.getListViewProducts(LIMIT_PRODUCT_VIEW);
+        return checkPublicPromotion(productInfoDTOS);
     }
 
     @Override
@@ -164,7 +174,16 @@ public class ProductServiceImpl implements ProductService {
         dto.setBrand(product.getBrand());
         dto.setProductImages(product.getImages());
 
+        //Kiểm tra có khuyến mại
+        Promotion promotion = promotionService.checkPublicPromotion();
+        if (promotion != null) {
+            dto.setCouponCode(promotion.getCouponCode());
+            dto.setPromotionPrice(promotionService.calculatePromotionPrice(dto.getPrice(), promotion));
+        } else {
+            dto.setCouponCode("");
+        }
         return dto;
+
     }
 
     @Override
@@ -173,9 +192,8 @@ public class ProductServiceImpl implements ProductService {
         if (product.isEmpty()) {
             throw new NotFoundException("Sản phẩm không tồn tại");
         }
-
         List<ProductInfoDTO> products = productRepository.getRelatedProducts(id, LIMIT_PRODUCT_RELATED);
-        return products;
+        return checkPublicPromotion(products);
     }
 
     @Override
@@ -215,5 +233,50 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductSize> getListSizeOfProduct(String id) {
         return productSizeRepository.findByProductId(id);
+    }
+
+    @Override
+    public List<ShortProductInfoDTO> getListProduct() {
+        return productRepository.getListProduct();
+    }
+
+    @Override
+    public List<ShortProductInfoDTO> getAvailableProducts() {
+        return productRepository.getAvailableProducts();
+    }
+
+    @Override
+    public boolean checkProductSizeAvailable(String id, int size) {
+        ProductSize productSize = productSizeRepository.checkProductAndSizeAvailable(id, size);
+        if (productSize != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<ProductInfoDTO> checkPublicPromotion(List<ProductInfoDTO> products) {
+        //Kiểm tra có khuyến mại
+        Promotion promotion = promotionService.checkPublicPromotion();
+        if (promotion != null) {
+            //Tính giá sản phẩm khi có khuyến mại
+            for (ProductInfoDTO product : products) {
+                long discountValue = promotion.getMaximumDiscountValue();
+                if (promotion.getDiscountType() == DISCOUNT_PERCENT) {
+                    long tmp = product.getPrice() * promotion.getDiscountValue() / 100;
+                    if (tmp < discountValue) {
+                        discountValue = tmp;
+                    }
+                }
+                long promotionPrice = product.getPrice() - discountValue;
+                if (promotionPrice > 0) {
+                    product.setPromotionPrice(promotionPrice);
+                } else {
+                    product.setPromotionPrice(0);
+                }
+            }
+        }
+
+        return products;
     }
 }

@@ -2,6 +2,7 @@ package com.vuhien.application.repository;
 
 import com.vuhien.application.entity.Product;
 import com.vuhien.application.model.dto.ProductInfoDTO;
+import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -47,5 +48,13 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     //Lấy sản phẩm liên quan
     @Query(nativeQuery = true, name = "getRelatedProducts")
     List<ProductInfoDTO> getRelatedProducts(String id, int limit);
+
+    //Lấy sản phẩm
+    @Query(name = "getAllProduct", nativeQuery = true)
+    List<ShortProductInfoDTO> getListProduct();
+
+    //Lấy sản phẩm có sẵn size
+    @Query(nativeQuery = true, name = "getAllBySizeAvailable")
+    List<ShortProductInfoDTO> getAvailableProducts();
 
 }

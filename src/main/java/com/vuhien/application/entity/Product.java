@@ -1,6 +1,7 @@
 package com.vuhien.application.entity;
 
 import com.vuhien.application.model.dto.ProductInfoDTO;
+import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,29 @@ import java.util.List;
                                         @ColumnResult(name = "price", type = Long.class),
                                         @ColumnResult(name = "images", type = String.class),
                                         @ColumnResult(name = "total_sold", type = Integer.class)
+                                }
+                        )
+                ),
+                @SqlResultSetMapping(
+                        name = "shortProductInfoDTO",
+                        classes = @ConstructorResult(
+                                targetClass = ShortProductInfoDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = String.class),
+                                        @ColumnResult(name = "name", type = String.class)
+                                }
+                        )
+                ),
+                @SqlResultSetMapping(
+                        name = "productInfoAndAvailableSize",
+                        classes = @ConstructorResult(
+                                targetClass = ShortProductInfoDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "id", type = String.class),
+                                        @ColumnResult(name = "name", type = String.class),
+                                        @ColumnResult(name = "price", type = Long.class),
+                                        @ColumnResult(name = "sizes", type = String.class),
+
                                 }
                         )
                 )
@@ -59,12 +83,24 @@ import java.util.List;
 @NamedNativeQuery(
         name = "getRelatedProducts",
         resultSetMapping = "productInfoDto",
-        query = "SELECT p.id, p.name, p.price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
+        query = "SELECT p.id, p.name, p.sale_price as price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p " +
                 "WHERE p.status = 1 " +
                 "AND p.id != ?1 " +
                 "ORDER BY RAND() " +
                 "LIMIT ?2"
+)
+@NamedNativeQuery(
+        name = "getAllProduct",
+        resultSetMapping = "shortProductInfoDTO",
+        query = "SELECT p.id, p.name FROM product p"
+)
+@NamedNativeQuery(
+        name = "getAllBySizeAvailable",
+        resultSetMapping = "productInfoAndAvailableSize",
+        query = "SELECT p.id, p.name, p.sale_price as price, " +
+                "(SELECT JSON_ARRAYAGG(ps.size) FROM product_size ps WHERE ps.product_id = p.id AND ps.quantity > 0) AS sizes " +
+                "FROM product p"
 )
 
 @AllArgsConstructor

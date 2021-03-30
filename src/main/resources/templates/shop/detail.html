@@ -62,7 +62,13 @@
 
                     <div>
                         <span class="desc-sub-title">Giá sản phẩm: </span>
-                        <span class="price-box" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
+                        <th:block th:if="${product.promotionPrice}">
+                            <span class="product-price price-box" th:text="${#numbers.formatDecimal(product.promotionPrice, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
+                            <del class="old-price " th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></del>
+                        </th:block>
+                        <th:block th:unless="${product.promotionPrice}">
+                            <span class="product-price price-box" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
+                        </th:block>
                     </div><!-- End .price-box -->
                     <hr class="divider">
                     <div class="product-desc">
@@ -90,7 +96,7 @@
                                 <div class="ask-text left-content">
                                     <th:block th:if="${product.promotionPrice}">
                                         <div class="ask-desc sub-content old-price"><span class="text-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
-                                        <div class="ask-price main-content"><span class="text-price" th:text="${product.promotionPrice}"></span> &#x20AB;</div>
+                                        <div class="ask-price main-content"><span class="text-price" th:text="${#numbers.formatDecimal(product.promotionPrice, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
                                     </th:block>
                                     <th:block th:unless="${product.promotionPrice}">
                                         <div class="ask-desc sub-content">Giá bán ưu đãi</div>
@@ -317,7 +323,13 @@
                                 </div><!-- End .product-ratings -->
                             </div><!-- End .ratings-container -->
                             <div class="price-box">
-                                <span class="product-price" th:text="${#numbers.formatDecimal(related.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
+                                <th:block th:if="${related.promotionPrice}">
+                                    <span class="product-price" th:text="${#numbers.formatDecimal(related.promotionPrice, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
+                                    <del class="old-price" th:text="${#numbers.formatDecimal(related.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></del>
+                                </th:block>
+                                <th:block th:unless="${related.promotionPrice}">
+                                    <span class="product-price" th:text="${#numbers.formatDecimal(related.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
+                                </th:block>
                             </div><!-- End .price-box -->
                         </div><!-- End .product-details -->
                     </div>

@@ -4,6 +4,7 @@ import com.vuhien.application.entity.Product;
 import com.vuhien.application.entity.ProductSize;
 import com.vuhien.application.model.dto.DetailProductInfoDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
+import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import com.vuhien.application.model.request.CreateProductRequest;
 import com.vuhien.application.model.request.CreateSizeCountRequest;
 import org.springframework.data.domain.Page;
@@ -52,5 +53,16 @@ public interface ProductService {
 
     //Lấy size của sản phẩm
     List<ProductSize> getListSizeOfProduct(String id);
+
+    List<ShortProductInfoDTO> getListProduct();
+
+    //Lấy sản phẩm có sẵn size
+    List<ShortProductInfoDTO> getAvailableProducts();
+
+    //Check size sản phẩm
+    boolean checkProductSizeAvailable(String id, int size);
+
+    //Kiểm tra sản phẩm có khuyến mại
+    List<ProductInfoDTO> checkPublicPromotion(List<ProductInfoDTO> products);
 
 }
