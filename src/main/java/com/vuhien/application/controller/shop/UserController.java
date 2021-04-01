@@ -4,8 +4,10 @@ import com.vuhien.application.entity.User;
 import com.vuhien.application.exception.BadRequestException;
 import com.vuhien.application.model.dto.UserDTO;
 import com.vuhien.application.model.mapper.UserMapper;
+import com.vuhien.application.model.request.ChangePasswordRequest;
 import com.vuhien.application.model.request.CreateUserRequest;
 import com.vuhien.application.model.request.LoginRequest;
+import com.vuhien.application.model.request.UpdateProfileRequest;
 import com.vuhien.application.security.CustomUserDetails;
 import com.vuhien.application.security.JwtTokenUtil;
 import com.vuhien.application.service.UserService;
@@ -14,10 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.Cookie;
@@ -91,5 +96,29 @@ public class UserController {
             throw new BadRequestException("Email hoặc mật khẩu không chính xác!");
 
         }
+    }
+
+    @GetMapping("/tai-khoan")
+    public String getProfilePage(Model model) {
+        return "shop/account";
+    }
+
+    @PostMapping("/api/change-password")
+    public ResponseEntity<Object> changePassword(@Valid @RequestBody ChangePasswordRequest passwordReq) {
+        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        userService.changePassword(user, passwordReq);
+        return ResponseEntity.ok("Đổi mật khẩu thành công");
+    }
+
+    @PutMapping("/api/update-profile")
+    public ResponseEntity<Object> updateProfile(@Valid @RequestBody UpdateProfileRequest profileReq) {
+        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        user = userService.updateProfile(user, profileReq);
+        UserDetails userDetails = new CustomUserDetails(user);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return ResponseEntity.ok("Cập nhật thành công");
     }
 }

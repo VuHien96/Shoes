@@ -143,7 +143,7 @@ function signedValidate(status = false, fullname = '') {
     if (status == true) {
         isLogined = true;
         let signedLink = `
-     <a href="#" id="account-setting" data-toggle="modal">Xin chào ${fullname}</a>`;
+     <a href="/tai-khoan" id="account-setting">Xin chào ${fullname}</a>`;
         $('.account-setting').replaceWith(signedLink);
     } else {
         isLogined = false;

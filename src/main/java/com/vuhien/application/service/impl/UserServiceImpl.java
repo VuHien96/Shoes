@@ -4,10 +4,13 @@ import com.vuhien.application.entity.User;
 import com.vuhien.application.exception.BadRequestException;
 import com.vuhien.application.model.dto.UserDTO;
 import com.vuhien.application.model.mapper.UserMapper;
+import com.vuhien.application.model.request.ChangePasswordRequest;
 import com.vuhien.application.model.request.CreateUserRequest;
+import com.vuhien.application.model.request.UpdateProfileRequest;
 import com.vuhien.application.repository.UserRepository;
 import com.vuhien.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -38,5 +41,26 @@ public class UserServiceImpl implements UserService {
         user = UserMapper.toUser(createUserRequest);
         userRepository.save(user);
         return  user;
+    }
+
+    @Override
+    public void changePassword(User user, ChangePasswordRequest changePasswordRequest) {
+        //Kiểm tra mật khẩu
+        if (!BCrypt.checkpw(changePasswordRequest.getOldPassword(), user.getPassword())) {
+            throw new BadRequestException("Mật khẩu cũ không chính xác");
+        }
+
+        String hash = BCrypt.hashpw(changePasswordRequest.getNewPassword(), BCrypt.gensalt(12));
+        user.setPassword(hash);
+        userRepository.save(user);
+    }
+
+    @Override
+    public User updateProfile(User user, UpdateProfileRequest updateProfileRequest) {
+        user.setFullName(updateProfileRequest.getFullName());
+        user.setPhone(updateProfileRequest.getPhone());
+        user.setAddress(updateProfileRequest.getAddress());
+
+        return userRepository.save(user);
     }
 }
