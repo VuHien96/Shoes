@@ -1,21 +1,26 @@
 package com.vuhien.application.controller.shop;
 
 import com.vuhien.application.entity.Brand;
+import com.vuhien.application.entity.Order;
 import com.vuhien.application.entity.Post;
+import com.vuhien.application.entity.User;
 import com.vuhien.application.exception.NotFoundException;
 import com.vuhien.application.model.dto.DetailProductInfoDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
+import com.vuhien.application.model.request.CreateOrderRequest;
+import com.vuhien.application.security.CustomUserDetails;
 import com.vuhien.application.service.BrandService;
+import com.vuhien.application.service.OrderService;
 import com.vuhien.application.service.PostService;
 import com.vuhien.application.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.vuhien.application.config.Contant.*;
@@ -31,6 +36,9 @@ public class HomeController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping
     public String homePage(Model model){
@@ -135,6 +143,14 @@ public class HomeController {
         model.addAttribute("size", size);
 
         return "shop/payment";
+    }
+
+    @PostMapping("/api/orders")
+    public ResponseEntity<Object> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
+        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        Order order = orderService.createOrder(createOrderRequest, user.getId());
+
+        return ResponseEntity.ok(order.getId());
     }
 
     @GetMapping("/products")

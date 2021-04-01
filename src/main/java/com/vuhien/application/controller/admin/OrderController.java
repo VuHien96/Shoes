@@ -3,9 +3,13 @@ package com.vuhien.application.controller.admin;
 import com.vuhien.application.entity.Order;
 import com.vuhien.application.entity.Promotion;
 import com.vuhien.application.entity.User;
+import com.vuhien.application.exception.BadRequestException;
+import com.vuhien.application.model.dto.OrderDetailDTO;
+import com.vuhien.application.model.dto.OrderInfoDTO;
 import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import com.vuhien.application.model.request.CreateOrderRequest;
 import com.vuhien.application.model.request.UpdateDetailOrder;
+import com.vuhien.application.model.request.UpdateStatusOrderRequest;
 import com.vuhien.application.security.CustomUserDetails;
 import com.vuhien.application.service.OrderService;
 import com.vuhien.application.service.ProductService;
@@ -21,8 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.vuhien.application.config.Contant.ORDER_STATUS;
-import static com.vuhien.application.config.Contant.SIZE_VN;
+import static com.vuhien.application.config.Contant.*;
 
 @Controller
 public class OrderController {
@@ -124,5 +127,63 @@ public class OrderController {
         return ResponseEntity.ok("Cập nhật thành công");
     }
 
+    @PutMapping("/api/admin/orders/update-status/{id}")
+    public ResponseEntity<Object> updateStatusOrder(@Valid @RequestBody UpdateStatusOrderRequest updateStatusOrderRequest, @PathVariable long id) {
+        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        orderService.updateStatusOrder(updateStatusOrderRequest, id, user.getId());
+        return ResponseEntity.ok("Cập nhật trạng thái thành công");
+    }
+
+    @GetMapping("/tai-khoan/lich-su-giao-dich")
+    public String getOrderHistoryPage(Model model){
+
+        //Get list order pending
+        User user =((CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        List<OrderInfoDTO> orderList = orderService.getListOrderOfPersonByStatus(ORDER_STATUS,user.getId());
+        model.addAttribute("orderList",orderList);
+
+        return "shop/order_history";
+    }
+
+    @GetMapping("/api/get-order-list")
+    public ResponseEntity<Object> getListOrderByStatus(@RequestParam int status) {
+        // Validate status
+        if (!LIST_ORDER_STATUS.contains(status)) {
+            throw new BadRequestException("Trạng thái đơn hàng không hợp lệ");
+        }
+
+        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+        List<OrderInfoDTO> orders = orderService.getListOrderOfPersonByStatus(status, user.getId());
+
+        return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("/tai-khoan/lich-su-giao-dich/{id}")
+    public String getDetailOrderPage(Model model, @PathVariable int id) {
+        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        OrderDetailDTO order = orderService.userGetDetailById(id, user.getId());
+        if (order == null) {
+            return "error/404";
+        }
+        model.addAttribute("order", order);
+
+        if (order.getStatus() == ORDER_STATUS) {
+            model.addAttribute("canCancel", true);
+        } else {
+            model.addAttribute("canCancel", false);
+        }
+
+        return "shop/order-detail";
+    }
+
+    @PostMapping("/api/cancel-order/{id}")
+    public ResponseEntity<Object> cancelOrder(@PathVariable long id) {
+        User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
+
+        orderService.userCancelOrder(id, user.getId());
+
+        return ResponseEntity.ok("Hủy đơn hàng thành công");
+    }
 
 }

@@ -31,7 +31,6 @@
             <div class="col-lg-6">
                 <div class="order-summary">
                     <h3>Đơn hàng</h3>
-
                     <div class="collapse show" id="order-cart-section">
                         <table class="table table-mini-cart">
                             <tbody>
@@ -81,7 +80,7 @@
                         <a th:href="@{/{slug}/{id}(id=${product.id}, slug=${product.slug})}">
                             <button class="btn btn-secondary confirm-btn">Quay lại</button>
                         </a>
-                        <button class="btn btn-primary confirm-btn red-btn" id="btn-buy-now" th:style="${notFoundSize} ? 'display:none': ''">ĐẶT HÀNG</button>
+                        <button type="button" class="btn btn-primary confirm-btn red-btn" id="btn-buy-now" th:style="${notFoundSize} ? 'display:none': ''">ĐẶT HÀNG</button>
                     </div><!-- End #order-cart-section -->
                 </div><!-- End .order-summary -->
             </div><!-- End .col-lg-4 -->
@@ -93,22 +92,25 @@
                         <form action="#">
                             <div class="form-group required-field">
                                 <label>Tên người nhận </label>
-                                <input type="text" class="form-control" name="receiver_name" id="receiver_name" required>
+                                <input type="text" class="form-control" th:value="${user_fullname}" name="receiver_name" id="receiver_name" required>
+                                <div class="invalid-feedback"></div>
                             </div><!-- End .form-group -->
 
                             <div class="form-group required-field">
                                 <label>Số điện thoại </label>
-                                <input type="text" class="form-control" name="receiver_phone" id="receiver_phone">
+                                <input type="text" class="form-control" th:value="${user_phone}" name="receiver_phone" id="receiver_phone">
+                                <div class="invalid-feedback"></div>
                             </div><!-- End .form-group -->
 
                             <div class="form-group required-field">
                                 <label>Địa chỉ nhận hàng</label>
-                                <textarea type="text" class="form-control" name="receiver_address" id="receiver_address" required></textarea>
+                                <textarea type="text" class="form-control" th:text="${user_address}" name="receiver_address" id="receiver_address" required></textarea>
+                                <div class="invalid-feedback"></div>
                             </div><!-- End .form-group -->
 
                             <div class="form-group">
                                 <label>Ghi chú </label>
-                                <textarea type="text" class="form-control" id="note"></textarea>
+                                <textarea type="text" class="form-control" id="notes"></textarea>
                             </div><!-- End .form-group -->
                         </form>
                     </div><!-- End #new-checkout-address -->
@@ -196,6 +198,74 @@
                 $(`.item[data-id='${availableSizes[i]}']`).removeClass('cross');
             }
         }
+
+        $('#btn-buy-now').click(function() {
+            let receiverName = $('#receiver_name').val();
+            let receiverPhone = $('#receiver_phone').val();
+            let receiverAddress = $('#receiver_address').val();
+            let notes = $('#notes').val();
+            let isValid = true;
+            if (receiverName.length == 0) {
+                fullNameInvalid = $('#receiver_name').next();
+                fullNameInvalid.css('display', 'block');
+                fullNameInvalid.html('Vui lòng nhập họ tên người nhận hàng');
+                isValid = false;
+            }
+            if (receiverPhone.length == 0) {
+                phoneInvalid = $('#receiver_phone').next();
+                phoneInvalid.css('display', 'block');
+                phoneInvalid.html('Vui lòng nhập số điện thoại người nhận hàng');
+                isValid = false;
+            }
+            let phoneFormat = new RegExp(/((09|03|07|08|05)+([0-9]{8})\b)/g);
+            if (!phoneFormat.test(receiverPhone)) {
+                phoneInvalid = $('#in-user-phone').next();
+                phoneInvalid.css('display', 'block');
+                phoneInvalid.html('Số điện thoại không hợp lệ');
+                isValid = false;
+            }
+            if (receiverAddress.length == 0) {
+                addressInvalid = $('#receiver_address').next();
+                addressInvalid.css('display', 'block');
+                addressInvalid.html('Vui lòng nhập địa chỉ nhận hàng');
+                isValid = false;
+            }
+            let size = $('.size-choose').data("id");
+            if (size == null || size == "") {
+                $('.not-found-size').show();
+                isValid = false;
+            }
+
+            if (isValid) {
+                req = {
+                    product_id: [[${product.id}]],
+                    size: size,
+                    receiver_name: receiverName,
+                    receiver_phone: receiverPhone,
+                    receiver_address: receiverAddress,
+                    coupon_code: couponCode,
+                    total_price: totalPrice,
+                    product_price: price,
+                    note:notes
+                }
+                var myJSON = JSON.stringify(req);
+                $.ajax({
+                    url: '/api/orders',
+                    type: 'POST',
+                    data: myJSON,
+                    contentType: "application/json; charset=utf-8",
+                    success: function(data) {
+                        toastr.success("Đặt hàng thành công");
+                        setTimeout(function() {
+                            location.href = "/tai-khoan/lich-su-giao-dich/"+data;
+                        }, 1000)
+                    },
+                    error: function(data) {
+                        toastr.warning(data.responseJSON.message);
+                    },
+                });
+            }
+        })
     </script>
 </th:block>
 </body>

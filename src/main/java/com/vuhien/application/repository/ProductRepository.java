@@ -6,8 +6,10 @@ import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,5 +58,17 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     //Lấy sản phẩm có sẵn size
     @Query(nativeQuery = true, name = "getAllBySizeAvailable")
     List<ShortProductInfoDTO> getAvailableProducts();
+
+    //Trừ một sản phẩm đã bán
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE product SET total_sold = total_sold - 1 WHERE id = ?1", nativeQuery = true)
+    void minusOneProductTotalSold(String productId);
+
+    //Cộng một sản phẩm đã bán
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "Update product set total_sold = total_sold + 1 where id = ?1")
+    void plusOneProductTotalSold(String productId);
 
 }
