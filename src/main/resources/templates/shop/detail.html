@@ -96,15 +96,15 @@
                                 <div class="ask-text left-content">
                                     <th:block th:if="${product.promotionPrice}">
                                         <div class="ask-desc sub-content old-price"><span class="text-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
-                                        <div class="ask-price main-content"><span class="text-price" th:text="${#numbers.formatDecimal(product.promotionPrice, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
+                                        <div class="ask-price "><span class="text-price" th:text="${#numbers.formatDecimal(product.promotionPrice, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
                                     </th:block>
                                     <th:block th:unless="${product.promotionPrice}">
                                         <div class="ask-desc sub-content">Giá bán ưu đãi</div>
-                                        <div class="ask-price main-content"><span class="text-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
+                                        <div class="ask-price "><span class="text-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
                                     </th:block>
                                 </div>
                                 <div class="buy-text right-content">
-                                    <div class="buy-now main-content">Mua ngay</div>
+                                    <div class="buy-now ">Mua ngay</div>
                                 </div>
                             </button>
                         </div>
@@ -134,7 +134,7 @@
                     <a class="nav-link active" id="product-tab-desc" data-toggle="tab" href="#product-desc-content" role="tab" aria-controls="product-desc-content" aria-selected="true">Mô tả chi tiết sản phẩm</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="product-tab-more-info" data-toggle="tab" href="#product-more-info-content" role="tab" aria-controls="product-more-info-content" aria-selected="false">More Info</a>
+                    <a class="nav-link" id="product-tab-more-info" data-toggle="tab" href="#product-more-info-content" role="tab" aria-controls="product-more-info-content" aria-selected="false">Hình ảnh feedback</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="product-tab-reviews" data-toggle="tab" href="#product-reviews-content" role="tab" aria-controls="product-reviews-content" aria-selected="false">Đánh giá sản phẩm</a>
@@ -147,154 +147,154 @@
                     </div><!-- End .product-desc-content -->
                 </div><!-- End .tab-pane -->
 
-<!--                <div class="tab-pane fade fade" id="product-more-info-content" role="tabpanel" aria-labelledby="product-tab-more-info">-->
-<!--                    <div class="product-desc-content">-->
-<!--                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.</p>-->
-<!--                    </div>&lt;!&ndash; End .product-desc-content &ndash;&gt;-->
-<!--                </div>&lt;!&ndash; End .tab-pane &ndash;&gt;-->
+                <div class="tab-pane fade fade" id="product-more-info-content" role="tabpanel" aria-labelledby="product-tab-more-info">
+                    <div class="product-desc-content">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.</p>
+                    </div><!-- End .product-desc-content -->
+                </div><!-- End .tab-pane -->
 
-<!--                <div class="tab-pane fade" id="product-tags-content" role="tabpanel" aria-labelledby="product-tab-tags">-->
-<!--                    <div class="product-tags-content">-->
-<!--                        <form action="#">-->
-<!--                            <h4>Add Your Tags:</h4>-->
-<!--                            <div class="form-group">-->
-<!--                                <input type="text" class="form-control form-control-sm" required>-->
-<!--                                <input type="submit" class="btn btn-dark" value="Add Tags">-->
-<!--                            </div>&lt;!&ndash; End .form-group &ndash;&gt;-->
-<!--                        </form>-->
-<!--                        <p class="note">Use spaces to separate tags. Use single quotes (') for phrases.</p>-->
-<!--                    </div>&lt;!&ndash; End .product-tags-content &ndash;&gt;-->
-<!--                </div>&lt;!&ndash; End .tab-pane &ndash;&gt;-->
+                <div class="tab-pane fade" id="product-tags-content" role="tabpanel" aria-labelledby="product-tab-tags">
+                    <div class="product-tags-content">
+                        <form action="#">
+                            <h4>Add Your Tags:</h4>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-sm" required>
+                                <input type="submit" class="btn btn-dark" value="Add Tags">
+                            </div><!-- End .form-group -->
+                        </form>
+                        <p class="note">Use spaces to separate tags. Use single quotes (') for phrases.</p>
+                    </div><!-- End .product-tags-content -->
+                </div><!-- End .tab-pane -->
 
-<!--                <div class="tab-pane fade" id="product-reviews-content" role="tabpanel" aria-labelledby="product-tab-reviews">-->
-<!--                    <div class="product-reviews-content">-->
-<!--                        <div class="row">-->
-<!--                            <div class="col-xl-7">-->
-<!--                                <h2 class="reviews-title">3 reviews for Product Long Name</h2>-->
+                <div class="tab-pane fade" id="product-reviews-content" role="tabpanel" aria-labelledby="product-tab-reviews">
+                    <div class="product-reviews-content">
+                        <div class="row">
+                            <div class="col-xl-7">
+                                <h2 class="reviews-title">3 reviews for Product Long Name</h2>
 
-<!--                                <ol class="comment-list">-->
-<!--                                    <li class="comment-container">-->
-<!--                                        <div class="comment-avatar">-->
-<!--                                            <img src="assets/images/avatar/avatar1.jpg" width="65" height="65" alt="avatar"/>-->
-<!--                                        </div>&lt;!&ndash; End .comment-avatar&ndash;&gt;-->
+                                <ol class="comment-list">
+                                    <li class="comment-container">
+                                        <div class="comment-avatar">
+                                            <img src="assets/images/avatar/avatar1.jpg" width="65" height="65" alt="avatar"/>
+                                        </div><!-- End .comment-avatar-->
 
-<!--                                        <div class="comment-box">-->
-<!--                                            <div class="ratings-container">-->
-<!--                                                <div class="product-ratings">-->
-<!--                                                    <span class="ratings" style="width:80%"></span>&lt;!&ndash; End .ratings &ndash;&gt;-->
-<!--                                                </div>&lt;!&ndash; End .product-ratings &ndash;&gt;-->
-<!--                                            </div>&lt;!&ndash; End .ratings-container &ndash;&gt;-->
+                                        <div class="comment-box">
+                                            <div class="ratings-container">
+                                                <div class="product-ratings">
+                                                    <span class="ratings" style="width:80%"></span><!-- End .ratings -->
+                                                </div><!-- End .product-ratings -->
+                                            </div><!-- End .ratings-container -->
 
-<!--                                            <div class="comment-info mb-1">-->
-<!--                                                <h4 class="avatar-name">John Doe</h4> - <span class="comment-date">Novemeber 15, 2019</span>-->
-<!--                                            </div>&lt;!&ndash; End .comment-info &ndash;&gt;-->
+                                            <div class="comment-info mb-1">
+                                                <h4 class="avatar-name">John Doe</h4> - <span class="comment-date">Novemeber 15, 2019</span>
+                                            </div><!-- End .comment-info -->
 
-<!--                                            <div class="comment-text">-->
-<!--                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>-->
-<!--                                            </div>&lt;!&ndash; End .comment-text &ndash;&gt;-->
-<!--                                        </div>&lt;!&ndash; End .comment-box &ndash;&gt;-->
-<!--                                    </li>&lt;!&ndash; comment-container &ndash;&gt;-->
+                                            <div class="comment-text">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            </div><!-- End .comment-text -->
+                                        </div><!-- End .comment-box -->
+                                    </li><!-- comment-container -->
 
-<!--                                    <li class="comment-container">-->
-<!--                                        <div class="comment-avatar">-->
-<!--                                            <img src="assets/images/avatar/avatar2.jpg" width="65" height="65" alt="avatar"/>-->
-<!--                                        </div>&lt;!&ndash; End .comment-avatar&ndash;&gt;-->
+                                    <li class="comment-container">
+                                        <div class="comment-avatar">
+                                            <img src="assets/images/avatar/avatar2.jpg" width="65" height="65" alt="avatar"/>
+                                        </div><!-- End .comment-avatar-->
 
-<!--                                        <div class="comment-box">-->
-<!--                                            <div class="ratings-container">-->
-<!--                                                <div class="product-ratings">-->
-<!--                                                    <span class="ratings" style="width:80%"></span>&lt;!&ndash; End .ratings &ndash;&gt;-->
-<!--                                                </div>&lt;!&ndash; End .product-ratings &ndash;&gt;-->
-<!--                                            </div>&lt;!&ndash; End .ratings-container &ndash;&gt;-->
+                                        <div class="comment-box">
+                                            <div class="ratings-container">
+                                                <div class="product-ratings">
+                                                    <span class="ratings" style="width:80%"></span><!-- End .ratings -->
+                                                </div><!-- End .product-ratings -->
+                                            </div><!-- End .ratings-container -->
 
-<!--                                            <div class="comment-info mb-1">-->
-<!--                                                <h4 class="avatar-name">John Doe</h4> - <span class="comment-date">Novemeber 15, 2019</span>-->
-<!--                                            </div>&lt;!&ndash; End .comment-info &ndash;&gt;-->
+                                            <div class="comment-info mb-1">
+                                                <h4 class="avatar-name">John Doe</h4> - <span class="comment-date">Novemeber 15, 2019</span>
+                                            </div><!-- End .comment-info -->
 
-<!--                                            <div class="comment-text">-->
-<!--                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>-->
-<!--                                            </div>&lt;!&ndash; End .comment-text &ndash;&gt;-->
-<!--                                        </div>&lt;!&ndash; End .comment-box &ndash;&gt;-->
-<!--                                    </li>&lt;!&ndash; comment-container &ndash;&gt;-->
+                                            <div class="comment-text">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            </div><!-- End .comment-text -->
+                                        </div><!-- End .comment-box -->
+                                    </li><!-- comment-container -->
 
-<!--                                    <li class="comment-container">-->
-<!--                                        <div class="comment-avatar">-->
-<!--                                            <img src="assets/images/avatar/avatar3.jpg" width="65" height="65" alt="avatar"/>-->
-<!--                                        </div>&lt;!&ndash; End .comment-avatar&ndash;&gt;-->
+                                    <li class="comment-container">
+                                        <div class="comment-avatar">
+                                            <img src="assets/images/avatar/avatar3.jpg" width="65" height="65" alt="avatar"/>
+                                        </div><!-- End .comment-avatar-->
 
-<!--                                        <div class="comment-box">-->
-<!--                                            <div class="ratings-container">-->
-<!--                                                <div class="product-ratings">-->
-<!--                                                    <span class="ratings" style="width:80%"></span>&lt;!&ndash; End .ratings &ndash;&gt;-->
-<!--                                                </div>&lt;!&ndash; End .product-ratings &ndash;&gt;-->
-<!--                                            </div>&lt;!&ndash; End .ratings-container &ndash;&gt;-->
+                                        <div class="comment-box">
+                                            <div class="ratings-container">
+                                                <div class="product-ratings">
+                                                    <span class="ratings" style="width:80%"></span><!-- End .ratings -->
+                                                </div><!-- End .product-ratings -->
+                                            </div><!-- End .ratings-container -->
 
-<!--                                            <div class="comment-info mb-1">-->
-<!--                                                <h4 class="avatar-name">John Doe</h4> - <span class="comment-date">Novemeber 15, 2019</span>-->
-<!--                                            </div>&lt;!&ndash; End .comment-info &ndash;&gt;-->
+                                            <div class="comment-info mb-1">
+                                                <h4 class="avatar-name">John Doe</h4> - <span class="comment-date">Novemeber 15, 2019</span>
+                                            </div><!-- End .comment-info -->
 
-<!--                                            <div class="comment-text">-->
-<!--                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>-->
-<!--                                            </div>&lt;!&ndash; End .comment-text &ndash;&gt;-->
-<!--                                        </div>&lt;!&ndash; End .comment-box &ndash;&gt;-->
-<!--                                    </li>&lt;!&ndash; comment-container &ndash;&gt;-->
-<!--                                </ol>&lt;!&ndash; End .comment-list &ndash;&gt;-->
-<!--                            </div>-->
+                                            <div class="comment-text">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.</p>
+                                            </div><!-- End .comment-text -->
+                                        </div><!-- End .comment-box -->
+                                    </li><!-- comment-container -->
+                                </ol><!-- End .comment-list -->
+                            </div>
 
-<!--                            <div class="col-xl-5">-->
-<!--                                <div class="add-product-review">-->
-<!--                                    <form action="#" class="comment-form m-0">-->
-<!--                                        <h3 class="review-title">Add a Review</h3>-->
+                            <div class="col-xl-5">
+                                <div class="add-product-review">
+                                    <form action="#" class="comment-form m-0">
+                                        <h3 class="review-title">Add a Review</h3>
 
-<!--                                        <div class="rating-form">-->
-<!--                                            <label for="rating">Your rating</label>-->
-<!--                                            <span class="rating-stars">-->
-<!--														<a class="star-1" href="#">1</a>-->
-<!--														<a class="star-2" href="#">2</a>-->
-<!--														<a class="star-3" href="#">3</a>-->
-<!--														<a class="star-4" href="#">4</a>-->
-<!--														<a class="star-5" href="#">5</a>-->
-<!--													</span>-->
+                                        <div class="rating-form">
+                                            <label for="rating">Your rating</label>
+                                            <span class="rating-stars">
+														<a class="star-1" href="#">1</a>
+														<a class="star-2" href="#">2</a>
+														<a class="star-3" href="#">3</a>
+														<a class="star-4" href="#">4</a>
+														<a class="star-5" href="#">5</a>
+													</span>
 
-<!--                                            <select name="rating" id="rating" required="" style="display: none;">-->
-<!--                                                <option value="">Rate…</option>-->
-<!--                                                <option value="5">Perfect</option>-->
-<!--                                                <option value="4">Good</option>-->
-<!--                                                <option value="3">Average</option>-->
-<!--                                                <option value="2">Not that bad</option>-->
-<!--                                                <option value="1">Very poor</option>-->
-<!--                                            </select>-->
-<!--                                        </div>-->
+                                            <select name="rating" id="rating" required="" style="display: none;">
+                                                <option value="">Rate…</option>
+                                                <option value="5">Perfect</option>
+                                                <option value="4">Good</option>
+                                                <option value="3">Average</option>
+                                                <option value="2">Not that bad</option>
+                                                <option value="1">Very poor</option>
+                                            </select>
+                                        </div>
 
-<!--                                        <div class="form-group">-->
-<!--                                            <label>Your Review</label>-->
-<!--                                            <textarea cols="5" rows="6" class="form-control form-control-sm"></textarea>-->
-<!--                                        </div>&lt;!&ndash; End .form-group &ndash;&gt;-->
+                                        <div class="form-group">
+                                            <label>Your Review</label>
+                                            <textarea cols="5" rows="6" class="form-control form-control-sm"></textarea>
+                                        </div><!-- End .form-group -->
 
 
-<!--                                        <div class="row">-->
-<!--                                            <div class="col-md-6 col-xl-12">-->
-<!--                                                <div class="form-group">-->
-<!--                                                    <label>Your Name</label>-->
-<!--                                                    <input type="text" class="form-control form-control-sm" required>-->
-<!--                                                </div>&lt;!&ndash; End .form-group &ndash;&gt;-->
-<!--                                            </div>-->
+                                        <div class="row">
+                                            <div class="col-md-6 col-xl-12">
+                                                <div class="form-group">
+                                                    <label>Your Name</label>
+                                                    <input type="text" class="form-control form-control-sm" required>
+                                                </div><!-- End .form-group -->
+                                            </div>
 
-<!--                                            <div class="col-md-6 col-xl-12">-->
-<!--                                                <div class="form-group">-->
-<!--                                                    <label>Your E-mail</label>-->
-<!--                                                    <input type="text" class="form-control form-control-sm" required>-->
-<!--                                                </div>&lt;!&ndash; End .form-group &ndash;&gt;-->
-<!--                                            </div>-->
-<!--                                        </div>-->
+                                            <div class="col-md-6 col-xl-12">
+                                                <div class="form-group">
+                                                    <label>Your E-mail</label>
+                                                    <input type="text" class="form-control form-control-sm" required>
+                                                </div><!-- End .form-group -->
+                                            </div>
+                                        </div>
 
-<!--                                        <input type="submit" class="btn btn-dark ls-n-15" value="Submit">-->
-<!--                                    </form>-->
-<!--                                </div>&lt;!&ndash; End .add-product-review &ndash;&gt;-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>&lt;!&ndash; End .product-reviews-content &ndash;&gt;-->
-<!--                </div>&lt;!&ndash; End .tab-pane &ndash;&gt;-->
+                                        <input type="submit" class="btn btn-dark ls-n-15" value="Submit">
+                                    </form>
+                                </div><!-- End .add-product-review -->
+                            </div>
+                        </div>
+                    </div><!-- End .product-reviews-content -->
+                </div><!-- End .tab-pane -->
             </div><!-- End .tab-content -->
         </div><!-- End .product-single-tabs -->
 

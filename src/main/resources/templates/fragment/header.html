@@ -13,24 +13,11 @@
 
                 <div class="header-right w-lg-max">
                     <div class="header-icon header-icon header-search header-search-inline header-search-category w-lg-max text-right">
-                        <a href="#" class="search-toggle" role="button"><i class="icon-search-3"></i></a>
-                        <form action="#" method="get">
+                        <a href="#" class="search-toggle search-button" role="button"><i class="icon-search-3"></i></a>
                             <div class="header-search-wrapper">
-                                <input type="search" class="form-control" name="q" id="q" placeholder="Nhập sản phẩm cần tìm kiếm..."
-                                       required>
-                                <div class="select-custom">
-                                    <select id="cat" name="cat">
-                                        <option value="">All Categories</option>
-                                        <option value="4">Fashion</option>
-                                        <option value="12">- Women</option>
-                                        <option value="13">- Men</option>
-                                        <option value="66">- Jewellery</option>
-                                        <option value="67">- Kids Fashion</option>
-                                    </select>
-                                </div><!-- End .select-custom -->
-                                <button class="btn icon-search-3 p-0" type="submit"></button>
+                                <input class="form-control search-input"  placeholder="Nhập sản phẩm cần tìm kiếm..." required>
+                                <button class="btn icon-search-3 p-0 search-button" type="submit"></button>
                             </div><!-- End .header-search-wrapper -->
-                        </form>
                     </div><!-- End .header-search -->
 
                     <div class="header-contact d-none d-lg-flex pl-4 ml-3 mr-xl-5 pr-4">
@@ -51,18 +38,13 @@
                         <li class="active">
                             <a href="/">Trang chủ</a>
                         </li>
-                        <li>
-                            <a href="#">Danh mục</a>
-                            <ul>
-                                <th:block th:each="brand : ${brands}">
-                                    <li><a href="cart.html" th:text="${brand.name}"></a></li>
-                                </th:block>
-                            </ul>
-                        </li>
-                        <li><a href="blog.html">Sản phẩm</a></li>
-                        <li><a href="/tin-tuc">Tin tức</a></li>
-                        <li class="float-right"><a href="https://1.envato.market/DdLk5">Chính sách</span></a></li>
+<!--                        <th:block th:each="brand : ${brands}">-->
+<!--                            <li><a href="/" th:text="${brand.name}">Trang chủ</a></li>-->
+<!--                        </th:block>-->
                         <li class="float-right mr-0"><a href="#" class="px-4">Liên hệ</a></li>
+                        <li class="float-right"><a href="https://1.envato.market/DdLk5">Chính sách</span></a></li>
+                        <li class="float-right"><a href="/tin-tuc">Tin tức</a></li>
+                        <li class="float-right"><a href="/san-pham">Sản phẩm</a></li>
                     </ul>
                 </nav>
             </div><!-- End .container -->

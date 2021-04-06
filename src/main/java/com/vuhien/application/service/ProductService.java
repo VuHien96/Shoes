@@ -3,10 +3,12 @@ package com.vuhien.application.service;
 import com.vuhien.application.entity.Product;
 import com.vuhien.application.entity.ProductSize;
 import com.vuhien.application.model.dto.DetailProductInfoDTO;
+import com.vuhien.application.model.dto.PageableDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import com.vuhien.application.model.request.CreateProductRequest;
 import com.vuhien.application.model.request.CreateSizeCountRequest;
+import com.vuhien.application.model.request.FilterProductRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -64,5 +66,11 @@ public interface ProductService {
 
     //Kiểm tra sản phẩm có khuyến mại
     List<ProductInfoDTO> checkPublicPromotion(List<ProductInfoDTO> products);
+
+    //Tìm kiếm sản phẩm theo danh mục, nhãn hiệu, giá
+    PageableDTO filterProduct(FilterProductRequest req);
+
+    //Tìm kiếm sản phẩm theo tên sản phẩm
+    PageableDTO searchProductByKeyword(String keyword, Integer page);
 
 }

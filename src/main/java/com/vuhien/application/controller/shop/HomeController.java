@@ -1,19 +1,16 @@
 package com.vuhien.application.controller.shop;
 
-import com.vuhien.application.entity.Brand;
-import com.vuhien.application.entity.Order;
-import com.vuhien.application.entity.Post;
-import com.vuhien.application.entity.User;
+import com.vuhien.application.entity.*;
 import com.vuhien.application.exception.NotFoundException;
 import com.vuhien.application.model.dto.DetailProductInfoDTO;
+import com.vuhien.application.model.dto.PageableDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.request.CreateOrderRequest;
+import com.vuhien.application.model.request.FilterProductRequest;
 import com.vuhien.application.security.CustomUserDetails;
-import com.vuhien.application.service.BrandService;
-import com.vuhien.application.service.OrderService;
-import com.vuhien.application.service.PostService;
-import com.vuhien.application.service.ProductService;
+import com.vuhien.application.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.vuhien.application.config.Contant.*;
@@ -39,6 +37,9 @@ public class HomeController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     public String homePage(Model model){
@@ -157,6 +158,81 @@ public class HomeController {
     public ResponseEntity<Object> getListBestSellProducts(){
         List<ProductInfoDTO> productInfoDTOS = productService.getListBestSellProducts();
         return ResponseEntity.ok(productInfoDTOS);
+    }
+
+    @GetMapping("/san-pham")
+    public String getProductShopPages(Model model){
+
+        //Lấy danh sách nhãn hiệu
+        List<Brand> brands = brandService.getListBrand();
+        model.addAttribute("brands",brands);
+        List<Long> brandIds = new ArrayList<>();
+        for (Brand brand : brands) {
+            brandIds.add(brand.getId());
+        }
+        model.addAttribute("brandIds", brandIds);
+
+        //Lấy danh sách danh mục
+        List<Category> categories = categoryService.getListCategories();
+        model.addAttribute("categories",categories);
+        List<Long> categoryIds = new ArrayList<>();
+        for (Category category : categories) {
+            categoryIds.add(category.getId());
+        }
+        model.addAttribute("categoryIds", categoryIds);
+
+        //Danh sách size của sản phẩm
+        model.addAttribute("sizeVn", SIZE_VN);
+
+        //Lấy danh sách sản phẩm
+        FilterProductRequest req = new FilterProductRequest(brandIds, categoryIds, new ArrayList<>(), (long) 0, Long.MAX_VALUE, 1);
+        PageableDTO result = productService.filterProduct(req);
+        model.addAttribute("totalPages", result.getTotalPages());
+        model.addAttribute("currentPage", result.getCurrentPage());
+        model.addAttribute("listProduct", result.getItems());
+
+        return "shop/product";
+    }
+
+    @PostMapping("/api/san-pham/loc")
+    public ResponseEntity<?> filterProduct(@RequestBody FilterProductRequest req) {
+        // Validate
+        if (req.getMinPrice() == null) {
+            req.setMinPrice((long) 0);
+        } else {
+            if (req.getMinPrice() < 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mức giá phải lớn hơn 0");
+            }
+        }
+        if (req.getMaxPrice() == null) {
+            req.setMaxPrice(Long.MAX_VALUE);
+        } else {
+            if (req.getMaxPrice() < 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mức giá phải lớn hơn 0");
+            }
+        }
+
+        PageableDTO result = productService.filterProduct(req);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/api/tim-kiem")
+    public String searchProduct(Model model, @RequestParam(required = false) String keyword, @RequestParam(required = false) Integer page) {
+
+        PageableDTO result = productService.searchProductByKeyword(keyword, page);
+
+        model.addAttribute("totalPages", result.getTotalPages());
+        model.addAttribute("currentPage", result.getCurrentPage());
+        model.addAttribute("listProduct", result.getItems());
+        model.addAttribute("keyword", keyword);
+        if (((List<?>) result.getItems()).isEmpty()) {
+            model.addAttribute("hasResult", false);
+        } else {
+            model.addAttribute("hasResult", true);
+        }
+
+        return "shop/search";
     }
 
 }

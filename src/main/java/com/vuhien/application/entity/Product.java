@@ -102,6 +102,48 @@ import java.util.List;
                 "(SELECT JSON_ARRAYAGG(ps.size) FROM product_size ps WHERE ps.product_id = p.id AND ps.quantity > 0) AS sizes " +
                 "FROM product p"
 )
+@NamedNativeQuery(
+        name = "searchProductBySize",
+        resultSetMapping = "productInfoDto",
+        query = "SELECT DISTINCT d.* " +
+                "FROM (" +
+                "SELECT DISTINCT product.id, product.name, product.slug, product.sale_price as price, product.total_sold, product.images ->> '$[0]' AS images " +
+                "FROM product " +
+                "INNER JOIN product_category " +
+                "ON product.id = product_category.product_id " +
+                "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
+                "AND product.price > ?3 AND product.price < ?4) as d " +
+                "INNER JOIN product_size " +
+                "ON product_size.product_id = d.id " +
+                "WHERE product_size.size IN (?5) " +
+                "LIMIT ?6 "+
+                "OFFSET ?7"
+)
+@NamedNativeQuery(
+        name = "searchProductAllSize",
+        resultSetMapping = "productInfoDto",
+        query = "SELECT DISTINCT product.id, product.name, product.slug, product.sale_price as price, product.total_sold, product.images ->> '$[0]' AS images " +
+                "FROM product " +
+                "INNER JOIN product_category " +
+                "ON product.id = product_category.product_id " +
+                "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
+                "AND product.price > ?3 AND product.price < ?4 " +
+                "LIMIT ?5 " +
+                "OFFSET ?6"
+)
+@NamedNativeQuery(
+        name = "searchProductByKeyword",
+        resultSetMapping = "productInfoDto",
+        query = "SELECT DISTINCT p.id, p.name, p.slug, p.sale_price as price, p.total_sold, p.images ->> '$[0]' AS images " +
+                "FROM product p " +
+                "INNER JOIN product_category pc " +
+                "ON p.id = pc.product_id " +
+                "INNER JOIN category c " +
+                "ON c.id = pc.category_id " +
+                "WHERE p.status = 1 AND (p.name LIKE CONCAT('%',:keyword,'%') OR c.name LIKE CONCAT('%',:keyword,'%')) " +
+                "LIMIT :limit " +
+                "OFFSET :offset "
+)
 
 @AllArgsConstructor
 @NoArgsConstructor

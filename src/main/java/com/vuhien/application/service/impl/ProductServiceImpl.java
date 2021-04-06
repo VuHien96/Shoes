@@ -7,15 +7,18 @@ import com.vuhien.application.exception.BadRequestException;
 import com.vuhien.application.exception.InternalServerException;
 import com.vuhien.application.exception.NotFoundException;
 import com.vuhien.application.model.dto.DetailProductInfoDTO;
+import com.vuhien.application.model.dto.PageableDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import com.vuhien.application.model.mapper.ProductMapper;
 import com.vuhien.application.model.request.CreateProductRequest;
 import com.vuhien.application.model.request.CreateSizeCountRequest;
+import com.vuhien.application.model.request.FilterProductRequest;
 import com.vuhien.application.repository.ProductRepository;
 import com.vuhien.application.repository.ProductSizeRepository;
 import com.vuhien.application.service.ProductService;
 import com.vuhien.application.service.PromotionService;
+import com.vuhien.application.utils.PageUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -278,5 +281,55 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return products;
+    }
+
+    @Override
+    public PageableDTO filterProduct(FilterProductRequest req) {
+
+        PageUtil pageUtil = new PageUtil(LIMIT_PRODUCT_SHOP, req.getPage());
+
+        //Lấy danh sách sản phẩm và tổng số sản phẩm
+        int totalItems;
+        List<ProductInfoDTO> products;
+
+        if (req.getSizes().isEmpty()) {
+            //Nếu không có size
+            products = productRepository.searchProductAllSize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), LIMIT_PRODUCT_SHOP, pageUtil.calculateOffset());
+            totalItems = productRepository.countProductAllSize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice());
+        } else {
+            //Nếu có size
+            products = productRepository.searchProductBySize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), req.getSizes(), LIMIT_PRODUCT_SHOP, pageUtil.calculateOffset());
+            totalItems = productRepository.countProductBySize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), req.getSizes());
+        }
+
+        //Tính tổng số trang
+        int totalPages = pageUtil.calculateTotalPage(totalItems);
+
+        return new PageableDTO(checkPublicPromotion(products), totalPages, req.getPage());
+
+    }
+
+    @Override
+    public PageableDTO searchProductByKeyword(String keyword, Integer page) {
+        // Validate
+        if (keyword == null) {
+            keyword = "";
+        }
+        if (page == null) {
+            page = 1;
+        }
+
+        PageUtil pageInfo = new PageUtil(LIMIT_PRODUCT_SEARCH, page);
+
+        //Lấy danh sách sản phẩm theo key
+        List<ProductInfoDTO> products = productRepository.searchProductByKeyword(keyword, LIMIT_PRODUCT_SEARCH, pageInfo.calculateOffset());
+
+        //Lấy số sản phẩm theo key
+        int totalItems = productRepository.countProductByKeyword(keyword);
+
+        //Tính số trang
+        int totalPages = pageInfo.calculateTotalPage(totalItems);
+
+        return new PageableDTO(checkPublicPromotion(products), totalPages, page);
     }
 }

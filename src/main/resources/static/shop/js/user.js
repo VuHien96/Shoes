@@ -153,3 +153,28 @@ function signedValidate(status = false, fullname = '') {
         $('.account-setting').replaceWith(notSignedLink);
     }
 }
+
+$(document).on('keyup', function (e) {
+    let target = e.target;
+
+    if (target.closest('.search-input')) {
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if(keycode == '13'){
+            searchProductByKeyword();
+        }
+    }
+})
+
+
+$('.search-button').click(function() {
+    searchProductByKeyword();
+})
+
+function searchProductByKeyword() {
+    let keyword = $('.search-input').val();
+    if (keyword.length == 0) {
+        toastr.warning("Vui lòng nhập từ khóa tìm kiếm");
+        return
+    }
+    location.href="/api/tim-kiem?keyword="+keyword;
+}
