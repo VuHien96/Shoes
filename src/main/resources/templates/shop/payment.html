@@ -198,6 +198,39 @@
                 $(`.item[data-id='${availableSizes[i]}']`).removeClass('cross');
             }
         }
+        $('#btn-apply-coupon').click(function() {
+            let coupon = $('#in-coupon').val();
+            if (coupon == "") {
+                $('#in-coupon').val(couponCode);
+                toastr.warning("Bạn chưa nhập mã khuyến mãi");
+                return;
+            }
+            $.ajax({
+                url: '/api/check-hidden-promotion?code='+coupon,
+                type: 'GET',
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    couponCode = coupon;
+                    let tmp = data.discountValue;
+                    if (data.discountType == 1) {
+                        tmp = price * data.discountValue / 100;
+                    }
+                    if (tmp < data.maximumDiscountValue) {
+                        promotionValue = tmp;
+                    } else {
+                        promotionValue = data.maximumDiscountValue;
+                    }
+                    totalPrice = price - promotionValue;
+                    $('#in-price').val(price);
+                    $('#in-promotion-value').val(promotionValue);
+                    $('#in-total-price').val(totalPrice);
+                },
+                error: function(data) {
+                    $('#in-coupon').val(couponCode);
+                    toastr.warning(data.responseJSON.message);
+                },
+            });
+        })
 
         $('#btn-buy-now').click(function() {
             let receiverName = $('#receiver_name').val();

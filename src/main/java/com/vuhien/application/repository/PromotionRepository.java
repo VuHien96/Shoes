@@ -34,4 +34,5 @@ public interface PromotionRepository extends JpaRepository<Promotion,Long> {
     //Lấy khuyến mại đang chạy và còn thời hạn
     @Query(nativeQuery = true,value = "SELECT * FROM  promotion p WHERE p.expired_at > now() AND p.is_active = true")
     List<Promotion> getAllValidPromotion();
+
 }

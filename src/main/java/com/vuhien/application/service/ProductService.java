@@ -2,6 +2,7 @@ package com.vuhien.application.service;
 
 import com.vuhien.application.entity.Product;
 import com.vuhien.application.entity.ProductSize;
+import com.vuhien.application.entity.Promotion;
 import com.vuhien.application.model.dto.DetailProductInfoDTO;
 import com.vuhien.application.model.dto.PageableDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
@@ -72,5 +73,8 @@ public interface ProductService {
 
     //Tìm kiếm sản phẩm theo tên sản phẩm
     PageableDTO searchProductByKeyword(String keyword, Integer page);
+
+    //Kiểm tra khuyến mại
+    Promotion checkPromotion(String code);
 
 }

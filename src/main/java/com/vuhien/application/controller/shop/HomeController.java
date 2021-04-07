@@ -1,7 +1,9 @@
 package com.vuhien.application.controller.shop;
 
 import com.vuhien.application.entity.*;
+import com.vuhien.application.exception.BadRequestException;
 import com.vuhien.application.exception.NotFoundException;
+import com.vuhien.application.model.dto.CheckPromotion;
 import com.vuhien.application.model.dto.DetailProductInfoDTO;
 import com.vuhien.application.model.dto.PageableDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
@@ -40,6 +42,9 @@ public class HomeController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private PromotionService promotionService;
 
     @GetMapping
     public String homePage(Model model){
@@ -233,6 +238,23 @@ public class HomeController {
         }
 
         return "shop/search";
+    }
+
+    @GetMapping("/api/check-hidden-promotion")
+    public ResponseEntity<Object> checkPromotion(@RequestParam String code) {
+        if (code == null || code == "") {
+            throw new BadRequestException("Mã code trống");
+        }
+
+        Promotion promotion = promotionService.checkPromotion(code);
+        if (promotion == null) {
+            throw new BadRequestException("Mã code không hợp lệ");
+        }
+        CheckPromotion checkPromotion = new CheckPromotion();
+        checkPromotion.setDiscountType(promotion.getDiscountType());
+        checkPromotion.setDiscountValue(promotion.getDiscountValue());
+        checkPromotion.setMaximumDiscountValue(promotion.getMaximumDiscountValue());
+        return ResponseEntity.ok(checkPromotion);
     }
 
 }

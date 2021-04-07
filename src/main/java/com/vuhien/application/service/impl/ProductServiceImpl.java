@@ -16,6 +16,7 @@ import com.vuhien.application.model.request.CreateSizeCountRequest;
 import com.vuhien.application.model.request.FilterProductRequest;
 import com.vuhien.application.repository.ProductRepository;
 import com.vuhien.application.repository.ProductSizeRepository;
+import com.vuhien.application.repository.PromotionRepository;
 import com.vuhien.application.service.ProductService;
 import com.vuhien.application.service.PromotionService;
 import com.vuhien.application.utils.PageUtil;
@@ -44,6 +45,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private PromotionService promotionService;
+
+    @Autowired
+    private PromotionRepository promotionRepository;
 
     @Override
     public Page<Product> adminGetListProduct(String id, String name, String category, String brand, Integer page) {
@@ -336,5 +340,10 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageInfo.calculateTotalPage(totalItems);
 
         return new PageableDTO(checkPublicPromotion(products), totalPages, page);
+    }
+
+    @Override
+    public Promotion checkPromotion(String code) {
+        return promotionRepository.checkPromotion(code);
     }
 }
