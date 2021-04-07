@@ -44,12 +44,13 @@
                         <h2 class="post-title" th:text="${post.title}"></h2>
 
                         <div class="post-meta">
-                            <i class="icon-calendar"></i><span th:text="${#dates.format(post.publishedAt, 'MM yyyy')}"></span>
+                            <i class="icon-calendar"></i><span
+                                th:text="${#dates.format(post.publishedAt, 'MM yyyy')}"></span>
                             <span><i class="icon-user"></i>By <a th:text="${post.createdBy.fullName}"></a></span>
                         </div><!-- End .post-meta -->
 
                         <div class="post-content">
-                           <p th:utext="${post.description}"></p>
+                            <p th:utext="${post.description}"></p>
                         </div><!-- End .post-content -->
 
                         <div class="post-share">
@@ -77,37 +78,32 @@
                             </div><!-- End .social-icons -->
                         </div><!-- End .post-share -->
 
-                        <div class="post-author">
-                            <h3><i class="icon-user"></i>Author</h3>
+                        <div class="list-comment">
+                            <th:block th:each="comment : ${post.comments}">
+                                <div class="post-author">
+                                    <!--                                    <h3 class="icon-user" th:text="${comment.user.email}"></h3>-->
+                                    <figure>
+                                       <img th:src="@{/shop/images/blog/author.jpg}" width="30px" height="30px" alt="author">
+                                    </figure>
+                                    <div class="author-content">
+                                        <h5 th:text="${comment.user.fullName}"></h5>
+                                        <p th:text="${comment.content}"></p>
+                                    </div><!-- End .author.content -->
 
-                            <figure>
-                                <a href="#">
-                                    <img src="assets/images/blog/author.jpg" alt="author">
-                                </a>
-                            </figure>
-
-                            <div class="author-content">
-                                <h4><a href="#">John Doe</a></h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab officia culpa corporis, quidem placeat minima unde vel veniam laboriosam et animi, inventore delectus, officiis doloribus ex amet illum ea suscipit!</p>
-                            </div><!-- End .author.content -->
-                        </div><!-- End .post-author -->
+                                </div><!-- End .post-author -->
+                            </th:block>
+                        </div>
 
                         <div class="comment-respond">
-                            <h3>Leave a Reply</h3>
-                            <p>Your email address will not be published. Required fields are marked *</p>
-
-                            <form action="#">
+                            <h3>Viết bình luận của bạn</h3>
+                            <form action="#" method="post" id="formCommentPost">
                                 <div class="form-group required-field">
                                     <label>Comment</label>
-                                    <textarea  class="form-control" required></textarea>
-                                </div><!-- End .form-group -->
-
-                                <div class="form-group required-field">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" required>
+                                    <textarea name="post_comment" class="form-control post-comment"></textarea>
                                 </div><!-- End .form-group -->
                                 <div class="form-footer">
-                                    <button type="submit" class="btn btn-primary">Post Comment</button>
+                                    <button type="submit" class="btn btn-primary btn-post-comment">Gửi bình luận
+                                    </button>
                                 </div><!-- End .form-footer -->
                             </form>
                         </div><!-- End .comment-respond -->
@@ -120,28 +116,31 @@
                     <div class="owl-carousel owl-theme related-posts-carousel">
                         <th:block th:each="postList :${postList}">
                             <article class="post">
-                            <div class="post-media">
-                                <a th:href="@{/tin-tuc/{slug}/{id}(id=${postList.id},slug=${postList.slug})}">
-                                    <img th:src="${postList.thumbnail}" th:alt="${postList.title}">
-                                </a>
-                            </div><!-- End .post-media -->
+                                <div class="post-media">
+                                    <a th:href="@{/tin-tuc/{slug}/{id}(id=${postList.id},slug=${postList.slug})}">
+                                        <img th:src="${postList.thumbnail}" th:alt="${postList.title}">
+                                    </a>
+                                </div><!-- End .post-media -->
 
-                            <div class="post-body">
-                                <div class="post-date">
-                                    <span class="month" th:text="${#dates.format(postList.publishedAt, 'MM yyyy')}"></span></p>
-                                </div><!-- End .post-date -->
+                                <div class="post-body">
+                                    <div class="post-date">
+                                        <span class="month"
+                                              th:text="${#dates.format(postList.publishedAt, 'MM yyyy')}"></span></p>
+                                    </div><!-- End .post-date -->
 
-                                <h2 class="post-title">
-                                    <a th:href="@{/tin-tuc/{slug}/{id}(id=${postList.id},slug=${postList.slug})}" th:text="${postList.title}"></a>
-                                </h2>
+                                    <h2 class="post-title">
+                                        <a th:href="@{/tin-tuc/{slug}/{id}(id=${postList.id},slug=${postList.slug})}"
+                                           th:text="${postList.title}"></a>
+                                    </h2>
 
-                                <div class="post-content">
-                                    <p th:utext="${postList.content}"></p>
+                                    <div class="post-content">
+                                        <p th:utext="${postList.content}"></p>
 
-                                    <a th:href="@{/tin-tuc/{slug}/{id}(id=${postList.id},slug=${postList.slug})}" class="read-more">Read More <i class="icon-angle-double-right"></i></a>
-                                </div><!-- End .post-content -->
-                            </div><!-- End .post-body -->
-                        </article>
+                                        <a th:href="@{/tin-tuc/{slug}/{id}(id=${postList.id},slug=${postList.slug})}"
+                                           class="read-more">Read More <i class="icon-angle-double-right"></i></a>
+                                    </div><!-- End .post-content -->
+                                </div><!-- End .post-body -->
+                            </article>
                         </th:block>
                     </div><!-- End .owl-carousel -->
                 </div><!-- End .related-posts -->
@@ -153,7 +152,62 @@
 </main><!-- End .main -->
 
 <th:block id="js-resources">
+    <script th:inline="javascript">
+        $("#formCommentPost").submit(function (e) {
+            e.preventDefault();
+        }).validate({
+            rules: {
+                post_comment: {
+                    required: true,
+                    maxlength: 300
+                }
+            },
+            messages: {
+                post_comment: {
+                    required: "Vui lòng nhập nội dung bình luận!",
+                    maxlength: "Nội dung bình luận có độ dài tối đa 300 ký tự!",
+                }
+            },
 
+            submitHandler: function () {
+                let content = $(".post-comment").val();
+                let postId = [[${post.id}]];
+                req = {
+                    content: content,
+                    postId: postId
+                }
+                let myJson = JSON.stringify(req)
+                $.ajax({
+                    url: "/api/comments/post",
+                    type: 'POST',
+                    data: myJson,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        $(".list-comment").append(`
+                                <div class="post-author">
+                                        <figure>
+                                            <a href="#">
+                                                <img src="/shop/images/blog/author.jpg" width="30px" height="30px" alt="author">
+                                            </a>
+                                        </figure>
+                                        <div class="author-content">
+                                            <h4>${data.user.fullName}</h4>
+                                            <p>${data.content}</p>
+                                        </div>
+                                </div>
+                            `)
+                        $(".post-comment").val('');
+                    },
+                    error: function (error) {
+                        toastr.warning("Vui lòng đăng nhập để bình luận");
+                        setTimeout(function () {
+                            $('#exampleModal').modal('show');
+                        }, 500);
+                    }
+                });
+            }
+        })
+    </script>
 </th:block>
 </body>
 </html>

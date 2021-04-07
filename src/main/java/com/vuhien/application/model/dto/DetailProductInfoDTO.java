@@ -1,12 +1,14 @@
 package com.vuhien.application.model.dto;
 
 import com.vuhien.application.entity.Brand;
+import com.vuhien.application.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,4 +36,6 @@ public class DetailProductInfoDTO {
     private String description;
 
     private Brand brand;
+
+    private List<Comment> comments;
 }

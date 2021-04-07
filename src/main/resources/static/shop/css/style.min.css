@@ -2911,7 +2911,7 @@ select.form-control-sm:not([size]):not([multiple]) {
 }
 
 textarea.form-control {
-    max-width: 680px;
+    /*max-width: 680px;*/
     min-height: 112px
 }
 
