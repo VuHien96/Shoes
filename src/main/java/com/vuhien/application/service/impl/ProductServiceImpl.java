@@ -171,11 +171,16 @@ public class ProductServiceImpl implements ProductService {
         dto.setId(product.getId());
         dto.setName(product.getName());
         dto.setPrice(product.getSalePrice());
+        dto.setViews(product.getView());
         dto.setSlug(product.getSlug());
         dto.setTotalSold(product.getTotalSold());
         dto.setDescription(product.getDescription());
         dto.setBrand(product.getBrand());
         dto.setProductImages(product.getImages());
+
+        //Cộng sản phẩm xem
+        product.setView(product.getView() + 1);
+        productRepository.save(product);
 
         //Kiểm tra có khuyến mại
         Promotion promotion = promotionService.checkPublicPromotion();

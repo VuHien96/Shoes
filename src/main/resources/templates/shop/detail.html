@@ -331,6 +331,9 @@
                                     <span class="product-price" th:text="${#numbers.formatDecimal(related.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
                                 </th:block>
                             </div><!-- End .price-box -->
+                            <div class="ratings-container">
+                                <p class="card-text sold">&Dstrok;&atilde; b&aacute;n <span th:text="${related.totalSold}"></span> &dstrok;&ocirc;i</p>
+                            </div><!-- End .product-container -->
                         </div><!-- End .product-details -->
                     </div>
                 </th:block>

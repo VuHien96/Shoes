@@ -24,6 +24,7 @@ import java.util.List;
                                         @ColumnResult(name = "name", type = String.class),
                                         @ColumnResult(name = "slug", type = String.class),
                                         @ColumnResult(name = "price", type = Long.class),
+                                        @ColumnResult(name = "views",type = Integer.class),
                                         @ColumnResult(name = "images", type = String.class),
                                         @ColumnResult(name = "total_sold", type = Integer.class)
                                 }
@@ -58,14 +59,14 @@ import java.util.List;
 @NamedNativeQuery(
         name = "getListNewProducts",
         resultSetMapping = "productInfoDto",
-        query = "SELECT p.id, p.name, p.sale_price as price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
+        query = "SELECT p.id, p.name, p.sale_price as price, p.product_view as views, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p WHERE p.status = 1 " +
                 "order by p.created_at DESC limit ?1"
 )
 @NamedNativeQuery(
         name = "getListBestSellProducts",
         resultSetMapping = "productInfoDto",
-        query = "SELECT p.id, p.name, p.sale_price as price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
+        query = "SELECT p.id, p.name, p.sale_price as price, p.product_view as views, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p " +
                 "WHERE p.status = 1 " +
                 "ORDER BY total_sold DESC LIMIT ?1"
@@ -74,7 +75,7 @@ import java.util.List;
 @NamedNativeQuery(
         name = "getListViewProducts",
         resultSetMapping = "productInfoDto",
-        query = "SELECT p.id, p.name, p.sale_price as price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
+        query = "SELECT p.id, p.name, p.sale_price as price, p.product_view as views, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p " +
                 "WHERE p.status = 1 " +
                 "ORDER BY product_view DESC LIMIT ?1"
@@ -83,7 +84,7 @@ import java.util.List;
 @NamedNativeQuery(
         name = "getRelatedProducts",
         resultSetMapping = "productInfoDto",
-        query = "SELECT p.id, p.name, p.sale_price as price, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
+        query = "SELECT p.id, p.name, p.sale_price as price, p.product_view as views, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p " +
                 "WHERE p.status = 1 " +
                 "AND p.id != ?1 " +
@@ -107,7 +108,7 @@ import java.util.List;
         resultSetMapping = "productInfoDto",
         query = "SELECT DISTINCT d.* " +
                 "FROM (" +
-                "SELECT DISTINCT product.id, product.name, product.slug, product.sale_price as price, product.total_sold, product.images ->> '$[0]' AS images " +
+                "SELECT DISTINCT product.id, product.name, product.slug, product.sale_price as price, product.product_view as views, product.total_sold, product.images ->> '$[0]' AS images " +
                 "FROM product " +
                 "INNER JOIN product_category " +
                 "ON product.id = product_category.product_id " +
@@ -122,7 +123,7 @@ import java.util.List;
 @NamedNativeQuery(
         name = "searchProductAllSize",
         resultSetMapping = "productInfoDto",
-        query = "SELECT DISTINCT product.id, product.name, product.slug, product.sale_price as price, product.total_sold, product.images ->> '$[0]' AS images " +
+        query = "SELECT DISTINCT product.id, product.name, product.slug, product.sale_price as price, product.product_view as views, product.total_sold, product.images ->> '$[0]' AS images " +
                 "FROM product " +
                 "INNER JOIN product_category " +
                 "ON product.id = product_category.product_id " +
@@ -134,7 +135,7 @@ import java.util.List;
 @NamedNativeQuery(
         name = "searchProductByKeyword",
         resultSetMapping = "productInfoDto",
-        query = "SELECT DISTINCT p.id, p.name, p.slug, p.sale_price as price, p.total_sold, p.images ->> '$[0]' AS images " +
+        query = "SELECT DISTINCT p.id, p.name, p.slug, p.sale_price as price, p.product_view as views, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p " +
                 "INNER JOIN product_category pc " +
                 "ON p.id = pc.product_id " +

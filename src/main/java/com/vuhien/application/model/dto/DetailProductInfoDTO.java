@@ -21,6 +21,8 @@ public class DetailProductInfoDTO {
 
     private long price;
 
+    private int views;
+
     private long totalSold;
 
     private ArrayList<String> productImages;
