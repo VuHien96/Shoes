@@ -20,4 +20,6 @@ public interface BrandService {
     void deleteBrand(long id);
 
     Brand getBrandById(long id);
+
+    long getCountBrands();
 }

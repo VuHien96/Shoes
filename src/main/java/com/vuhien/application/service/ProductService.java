@@ -77,4 +77,7 @@ public interface ProductService {
     //Kiểm tra khuyến mại
     Promotion checkPromotion(String code);
 
+    //Đếm số lượng sản phẩm
+    long getCountProduct();
+
 }

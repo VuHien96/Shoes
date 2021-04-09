@@ -28,4 +28,6 @@ public interface PostService {
     Page<Post> getListPost(int page);
 
     List<Post> getLatestPostsNotId(long id);
+
+    long getCountPost();
 }

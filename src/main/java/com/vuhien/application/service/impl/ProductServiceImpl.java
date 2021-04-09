@@ -347,4 +347,9 @@ public class ProductServiceImpl implements ProductService {
     public Promotion checkPromotion(String code) {
         return promotionRepository.checkPromotion(code);
     }
+
+    @Override
+    public long getCountProduct() {
+        return productRepository.count();
+    }
 }

@@ -168,4 +168,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> getLatestPostsNotId(long id) {
         return postRepository.getLatestPostsNotId(PUBLIC_POST,id,LIMIT_POST_RELATED);
     }
+
+    @Override
+    public long getCountPost() {
+        return postRepository.count();
+    }
 }

@@ -101,4 +101,9 @@ public class BrandServiceImpl implements BrandService {
         }
         return brand.get();
     }
+
+    @Override
+    public long getCountBrands() {
+        return brandRepository.count();
+    }
 }
