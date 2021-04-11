@@ -9,35 +9,30 @@
                                                 ~{:: #main-content}
                                                )}">
 <head>
-    <title>Dashboard</title>
+    <title>Trang quản trị </title>
     <th:block id="css-resources">
-
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     </th:block>
 </head>
-<body id="main-content">
-
-<section role="main" class="content-body" >
+<body>
+<section role="main" class="content-body" id="main-content">
     <header class="page-header">
-        <h2>Default Layout</h2>
         <div class="right-wrapper text-right">
             <ol class="breadcrumbs">
                 <li>
-                    <a href="index.html">
+                    <a href="/admin">
                         <i class="bx bx-home-alt"></i>
                     </a>
                 </li>
-                <li><span>Layouts</span></li>
-                <li><span>Default</span></li>
             </ol>
             <a class="sidebar-right-toggle" data-open="sidebar-right"><i
                     class="fas fa-chevron-left"></i></a>
         </div>
     </header>
-
     <div class="row">
         <div class="col-lg-12">
             <div class="row mb-3">
-                <div class="col-xl-6">
+                <div class="col-xl-4">
                     <section class="card card-featured-left card-featured-primary mb-3">
                         <div class="card-body">
                             <div class="widget-summary">
@@ -48,21 +43,20 @@
                                 </div>
                                 <div class="widget-summary-col">
                                     <div class="summary">
-                                        <h4 class="title">Support Questions</h4>
+                                        <h4 class="title">Số lượng sản phẩm</h4>
                                         <div class="info">
-                                            <strong class="amount">1281</strong>
-                                            <span class="text-primary">(14 unread)</span>
+                                            <strong class="amount" id="product-count"></strong>
                                         </div>
                                     </div>
                                     <div class="summary-footer">
-                                        <a class="text-muted text-uppercase" href="#">(view all)</a>
+                                        <a class="text-muted text-uppercase" href="/admin/products">(Xem chi tiết)</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-4">
                     <section class="card card-featured-left card-featured-secondary">
                         <div class="card-body">
                             <div class="widget-summary">
@@ -73,13 +67,37 @@
                                 </div>
                                 <div class="widget-summary-col">
                                     <div class="summary">
-                                        <h4 class="title">Total Profit</h4>
+                                        <h4 class="title">Tổng số danh mục</h4>
                                         <div class="info">
-                                            <strong class="amount">$ 14,890.30</strong>
+                                            <strong class="amount" id="category-count"></strong>
                                         </div>
                                     </div>
                                     <div class="summary-footer">
-                                        <a class="text-muted text-uppercase" href="#">(withdraw)</a>
+                                        <a class="text-muted text-uppercase" href="/admin/categories">(Xem chi tiết)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-xl-4">
+                    <section class="card card-featured-left card-featured-secondary">
+                        <div class="card-body">
+                            <div class="widget-summary">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-success">
+                                        <i class="fas fa-mail-bulk"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Tổng số bài viết</h4>
+                                        <div class="info">
+                                            <strong class="amount" id="post-count"></strong>
+                                        </div>
+                                    </div>
+                                    <div class="summary-footer">
+                                        <a class="text-muted text-uppercase" href="/admin/posts">(Xem chi tiết)</a>
                                     </div>
                                 </div>
                             </div>
@@ -88,7 +106,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-6">
+                <div class="col-xl-4">
                     <section class="card card-featured-left card-featured-tertiary mb-3">
                         <div class="card-body">
                             <div class="widget-summary">
@@ -99,37 +117,37 @@
                                 </div>
                                 <div class="widget-summary-col">
                                     <div class="summary">
-                                        <h4 class="title">Today's Orders</h4>
+                                        <h4 class="title">Tổng số đơn hàng</h4>
                                         <div class="info">
-                                            <strong class="amount">38</strong>
+                                            <strong class="amount" id="order-count"></strong>
                                         </div>
                                     </div>
                                     <div class="summary-footer">
-                                        <a class="text-muted text-uppercase" href="#">(statement)</a>
+                                        <a class="text-muted text-uppercase" href="/admin/orders">(Xem chi tiết)</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-4">
                     <section class="card card-featured-left card-featured-quaternary">
                         <div class="card-body">
                             <div class="widget-summary">
                                 <div class="widget-summary-col widget-summary-col-icon">
                                     <div class="summary-icon bg-info">
-                                        <i class="fas fa-user"></i>
+                                        <i class="fas fa-bookmark"></i>
                                     </div>
                                 </div>
                                 <div class="widget-summary-col">
                                     <div class="summary">
-                                        <h4 class="title">Today's Visitors</h4>
+                                        <h4 class="title">Tổng số nhãn hiệu</h4>
                                         <div class="info">
-                                            <strong class="amount">3765</strong>
+                                            <strong class="amount" id="brands-count"></strong>
                                         </div>
                                     </div>
                                     <div class="summary-footer">
-                                        <a class="text-muted text-uppercase" href="#">(report)</a>
+                                        <a class="text-muted text-uppercase" href="/admin/brands">(Xem chi tiết)</a>
                                     </div>
                                 </div>
                             </div>
@@ -140,240 +158,173 @@
         </div>
     </div>
     <div class="row pt-4">
-        <div class="col-lg-6 mb-4 mb-lg-0">
+        <div class="col-lg-7 mb-4 mb-lg-0">
             <section class="card">
                 <header class="card-header">
                     <div class="card-actions">
                         <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
                         <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
                     </div>
-                    <h2 class="card-title">Best Seller</h2>
-                    <p class="card-subtitle">Customize the graphs as much as you want, there are so many
-                        options and features to display information using Porto Admin Template.</p>
+                    <h2 class="card-title">Thống kê doanh số</h2>
+                    <div class="row" style="margin-top: 20px">
+                        <div class="col-md-3">
+                            <input type="date" id="datepicker" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="date" id="datepicker2" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" id="btn-dashboard-filter" class="btn btn-primary btn-sm"
+                                    value="Lọc kết quả">Lọc kết quả
+                            </button>
+                            <a href="/admin" class="btn btn-primary btn-sm">refesh</a>
+                        </div>
+                    </div>
                 </header>
                 <div class="card-body">
-
-                    <div class="chart chart-md" id="flotDashBasic"></div>
-                    <script>
-
-                        var flotDashBasicData = [{
-                            data: [
-                                [0, 170],
-                                [1, 169],
-                                [2, 173],
-                                [3, 188],
-                                [4, 147],
-                                [5, 113],
-                                [6, 128],
-                                [7, 169],
-                                [8, 173],
-                                [9, 128],
-                                [10, 128]
-                            ],
-                            label: "Series 1",
-                            color: "#CCCCCC"
-                        }, {
-                            data: [
-                                [0, 115],
-                                [1, 124],
-                                [2, 114],
-                                [3, 121],
-                                [4, 115],
-                                [5, 83],
-                                [6, 102],
-                                [7, 148],
-                                [8, 147],
-                                [9, 103],
-                                [10, 113]
-                            ],
-                            label: "Series 2",
-                            color: "#2baab1"
-                        }, {
-                            data: [
-                                [0, 70],
-                                [1, 69],
-                                [2, 73],
-                                [3, 88],
-                                [4, 47],
-                                [5, 13],
-                                [6, 28],
-                                [7, 69],
-                                [8, 73],
-                                [9, 28],
-                                [10, 28]
-                            ],
-                            label: "Series 3",
-                            color: "#734ba9"
-                        }];
-
-                        // See: js/examples/examples.dashboard.js for more settings.
-
-                    </script>
+                    <div class="chart chart-md" id="chart"></div>
                 </div>
             </section>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <section class="card">
                 <header class="card-header">
                     <div class="card-actions">
                         <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
                         <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
                     </div>
-                    <h2 class="card-title">Server Usage</h2>
-                    <p class="card-subtitle">It's easy to create custom graphs on Porto Admin Template,
-                        there are several graph types that you can use.</p>
+                    <h2 class="card-title">Thống kê trạng thái đơn hàng</h2>
                 </header>
                 <div class="card-body">
 
-                    <div class="chart chart-md" id="flotDashRealTime"></div>
+                    <div class="chart chart-md" id="donut"></div>
                 </div>
             </section>
         </div>
     </div>
-    <div class="row pt-4 mt-1">
-        <div class="col-xl-6">
-            <section class="card card-transparent mb-3">
-                <header class="card-header">
-                    <div class="card-actions">
-                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
-                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
-                    </div>
-                    <h2 class="card-title">Global Stats</h2>
-                </header>
-                <div class="card-body">
-                    <div id="vectorMapWorld" style="height: 350px; width: 100%;"></div>
-                </div>
-            </section>
-        </div>
-        <div class="col-xl-6">
-            <section class="card">
-                <header class="card-header card-header-transparent">
-                    <div class="card-actions">
-                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
-                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
-                    </div>
-                    <h2 class="card-title">Projects Stats</h2>
-                </header>
-                <div class="card-body">
-                    <table class="table table-responsive-md table-striped mb-0">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Project</th>
-                            <th>Status</th>
-                            <th>Progress</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Porto - Responsive HTML5 Template</td>
-                            <td><span class="badge badge-success">Success</span></td>
-                            <td>
-                                <div class="progress progress-sm progress-half-rounded m-0 mt-1 light">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar"
-                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 100%;">
-                                        100%
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Porto - Responsive Drupal 7 Theme</td>
-                            <td><span class="badge badge-success">Success</span></td>
-                            <td>
-                                <div class="progress progress-sm progress-half-rounded m-0 mt-1 light">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar"
-                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 100%;">
-                                        100%
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Tucson - Responsive HTML5 Template</td>
-                            <td><span class="badge badge-warning">Warning</span></td>
-                            <td>
-                                <div class="progress progress-sm progress-half-rounded m-0 mt-1 light">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar"
-                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 60%;">
-                                        60%
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Tucson - Responsive Business WordPress Theme</td>
-                            <td><span class="badge badge-success">Success</span></td>
-                            <td>
-                                <div class="progress progress-sm progress-half-rounded m-0 mt-1 light">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar"
-                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 90%;">
-                                        90%
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Porto - Responsive Admin HTML5 Template</td>
-                            <td><span class="badge badge-warning">Warning</span></td>
-                            <td>
-                                <div class="progress progress-sm progress-half-rounded m-0 mt-1 light">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar"
-                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 45%;">
-                                        45%
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>Porto - Responsive HTML5 Template</td>
-                            <td><span class="badge badge-danger">Danger</span></td>
-                            <td>
-                                <div class="progress progress-sm progress-half-rounded m-0 mt-1 light">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar"
-                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 40%;">
-                                        40%
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>Porto - Responsive Drupal 7 Theme</td>
-                            <td><span class="badge badge-success">Success</span></td>
-                            <td>
-                                <div class="progress progress-sm progress-half-rounded mt-1 light">
-                                    <div class="progress-bar progress-bar-primary" role="progressbar"
-                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                         style="width: 95%;">
-                                        95%
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </div>
-    </div>
-
 </section>
 
 <th:block id="js-resources">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script>
+        let chart = new Morris.Bar({
+            element: 'chart',
+            barColors: ["#EC407A", "#2196F3", "#8BC34A", "#AB47BC"],
+            parseTime: false,
+            hideHover: 'auto',
+            xkey: 'createdAt',
+            ykeys: ['sales', 'profit', 'quantity'],
+            labels: ['Doanh số', 'Lợi nhuận', 'Số lượng']
+        });
 
+
+        function char30day() {
+            $.ajax({
+                url: '/api/admin/statistics',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    chart.setData(data);
+                }
+            })
+        }
+
+        $('#btn-dashboard-filter').click(function () {
+            let toDate = $('#datepicker').val();
+            let fromDate = $('#datepicker2').val();
+            req = {
+                toDate: toDate,
+                fromDate: fromDate
+            }
+            let myJson = JSON.stringify(req)
+            $.ajax({
+                url:'/api/admin/statistics',
+                type:'POST',
+                data: myJson,
+                contentType: "application/json; charset=utf-8",
+                success:function (data){
+                    chart.setData(data);
+                }
+            })
+        });
+
+        function init() {
+            char30day();
+            getCountCategory();
+            getCountProduct();
+            getCountOrder();
+            getCountPost();
+            getCountBrands();
+        }
+
+        function getCountCategory() {
+            $.ajax({
+                url: '/api/admin/count/categories',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#category-count').append(`
+                        <strong>${data}</strong>
+                    `)
+                }
+            })
+        }
+
+        function getCountProduct() {
+            $.ajax({
+                url: '/api/admin/count/products',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#product-count').append(`
+                        <strong>${data}</strong>
+                    `)
+                }
+            })
+        }
+
+        function getCountOrder() {
+            $.ajax({
+                url: '/api/admin/count/orders',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#order-count').append(`
+                        <strong>${data}</strong>
+                    `)
+                }
+            })
+        }
+
+        function getCountPost() {
+            $.ajax({
+                url: '/api/admin/count/posts',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#post-count').append(`
+                        <strong>${data}</strong>
+                    `)
+                }
+            })
+        }
+
+        function getCountBrands() {
+            $.ajax({
+                url: '/api/admin/count/brands',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#brands-count').append(`
+                        <strong>${data}</strong>
+                    `)
+                }
+            })
+        }
+
+        init();
+    </script>
 </th:block>
 
 </body>

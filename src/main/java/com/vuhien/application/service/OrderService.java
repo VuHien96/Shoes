@@ -29,4 +29,7 @@ public interface OrderService {
 
     void userCancelOrder(long id, long userId);
 
+    //Đếm số lượng đơn hàng
+    long getCountOrder();
+
 }

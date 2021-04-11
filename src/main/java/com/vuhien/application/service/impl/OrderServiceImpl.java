@@ -12,6 +12,7 @@ import com.vuhien.application.model.request.UpdateStatusOrderRequest;
 import com.vuhien.application.repository.OrderRepository;
 import com.vuhien.application.repository.ProductRepository;
 import com.vuhien.application.repository.ProductSizeRepository;
+import com.vuhien.application.repository.StatisticRepository;
 import com.vuhien.application.service.OrderService;
 import com.vuhien.application.service.PromotionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private PromotionService promotionService;
+
+    @Autowired
+    private StatisticRepository statisticRepository;
 
     @Override
     public Page<Order> adminGetListOrders(String id, String name, String phone, String status, String product, int page) {
@@ -86,6 +90,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPrice(createOrderRequest.getProductPrice());
         order.setTotalPrice(createOrderRequest.getTotalPrice());
         order.setStatus(ORDER_STATUS);
+        order.setQuantity(1);
         order.setProduct(product.get());
 
         orderRepository.save(order);
@@ -195,18 +200,20 @@ public class OrderServiceImpl implements OrderService {
                 productSizeRepository.minusOneProductBySize(order.getProduct().getId(), order.getSize());
                 //Đơn hàng ở trạng thái đã giao hàng
             } else if (updateStatusOrderRequest.getStatus() == COMPLETED_STATUS) {
-                //Trừ đi một sản phẩm và cộng một sản phẩm vào sản phẩm đã bán
+                //Trừ đi một sản phẩm và cộng một sản phẩm vào sản phẩm đã bán và cộng tiền
                 productSizeRepository.minusOneProductBySize(order.getProduct().getId(), order.getSize());
                 productRepository.plusOneProductTotalSold(order.getProduct().getId());
+                statistic(order.getTotalPrice(), order.getQuantity(), order);
             } else if (updateStatusOrderRequest.getStatus() != CANCELED_STATUS) {
                 throw new BadRequestException("Không thế chuyển sang trạng thái này");
             }
             //Đơn hàng ở trạng thái đang giao hàng
-        }else if (order.getStatus() == DELIVERY_STATUS) {
+        } else if (order.getStatus() == DELIVERY_STATUS) {
             //Đơn hàng ở trạng thái đã giao hàng
             if (updateStatusOrderRequest.getStatus() == COMPLETED_STATUS) {
-                //Cộng một sản phẩm vào sản phẩm đã bán
+                //Cộng một sản phẩm vào sản phẩm đã bán và cộng tiền
                 productRepository.plusOneProductTotalSold(order.getProduct().getId());
+                statistic(order.getTotalPrice(), order.getQuantity(), order);
                 //Đơn hàng ở trạng thái đã hủy
             } else if (updateStatusOrderRequest.getStatus() == RETURNED_STATUS) {
                 //Cộng lại một sản phẩm đã bị trừ
@@ -222,9 +229,10 @@ public class OrderServiceImpl implements OrderService {
         } else if (order.getStatus() == COMPLETED_STATUS) {
             //Đơn hàng đang ở trạng thái đã hủy
             if (updateStatusOrderRequest.getStatus() == RETURNED_STATUS) {
-                //Cộng một sản phẩm đã bị trừ và trừ đi một sản phẩm đã bán
+                //Cộng một sản phẩm đã bị trừ và trừ đi một sản phẩm đã bán và trừ số tiền
                 productSizeRepository.plusOneProductBySize(order.getProduct().getId(), order.getSize());
                 productRepository.minusOneProductTotalSold(order.getProduct().getId());
+                updateStatistic(order.getTotalPrice(), order.getQuantity(), order);
             } else if (updateStatusOrderRequest.getStatus() != COMPLETED_STATUS) {
                 throw new BadRequestException("Không thế chuyển sang trạng thái này");
             }
@@ -281,7 +289,7 @@ public class OrderServiceImpl implements OrderService {
             order.setStatusText("Đơn hàng đã hủy");
         }
 
-        for (int i=0; i<SIZE_VN.size(); i++) {
+        for (int i = 0; i < SIZE_VN.size(); i++) {
             if (SIZE_VN.get(i) == order.getSizeVn()) {
                 order.setSizeUs(SIZE_US[i]);
                 order.setSizeCm(SIZE_CM[i]);
@@ -307,5 +315,40 @@ public class OrderServiceImpl implements OrderService {
 
         order.setStatus(CANCELED_STATUS);
         orderRepository.save(order);
+    }
+
+    @Override
+    public long getCountOrder() {
+        return orderRepository.count();
+    }
+
+    public void statistic(long amount, int quantity, Order order) {
+        Statistic statistic = statisticRepository.findByCreatedAT();
+        if (statistic != null){
+            statistic.setOrder(order);
+            statistic.setSales(statistic.getSales() + amount);
+            statistic.setQuantity(statistic.getQuantity() + quantity);
+            statistic.setProfit(statistic.getSales() - (statistic.getQuantity() * order.getProduct().getPrice()));
+            statisticRepository.save(statistic);
+        }else {
+            Statistic statistic1 = new Statistic();
+            statistic1.setOrder(order);
+            statistic1.setSales(amount);
+            statistic1.setQuantity(quantity);
+            statistic1.setProfit(amount - (quantity * order.getProduct().getPrice()));
+            statistic1.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            statisticRepository.save(statistic1);
+        }
+    }
+
+    public void updateStatistic(long amount, int quantity, Order order) {
+        Statistic statistic = statisticRepository.findByCreatedAT();
+        if (statistic != null) {
+            statistic.setOrder(order);
+            statistic.setSales(statistic.getSales() - amount);
+            statistic.setQuantity(statistic.getQuantity() - quantity);
+            statistic.setProfit(statistic.getSales() - (statistic.getQuantity() * order.getProduct().getPrice()));
+            statisticRepository.save(statistic);
+        }
     }
 }

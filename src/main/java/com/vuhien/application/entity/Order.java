@@ -92,6 +92,8 @@ public class Order {
     private long totalPrice;
     @Column(name = "size")
     private int size;
+    @Column(name = "quantity")
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "buyer")

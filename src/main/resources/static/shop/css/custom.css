@@ -23,7 +23,7 @@
 .slider-nav .slick-slide {
     margin: 0px 0.3125rem;
     cursor: pointer;
-}
+}a
 
 .title.h3,
 .desc,
@@ -386,10 +386,10 @@ body.modal2-on {
     color: #043b51;
 }
 
-.active {
-    color: #043b51;
-    font-weight: bold;
-}
+/*.active {*/
+/*    color: #043b51;*/
+/*    font-weight: bold;*/
+/*}*/
 .main-content{
     margin-top: 50px;
     margin-bottom: 50px;
