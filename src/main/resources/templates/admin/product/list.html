@@ -114,7 +114,7 @@
                         <td><input type="checkbox" id="checkbox_${product.id}" class="myCheckbox" th:value="${product.id}"></td>
                         <td th:text="${product.id}"></td>
                         <td th:text="${product.name}"></td>
-                        <td><img th:src="${product.images[0]}" width="60px" height="60px"></td>
+                        <td><img th:src="@{${product.images[0]}}" width="60px" height="60px"></td>
                         <td th:text="${product.brand.name}"></td>
                         <td>
                             <th:block th:each="category,i : ${product.categories}">

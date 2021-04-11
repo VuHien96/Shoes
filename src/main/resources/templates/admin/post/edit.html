@@ -101,7 +101,7 @@
                                             <div class="thumbnail-container">
                                                 <div class="img-div">
                                                     <img id="preview-img"
-                                                         th:src="${(post.thumbnail != null && !#strings.isEmpty(post.thumbnail)) ? post.thumbnail : '/shop/image/noimage.png'}"
+                                                         th:src="@{${(post.thumbnail != null && !#strings.isEmpty(post.thumbnail)) ? post.thumbnail : '/shop/image/noimage.png'}}"
                                                          alt="Thumbnail post">
                                                 </div>
                                             </div>

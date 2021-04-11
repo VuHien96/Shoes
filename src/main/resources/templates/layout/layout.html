@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title th:replace="${title}">Porto - Bootstrap eCommerce Template</title>
+    <title th:replace="${title}">Shop Shoes</title>
 
     <meta name="keywords" content="HTML5 Template"/>
     <meta name="description" content="Porto - Bootstrap eCommerce Template">
     <meta name="author" content="SW-THEMES">
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" th:href="@{/shop/images/icons/favicon.ico}">
+    <link rel="icon" type="image/x-icon" th:href="@{https://cdn.printgo.vn/uploads/media/772948/thiet-ke-logo-shop-giay-19_1584095087.jpg}">
     <!-- Plugins CSS File -->
     <link rel="stylesheet" th:href="@{/shop/css/bootstrap.min.css}">
     <!-- Main CSS File -->
@@ -199,7 +199,30 @@
             signedValidate();
         }
     })
+    function formatMoney() {
+        $('.text-price').each(function (index, element) {
+            money = $(element).text();
+            $(element).text(convertPrice(money));
+        });
+        $('.text-price-input').each(function (index, element) {
+            money = $(element).val();
+            $(element).val(convertPrice(money));
+        });
+    }
+    function convertPrice(currency) {
+        let convert = new Intl.NumberFormat('vn-VN', {
+            minimumFractionDigits: 0
+        }).format(currency);
 
+        return convert;
+    }
+    $('.text-price-input').keyup(function (event) {
+        if (event.which >= 37 && event.which <= 40) return;
+        $(this).val(function (index, value) {
+            return value
+                .replace(/\D/g, "")
+        });
+    })
 
 </script>
 

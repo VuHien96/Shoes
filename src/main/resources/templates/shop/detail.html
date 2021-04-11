@@ -82,7 +82,7 @@
                     <div class="prod-thumbnail owl-dots" id='carousel-custom-dots'>
                         <th:block th:each="img :${product.productImages}">
                             <div class="owl-dot">
-                                <img th:src="${img}"/>
+                                <img th:src="@{${img}}"/>
                             </div>
                         </th:block>
                     </div>
@@ -91,24 +91,16 @@
                 <div class="col-md-6 product-single-details">
                     <h1 class="product-title" th:text="${product.name}"></h1>
 
-                    <div class="ratings-container">
-                        <div class="product-ratings">
-                            <span class="ratings" style="width:60%"></span><!-- End .ratings -->
-                        </div><!-- End .product-ratings -->
-
-                        <a href="#" class="rating-link">( 6 Reviews )</a>
-                    </div><!-- End .ratings-container -->
-
                     <hr class="short-divider">
 
                     <div>
                         <span class="desc-sub-title">Giá sản phẩm: </span>
                         <th:block th:if="${product.promotionPrice}">
-                            <span class="product-price price-box" th:text="${#numbers.formatDecimal(product.promotionPrice, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
-                            <del class="old-price " th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></del>
+                            <span class="product-price price-box text-price" th:text="${product.promotionPrice}"> </span> &#x20AB;
+                            <del class="old-price text-price " th:text="${product.price}"></del> &#x20AB;
                         </th:block>
                         <th:block th:unless="${product.promotionPrice}">
-                            <span class="product-price price-box" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
+                            <span class="product-price price-box text-price" th:text="${product.price}"></span> &#x20AB;
                         </th:block>
                     </div><!-- End .price-box -->
                     <hr class="divider">
@@ -136,12 +128,12 @@
                             <button class="btn btn-primary buy red-btn" th:classappend="${canBuy} == true ? '' : 'not-buy'">
                                 <div class="ask-text left-content">
                                     <th:block th:if="${product.promotionPrice}">
-                                        <div class="ask-desc sub-content old-price"><span class="text-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
-                                        <div class="ask-price "><span class="text-price" th:text="${#numbers.formatDecimal(product.promotionPrice, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
+                                        <div class="ask-desc sub-content old-price"><span class="text-price" th:text="${product.price}"></span> &#x20AB;</div>
+                                        <div class="ask-price "><span class="text-price" th:text="${product.promotionPrice}"></span> &#x20AB;</div>
                                     </th:block>
                                     <th:block th:unless="${product.promotionPrice}">
                                         <div class="ask-desc sub-content">Giá bán ưu đãi</div>
-                                        <div class="ask-price "><span class="text-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}"></span> &#x20AB;</div>
+                                        <div class="ask-price "><span class="text-price" th:text="${product.price}"></span> &#x20AB;</div>
                                     </th:block>
                                 </div>
                                 <div class="buy-text right-content">
@@ -218,11 +210,11 @@
                                                 <img th:src="@{/shop/images/avatar/avatar1.jpg}" width="65" height="65" alt="avatar"/>
                                             </div><!-- End .comment-avatar-->
                                             <div class="comment-box">
-                                                <div class="ratings-container">
-                                                    <div class="product-ratings">
-                                                        <span class="ratings" style="width:80%"></span><!-- End .ratings -->
-                                                    </div><!-- End .product-ratings -->
-                                                </div><!-- End .ratings-container -->
+<!--                                                <div class="ratings-container">-->
+<!--                                                    <div class="product-ratings">-->
+<!--                                                        <span class="ratings" style="width:80%"></span>&lt;!&ndash; End .ratings &ndash;&gt;-->
+<!--                                                    </div>&lt;!&ndash; End .product-ratings &ndash;&gt;-->
+<!--                                                </div>&lt;!&ndash; End .ratings-container &ndash;&gt;-->
 
                                                 <div class="comment-info mb-1">
                                                     <h4 class="avatar-name" th:text="${comment.user.fullName}"></h4> - <span class="comment-date" th:text="${#dates.format(comment.createdAt, 'dd-MM-yyyy')}">Novemeber 15, 2019</span>
@@ -240,25 +232,25 @@
                             <div class="col-xl-6">
                                 <div class="add-product-review">
                                     <form action="#" class="comment-form m-0" id="formCommentProduct">
-                                        <div class="rating-form">
-                                            <label for="rating">Đánh giá chất lượng sản phẩm</label>
-                                            <div class="rating btn-rating">
-                                                <input type="radio" name="rating" value="5" id="rating-5">
-                                                <label for="rating-5"></label>
+<!--                                        <div class="rating-form">-->
+<!--                                            <label for="rating">Đánh giá chất lượng sản phẩm</label>-->
+<!--                                            <div class="rating btn-rating">-->
+<!--                                                <input type="radio" name="rating" value="5" id="rating-5">-->
+<!--                                                <label for="rating-5"></label>-->
 
-                                                <input type="radio" name="rating" value="4" id="rating-4">
-                                                <label for="rating-4"></label>
+<!--                                                <input type="radio" name="rating" value="4" id="rating-4">-->
+<!--                                                <label for="rating-4"></label>-->
 
-                                                <input type="radio" name="rating" value="3" id="rating-3">
-                                                <label for="rating-3"></label>
+<!--                                                <input type="radio" name="rating" value="3" id="rating-3">-->
+<!--                                                <label for="rating-3"></label>-->
 
-                                                <input type="radio" name="rating" value="2" id="rating-2">
-                                                <label for="rating-2"></label>
+<!--                                                <input type="radio" name="rating" value="2" id="rating-2">-->
+<!--                                                <label for="rating-2"></label>-->
 
-                                                <input type="radio" name="rating" value="1" id="rating-1">
-                                                <label for="rating-1"></label>
-                                            </div>
-                                        </div>
+<!--                                                <input type="radio" name="rating" value="1" id="rating-1">-->
+<!--                                                <label for="rating-1"></label>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
                                         <div class="form-group">
                                             <label>Viết bình luận </label>
                                             <textarea cols="6" rows="6" name="product_comment" class="form-control form-control-sm product_comment"></textarea>
@@ -281,22 +273,13 @@
                     <div class="product-default inner-quickview inner-icon">
                         <figure>
                             <a th:href="@{/{slug}/{id}(id=${related.id},slug=${related.slug})}">
-                                <img th:src="${related.images}">
+                                <img th:src="@{${related.images}}">
                             </a>
-                            <div class="btn-icon-group">
-                                <button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal"><i class="icon-shopping-cart"></i></button>
-                            </div>
                         </figure>
                         <div class="product-details">
                             <h3 class="product-title">
                                 <a th:href="@{/{slug}/{id}(id=${related.id},slug=${related.slug})}" th:text="${related.name}"></a>
                             </h3>
-                            <div class="ratings-container">
-                                <div class="product-ratings">
-                                    <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                    <span class="tooltiptext tooltip-top"></span>
-                                </div><!-- End .product-ratings -->
-                            </div><!-- End .ratings-container -->
                             <div class="price-box">
                                 <th:block th:if="${related.promotionPrice}">
                                     <span class="product-price" th:text="${#numbers.formatDecimal(related.promotionPrice, 0, 'COMMA', 0, 'POINT') +' đ'}"></span>
@@ -333,6 +316,7 @@
         let sizeCm = [[${sizeCm}]];
 
         $(function () {
+            formatMoney();
             render();
             activeSize();
             sizeGuideRender();
@@ -461,13 +445,13 @@
             }
         });
 
-        $(".btn-rating").click(function (){
-            let rating = $("#rating").val()
-            console.log(rating)
-        })
-        $('.btn-rating input').on('change', function() {
-            alert($('input[name=rating]:checked').val());
-        });
+        // $(".btn-rating").click(function (){
+        //     let rating = $("#rating").val()
+        //     console.log(rating)
+        // })
+        // $('.btn-rating input').on('change', function() {
+        //     alert($('input[name=rating]:checked').val());
+        // });
     </script>
 </th:block>
 </body>

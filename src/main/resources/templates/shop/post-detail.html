@@ -32,7 +32,7 @@
                 <article class="post single">
                     <div class="post-media">
                         <div class="post-slider owl-carousel owl-theme">
-                            <img th:src="${post.thumbnail}" alt="${post.title}">
+                            <img th:src="@{${post.thumbnail}}" alt="${post.title}">
                         </div><!-- End .post-slider -->
                     </div><!-- End .post-media -->
 
@@ -118,7 +118,7 @@
                             <article class="post">
                                 <div class="post-media">
                                     <a th:href="@{/tin-tuc/{slug}/{id}(id=${postList.id},slug=${postList.slug})}">
-                                        <img th:src="${postList.thumbnail}" th:alt="${postList.title}">
+                                        <img th:src="@{${postList.thumbnail}}" th:alt="${postList.title}">
                                     </a>
                                 </div><!-- End .post-media -->
 

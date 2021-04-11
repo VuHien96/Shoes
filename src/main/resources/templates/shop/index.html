@@ -10,7 +10,7 @@
                                                                     )}">
 <head>
     <meta charset="UTF-8">
-    <title>Trang chủ</title>
+    <title>Shop Shoes</title>
     <th:block id="css-resources">
 
     </th:block>
@@ -106,7 +106,7 @@
                     <div class="product-default">
                     <figure>
                         <a th:href="@{/{slug}/{id}(id=${newProduct.id},slug=${newProduct.slug})}">
-                            <img th:src="${newProduct.images}" alt="product">
+                            <img th:src="@{${newProduct.images}}" alt="product">
                         </a>
                     </figure>
                     <div class="product-details">
@@ -125,11 +125,11 @@
                         <div class="ratings-container">
                             <p class="card-text sold">&Dstrok;&atilde; b&aacute;n <span th:text="${newProduct.totalSold}"></span> &dstrok;&ocirc;i</p>
                         </div><!-- End .product-container -->
-                        <div class="product-action">
-                            <a href="#" class="btn-icon-wish"><i class="icon-heart"></i></a>
-                            <button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal">Mua hàng</button>
-                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
+<!--                        <div class="product-action">-->
+<!--                            <a href="#" class="btn-icon-wish"><i class="icon-heart"></i></a>-->
+<!--                            <button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal">Mua hàng</button>-->
+<!--                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>-->
+<!--                        </div>-->
                     </div><!-- End .product-details -->
                 </div>
                 </th:block>
@@ -154,7 +154,7 @@
                     <div class="product-default">
                     <figure>
                         <a th:href="@{/{slug}/{id}(id=${sell.id},slug=${sell.slug})}">
-                            <img th:src="${sell.images}" alt="product">
+                            <img th:src="@{${sell.images}}" alt="product">
                         </a>
                         <div class="label-group">
                             <div class="product-label label-hot">HOT</div>
@@ -176,11 +176,11 @@
                         <div class="ratings-container">
                             <p class="card-text sold">&Dstrok;&atilde; b&aacute;n <span th:text="${sell.totalSold}"></span> &dstrok;&ocirc;i</p>
                         </div><!-- End .product-container -->
-                        <div class="product-action">
-                            <a href="#" class="btn-icon-wish"><i class="icon-heart"></i></a>
-                            <button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal">Mua hàng</button>
-                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
+<!--                        <div class="product-action">-->
+<!--                            <a href="#" class="btn-icon-wish"><i class="icon-heart"></i></a>-->
+<!--                            <button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal">Mua hàng</button>-->
+<!--                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>-->
+<!--                        </div>-->
                     </div><!-- End .product-details -->
                 </div>
                 </th:block>
@@ -200,7 +200,7 @@
                     <div class="product-default">
                     <figure>
                         <a th:href="@{/{slug}/{id}(id=${view.id},slug=${view.slug})}">
-                            <img th:src="${view.images}" alt="product">
+                            <img th:src="@{${view.images}}" alt="product">
                         </a>
                     </figure>
                     <div class="product-details">
@@ -222,11 +222,11 @@
                         <div class="ratings-container">
                             <p class="card-text sold">Số lượt xem: <span th:text="${view.views}"></span></p>
                         </div><!-- End .product-container -->
-                        <div class="product-action">
-                            <a href="#" class="btn-icon-wish"><i class="icon-heart"></i></a>
-                            <button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal">Mua hàng</button>
-                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
-                        </div>
+<!--                        <div class="product-action">-->
+<!--                            <a href="#" class="btn-icon-wish"><i class="icon-heart"></i></a>-->
+<!--                            <button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal">Mua hàng</button>-->
+<!--                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>-->
+<!--                        </div>-->
                     </div><!-- End .product-details -->
                 </div>
                 </th:block>
@@ -303,7 +303,7 @@
                     <article class="post">
                     <div class="post-media">
                         <a th:href="@{/tin-tuc/{slug}/{id}(id=${post.id},slug=${post.slug})}">
-                            <img th:src="${post.thumbnail}" alt="Post" width="225" height="280">
+                            <img th:src="@{${post.thumbnail}}" alt="Post" width="225" height="280">
                         </a>
                         <div class="post-date">
                             <span th:text="${#dates.format(post.publishedAt, 'MM yyyy')}"></span></p>
@@ -317,7 +317,7 @@
                         <div class="post-content">
                             <p th:utext="${post.content}"></p>
                         </div><!-- End .post-content -->
-                        <a href="single.html" class="post-comment">0 Comments</a>
+<!--                        <a href="single.html" class="post-comment">0 Comments</a>-->
                     </div><!-- End .post-body -->
                 </article><!-- End .post -->
                 </th:block>

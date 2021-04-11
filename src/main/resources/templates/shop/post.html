@@ -35,7 +35,7 @@
                     <article class="post">
                         <div class="post-media">
                             <a th:href="@{/tin-tuc/{slug}/{id}(id=${post.id},slug=${post.slug})}">
-                                <img th:src="${post.thumbnail}" th:alt="${post.title}">
+                                <img th:src="@{${post.thumbnail}}" th:alt="${post.title}">
                             </a>
                         </div>
                         <!-- End .post-media -->

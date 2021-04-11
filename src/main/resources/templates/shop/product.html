@@ -59,7 +59,7 @@
                             <div class="product-default inner-quickview inner-icon">
                                 <figure>
                                     <a th:href="@{/{slug}/{id}(id=${product.id},slug=${product.slug})}">
-                                        <img th:src="${product.images}" th:alt="${product.name}">
+                                        <img th:src="@{${product.images}}" th:alt="${product.name}">
                                     </a>
                                 </figure>
                                 <div class="product-details">
@@ -367,10 +367,10 @@
                                     <div class="price-box">`
                     if (product.promotionPrice > 0) {
                         html += `
-                              <span class="product-price" >${product.promotionPrice}</span>
-                              <del class="old-price" >${product.price}</del>`
+                              <span class="product-price text-price" >${product.promotionPrice}</span> &#x20AB;
+                              <del class="old-price text-price" >${product.price}</del> &#x20AB;`
                     } else {
-                        html += `<span class="product-price">${product.price}</span>`
+                        html += `<span class="product-price text-price">${product.price}</span> &#x20AB;`
                     }
                     html += `
                                     </div>
@@ -380,6 +380,7 @@
                 }
                 $('.product-row').html(html);
                 $('.no-products').css('display', 'none');
+                formatMoney();
             } else {
                 $('.product-row').html("");
                 $('.no-products').css('display', 'flex');
@@ -423,6 +424,7 @@
                 $('.price-input.small').val('');
                 $('.apply-price:not(.small)').attr('disabled', 'disabled');
             })
+
     </script>
 </th:block>
 </body>

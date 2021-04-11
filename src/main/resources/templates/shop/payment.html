@@ -38,7 +38,7 @@
                                 <td class="product-col">
                                     <figure class="product-image-container">
                                         <a href="product.html" class="product-image">
-                                            <img th:src="${product.productImages[0]}" th:alt="${product.name}">
+                                            <img th:src="@{${product.productImages[0]}}" th:alt="${product.name}">
                                         </a>
                                     </figure>
                                     <div>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="coupon price-include">
                                 <div class="text">Tạm tính</div>
-                                <input class="form-control text-price-input" id="in-price" type="text" th:value="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT') +' đ'}" readonly/>
+                                <input class="form-control text-price-input" id="in-price" type="text" th:value="${product.price}" readonly/>
                             </div>
                             <div class="coupon price-include">
                                 <div class="text">Khuyến mãi</div>
@@ -148,6 +148,7 @@
         let sizeCm = [[${sizeCm}]];
 
         $(function () {
+            formatMoney();
             render();
             activeSize();
             sizeGuideRender();
@@ -224,6 +225,7 @@
                     $('#in-price').val(price);
                     $('#in-promotion-value').val(promotionValue);
                     $('#in-total-price').val(totalPrice);
+                    formatMoney();
                 },
                 error: function(data) {
                     $('#in-coupon').val(couponCode);
@@ -299,6 +301,7 @@
                 });
             }
         })
+
     </script>
 </th:block>
 </body>
