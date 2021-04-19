@@ -12,6 +12,30 @@
     <title>Trang quản trị </title>
     <th:block id="css-resources">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+        <style>
+            #barChart {
+                display: block;
+                box-sizing: border-box;
+                height: 411px !important;
+                width: 411px !important;
+                margin: auto;
+            }
+
+            #doughnutBrand {
+                display: block;
+                box-sizing: border-box;
+                height: 411px !important;
+                width: 411px !important;
+                margin: auto;
+            }
+
+            #myChartProduct {
+                display: block;
+                box-sizing: border-box;
+                height: 409px !important;
+                width: 775px;
+            }
+        </style>
     </th:block>
 </head>
 <body>
@@ -62,7 +86,7 @@
                             <div class="widget-summary">
                                 <div class="widget-summary-col widget-summary-col-icon">
                                     <div class="summary-icon bg-warning">
-                                        <i class="fas fa-dollar-sign"></i>
+                                        <i class="fas fa-certificate"></i>
                                     </div>
                                 </div>
                                 <div class="widget-summary-col">
@@ -105,7 +129,7 @@
                     </section>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-xl-4">
                     <section class="card card-featured-left card-featured-tertiary mb-3">
                         <div class="card-body">
@@ -154,6 +178,30 @@
                         </div>
                     </section>
                 </div>
+                <div class="col-xl-4">
+                    <section class="card card-featured-left card-featured-tertiary mb-3">
+                        <div class="card-body">
+                            <div class="widget-summary">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-danger">
+                                        <i class="fas fa-user-injured"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Tổng số user</h4>
+                                        <div class="info">
+                                            <strong class="amount" id="countUser"></strong>
+                                        </div>
+                                    </div>
+                                    <div class="summary-footer">
+                                        <a class="text-muted text-uppercase" href="/admin/users">(Xem chi tiết)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
@@ -186,6 +234,7 @@
                 </div>
             </section>
         </div>
+
         <div class="col-lg-5">
             <section class="card">
                 <header class="card-header">
@@ -193,11 +242,41 @@
                         <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
                         <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
                     </div>
-                    <h2 class="card-title">Thống kê trạng thái đơn hàng</h2>
+                    <h2 class="card-title">Số lượng Sản phẩm được mua theo danh mục</h2>
                 </header>
                 <div class="card-body">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </section>
+        </div>
 
-                    <div class="chart chart-md" id="donut"></div>
+    </div>
+    <div class="row pt-4">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+            <section class="card">
+                <header class="card-header">
+                    <div class="card-actions">
+                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+                    </div>
+                    <h2 class="card-title">Số lượng sản phẩm được mua theo nhãn hiệu</h2>
+                </header>
+                <div class="card-body">
+                    <canvas id="doughnutBrand"></canvas>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-7">
+            <section class="card">
+                <header class="card-header">
+                    <div class="card-actions">
+                        <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
+                        <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
+                    </div>
+                    <h2 class="card-title">10 Sản phẩm bán chạy nhất trong tháng</h2>
+                </header>
+                <div class="card-body">
+                    <canvas id="myChartProduct"></canvas>
                 </div>
             </section>
         </div>
@@ -207,6 +286,160 @@
 <th:block id="js-resources">
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/chart.js@3.1.0/dist/chart.min.js}"></script>
+    <script>
+        let dataChartProductOrderedByCategory = [];
+        let labelChartProductOrderedByCategory = [];
+
+        let dataChartProductOrderedByBrand = [];
+        let labelChartProductOrderedByBrand = [];
+
+        let dataChartProductOrdered = [];
+        let labelChartProductOrdered = [];
+
+        getListProductOrderedByCategory();
+        getListProductOrderedByBrand();
+        getListProductOrder();
+
+        function getListProductOrderedByCategory() {
+            $.ajax({
+                url: '/api/admin/product-order-categories',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    let data_get = res;
+                    for (var i = 0; i < data_get.length; i++) {
+                        dataChartProductOrderedByCategory.push(data_get[i].value);
+                        labelChartProductOrderedByCategory.push(data_get[i].label);
+                    }
+                    if ($("#barChart").length) {
+                        var barChartCanvas = $("#barChart").get(0).getContext("2d");
+                        // This will get the first returned node in the jQuery collection.
+                        var barChart = new Chart(barChartCanvas, {
+                            type: 'polarArea',
+                            data: data,
+                            options: doughnutPieOptions
+                        });
+                    }
+                }
+            })
+        }
+
+        let data = {
+            labels: labelChartProductOrderedByCategory,
+            datasets: [{
+                data: dataChartProductOrderedByCategory,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(75, 192, 192)',
+                    'rgb(255, 205, 86)',
+                    'rgb(201, 203, 207)',
+                    'rgb(54, 162, 235)'
+                ],
+            }],
+        };
+
+        let doughnutPieOptions = {
+            responsive: true,
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        };
+
+        function getListProductOrderedByBrand() {
+            $.ajax({
+                url: '/api/admin/product-order-brands',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    let data_get = res;
+                    for (var i = 0; i < data_get.length; i++) {
+                        dataChartProductOrderedByBrand.push(data_get[i].value);
+                        labelChartProductOrderedByBrand.push(data_get[i].label);
+                    }
+                    if ($("#doughnutBrand").length) {
+                        var barChartCanvasBrand = $("#doughnutBrand").get(0).getContext("2d");
+                        // This will get the first returned node in the jQuery collection.
+                        var barChart = new Chart(barChartCanvasBrand, {
+                            type: 'polarArea',
+                            data: dataBrand,
+                            options: doughnutPieOptionsBrand
+                        });
+                    }
+                }
+            })
+        }
+
+        let dataBrand = {
+            labels: labelChartProductOrderedByBrand,
+            datasets: [{
+                data: dataChartProductOrderedByBrand,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(75, 192, 192)',
+                    'rgb(255, 205, 86)',
+                    'rgb(201, 203, 207)',
+                    'rgb(54, 162, 235)'
+                ],
+            }],
+        };
+
+        let doughnutPieOptionsBrand = {
+            responsive: true,
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        };
+
+        function getListProductOrder() {
+            $.ajax({
+                url: '/api/admin/product-order',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    let data_get = res;
+                    for (var i = 0; i < data_get.length; i++) {
+                        dataChartProductOrdered.push(data_get[i].value);
+                        labelChartProductOrdered.push(data_get[i].label);
+                    }
+                    if ($("#myChartProduct").length) {
+                        var barChartCanvasProduct = $("#myChartProduct").get(0).getContext("2d");
+                        // This will get the first returned node in the jQuery collection.
+                        var barChart = new Chart(barChartCanvasProduct, {
+                            type: 'bar',
+                            data: dataProduct,
+                            options: doughnutPieOptionsProduct
+                        });
+                    }
+                }
+            })
+        }
+
+        let dataProduct = {
+            labels: labelChartProductOrdered,
+            datasets: [{
+                label: 'Số lượng sản phẩm',
+                data: dataChartProductOrdered,
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(75, 192, 192)',
+                    'rgb(255, 205, 86)',
+                    'rgb(201, 203, 207)',
+                    'rgb(54, 162, 235)'
+                ],
+            }],
+        };
+
+        let doughnutPieOptionsProduct = {
+            responsive: true,
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        };
+    </script>
     <script>
         let chart = new Morris.Bar({
             element: 'chart',
@@ -217,7 +450,6 @@
             ykeys: ['sales', 'profit', 'quantity'],
             labels: ['Doanh số', 'Lợi nhuận', 'Số lượng']
         });
-
 
         function char30day() {
             $.ajax({
@@ -239,11 +471,11 @@
             }
             let myJson = JSON.stringify(req)
             $.ajax({
-                url:'/api/admin/statistics',
-                type:'POST',
+                url: '/api/admin/statistics',
+                type: 'POST',
                 data: myJson,
                 contentType: "application/json; charset=utf-8",
-                success:function (data){
+                success: function (data) {
                     chart.setData(data);
                 }
             })
@@ -256,6 +488,20 @@
             getCountOrder();
             getCountPost();
             getCountBrands();
+            getCountUsers();
+        }
+
+        function getCountUsers() {
+            $.ajax({
+                url: '/api/admin/count/users',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data) {
+                    $('#countUser').append(`
+                        <strong>${data}</strong>
+                    `)
+                }
+            })
         }
 
         function getCountCategory() {
