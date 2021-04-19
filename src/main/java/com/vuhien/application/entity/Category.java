@@ -1,5 +1,6 @@
 package com.vuhien.application.entity;
 
+import com.vuhien.application.model.dto.ChartDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,31 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+@SqlResultSetMappings(
+        value = {
+                @SqlResultSetMapping(
+                        name = "chartDTO",
+                        classes = @ConstructorResult(
+                                targetClass = ChartDTO.class,
+                                columns = {
+                                        @ColumnResult(name = "label",type = String.class),
+                                        @ColumnResult(name = "value",type = Integer.class)
+                                }
+                        )
+                )
+        }
+)
+@NamedNativeQuery(
+        name = "getListProductOrderByCategory",
+        resultSetMapping = "chartDTO",
+        query = "SELECT c.name as label, SUM(o.quantity) as value FROM category c " +
+                "INNER JOIN product_category pc ON pc.category_id = c.id " +
+                "INNER JOIN product p ON pc.product_id = p.id " +
+                "INNER JOIN orders o ON o.product_id = p.id " +
+                "WHERE o.status = 3 " +
+                "GROUP BY c.id"
+)
 
 @AllArgsConstructor
 @NoArgsConstructor

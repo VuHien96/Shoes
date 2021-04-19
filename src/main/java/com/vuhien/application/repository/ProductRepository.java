@@ -1,6 +1,7 @@
 package com.vuhien.application.repository;
 
 import com.vuhien.application.entity.Product;
+import com.vuhien.application.model.dto.ChartDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import org.springframework.data.domain.Page;
@@ -30,22 +31,16 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "AND p.brand_id LIKE CONCAT('%',?4,'%')", nativeQuery = true)
     Page<Product> adminGetListProducts(String id, String name, String category, String brand, Pageable pageable);
 
-//    @Query(value = "SELECT NEW com.vuhien.application.model.dto.ProductInfoDTO(p.id, p.name, p.slug, p.price ,p.images ->> '$[0]', p.total_sold) " +
-//            "FROM product p " +
-//            "WHERE p.status = 1 " +
-//            "ORDER BY p.created_at DESC limit ?1",nativeQuery = true)
-//    List<ProductInfoDTO> getListBestSellProducts(int limit);
-
     //Lấy sản phẩm được bán nhiều
-    @Query(nativeQuery = true,name = "getListBestSellProducts")
+    @Query(nativeQuery = true, name = "getListBestSellProducts")
     List<ProductInfoDTO> getListBestSellProducts(int limit);
 
     //Lấy sản phẩm mới nhất
-    @Query(nativeQuery = true,name = "getListNewProducts")
+    @Query(nativeQuery = true, name = "getListNewProducts")
     List<ProductInfoDTO> getListNewProducts(int limit);
 
     //Lấy sản phẩm được xem nhiều
-    @Query(nativeQuery = true,name = "getListViewProducts")
+    @Query(nativeQuery = true, name = "getListViewProducts")
     List<ProductInfoDTO> getListViewProducts(int limit);
 
     //Lấy sản phẩm liên quan
@@ -116,4 +111,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "ON category.id = product_category.category_id " +
             "WHERE product.status = true AND (product.name LIKE CONCAT('%',:keyword,'%') OR category.name LIKE CONCAT('%',:keyword,'%')) ")
     int countProductByKeyword(@Param("keyword") String keyword);
+
+    //Lấy 10 sản phẩm bán chạy nhất trong tháng
+    @Query(name = "getProductByOrder", nativeQuery = true)
+    List<ChartDTO> getProducByOrder(Integer month, Integer year, Pageable pageable);
 }
