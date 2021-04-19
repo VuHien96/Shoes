@@ -136,7 +136,7 @@ $(document).ready(function () {
 });
 
 $.validator.addMethod("phone", function (value, element) {
-    return this.optional(element) || /(84|0[3|5|7|8|9])+([0-9]{8})\b/g.test(value);
+    return this.optional(element) || /((09|03|07|08|05)+([0-9]{8})\b)/g.test(value);
 }, "Số điện thoại không hợp lệ!")
 
 function signedValidate(status = false, fullname = '') {

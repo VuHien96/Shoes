@@ -1,7 +1,6 @@
 package com.vuhien.application.repository;
 
 import com.vuhien.application.entity.Brand;
-import com.vuhien.application.model.dto.ChartDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,9 +18,5 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
             "AND b.name LIKE CONCAT('%',?2,'%') " +
             "AND b.status LIKE CONCAT('%',?3,'%')", nativeQuery = true)
     Page<Brand> adminGetListBrands(String id, String name, String status, Pageable pageable);
-
-    //Thống kê sản phẩm được mua theo nhãn hiệu
-    @Query(name = "getListProductOrderByBrands",nativeQuery = true)
-    List<ChartDTO> getListProductOrderByBrands();
 
 }

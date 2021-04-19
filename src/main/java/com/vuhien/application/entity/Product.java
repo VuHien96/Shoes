@@ -1,6 +1,5 @@
 package com.vuhien.application.entity;
 
-import com.vuhien.application.model.dto.ChartDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import lombok.AllArgsConstructor;
@@ -51,16 +50,6 @@ import java.util.List;
                                         @ColumnResult(name = "price", type = Long.class),
                                         @ColumnResult(name = "sizes", type = String.class),
 
-                                }
-                        )
-                ),
-                @SqlResultSetMapping(
-                        name = "chartProduct",
-                        classes = @ConstructorResult(
-                                targetClass = ChartDTO.class,
-                                columns = {
-                                        @ColumnResult(name = "label",type = String.class),
-                                        @ColumnResult(name = "value",type = Integer.class)
                                 }
                         )
                 )
@@ -155,16 +144,6 @@ import java.util.List;
                 "WHERE p.status = 1 AND (p.name LIKE CONCAT('%',:keyword,'%') OR c.name LIKE CONCAT('%',:keyword,'%')) " +
                 "LIMIT :limit " +
                 "OFFSET :offset "
-)
-@NamedNativeQuery(
-        name = "getProductByOrder",
-        resultSetMapping = "chartProduct",
-        query = "SELECT p.name as label, sum(o.quantity) as value FROM product p " +
-                "INNER JOIN orders o ON p.id = o.product_id " +
-                "WHERE o.status = 3 AND date_format(o.created_at,'%m') = ?1 " +
-                "AND date_format(o.created_at,'%Y') = ?2 " +
-                "GROUP BY p.id " +
-                "ORDER BY sum(o.quantity) DESC "
 )
 
 @AllArgsConstructor
