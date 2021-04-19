@@ -1,6 +1,7 @@
 package com.vuhien.application.repository;
 
 import com.vuhien.application.entity.Product;
+import com.vuhien.application.model.dto.ChartDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import org.springframework.data.domain.Page;
@@ -116,4 +117,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "ON category.id = product_category.category_id " +
             "WHERE product.status = true AND (product.name LIKE CONCAT('%',:keyword,'%') OR category.name LIKE CONCAT('%',:keyword,'%')) ")
     int countProductByKeyword(@Param("keyword") String keyword);
+
+    @Query(name = "getProductOrders",nativeQuery = true)
+    List<ChartDTO> getProductOrders(Pageable pageable, Integer moth, Integer year);
 }
