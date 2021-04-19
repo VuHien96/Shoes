@@ -257,4 +257,17 @@ public class HomeController {
         return ResponseEntity.ok(checkPromotion);
     }
 
+    @GetMapping("lien-he")
+    public String contact(){
+        return "shop/lien-he";
+    }
+    @GetMapping("huong-dan")
+    public String buyGuide(){
+        return "shop/buy-guide";
+    }
+    @GetMapping("doi-hang")
+    public String doiHang(){
+        return "shop/doi-hang";
+    }
+
 }
