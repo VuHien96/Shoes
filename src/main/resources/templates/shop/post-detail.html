@@ -83,7 +83,7 @@
                                 <div class="post-author">
                                     <!--                                    <h3 class="icon-user" th:text="${comment.user.email}"></h3>-->
                                     <figure>
-                                       <img th:src="@{/shop/images/blog/author.jpg}" width="30px" height="30px" alt="author">
+                                       <img th:src="@{/shop/images/avatar/avatar.png}" width="30px" height="30px" alt="author">
                                     </figure>
                                     <div class="author-content">
                                         <h5 th:text="${comment.user.fullName}"></h5>
@@ -95,10 +95,10 @@
                         </div>
 
                         <div class="comment-respond">
-                            <h3>Viết bình luận của bạn</h3>
+<!--                            <h3>Viết bình luận của bạn</h3>-->
                             <form action="#" method="post" id="formCommentPost">
                                 <div class="form-group required-field">
-                                    <label>Comment</label>
+                                    <label>Viết bình luận của bạn</label>
                                     <textarea name="post_comment" class="form-control post-comment"></textarea>
                                 </div><!-- End .form-group -->
                                 <div class="form-footer">
@@ -191,7 +191,7 @@
                                             </a>
                                         </figure>
                                         <div class="author-content">
-                                            <h4>${data.user.fullName}</h4>
+<!--                                            <h4>${data.user.fullName}</h4>-->
                                             <p>${data.content}</p>
                                         </div>
                                 </div>

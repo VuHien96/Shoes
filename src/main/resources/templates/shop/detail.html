@@ -207,7 +207,7 @@
                                     <th:block th:each="comment : ${product.comments}">
                                         <li class="comment-container">
                                             <div class="comment-avatar">
-                                                <img th:src="@{/shop/images/avatar/avatar1.jpg}" width="65" height="65" alt="avatar"/>
+                                                <img th:src="@{/shop/images/avatar/avatar.png}" width="65" height="65" alt="avatar"/>
                                             </div><!-- End .comment-avatar-->
                                             <div class="comment-box">
 <!--                                                <div class="ratings-container">-->
@@ -415,19 +415,9 @@
                         $(".comment-list").append(`
                                 <li class="comment-container">
                                             <div class="comment-avatar">
-                                                <img src="/shop/images/avatar/avatar1.jpg" width="65" height="65" alt="avatar"/>
+                                                <img src="/shop/images/avatar/avatar.png" width="65" height="65" alt="avatar"/>
                                             </div>
                                             <div class="comment-box">
-                                                <div class="ratings-container">
-                                                    <div class="product-ratings">
-                                                        <span class="ratings" style="width:80%"></span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="comment-info mb-1">
-                                                    <h4 class="avatar-name">${data.user.fullName}</h4> - <span class="comment-date">${data.createdAt}</span>
-                                                </div>
-
                                                 <div class="comment-text">
                                                     <p>${data.content}</p>
                                                 </div>

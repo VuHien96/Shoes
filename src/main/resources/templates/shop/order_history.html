@@ -110,6 +110,7 @@
 
 <th:block id="js-resources">
     <script>
+        formatMoney();
         $('.order-status').click(function() {
             let status = $(this).data('status');
             $.ajax({
