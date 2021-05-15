@@ -293,7 +293,7 @@
                         toastr.success("Đặt hàng thành công");
                         setTimeout(function() {
                             location.href = "/tai-khoan/lich-su-giao-dich/"+data;
-                        }, 1000)
+                        }, 3000)
                     },
                     error: function(data) {
                         toastr.warning(data.responseJSON.message);

@@ -7,6 +7,7 @@ import com.vuhien.application.exception.NotFoundException;
 import com.vuhien.application.security.CustomUserDetails;
 import com.vuhien.application.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,16 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.UUID;
 
 @RestController
 public class ImageController {
-    private static String UPLOAD_DIR = System.getProperty("user.home") + "/media/upload";
+//    private static String UPLOAD_DIR = System.getProperty("user.home") + "/media/upload";
+
+    @Value("${spring.folder_upload_files:}")
+    private Path rootLocation;
 
     @Autowired
     private ImageService imageService;
@@ -31,10 +36,10 @@ public class ImageController {
     @PostMapping("/api/upload/files")
     public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file) {
         //Tạo thư mục chứa ảnh nếu không tồn tại
-        File uploadDir = new File(UPLOAD_DIR);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
+//        File uploadDir = new File(UPLOAD_DIR);
+//        if (!uploadDir.exists()) {
+//            uploadDir.mkdirs();
+//        }
 
         //Lấy tên file và đuôi mở rộng của file
         String originalFilename = file.getOriginalFilename();
@@ -57,7 +62,7 @@ public class ImageController {
                 image.setCreatedBy(((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser());
 
                 //Tạo file
-                File serveFile = new File(UPLOAD_DIR + "/" + image.getId() + "." + extension);
+                File serveFile = new File(rootLocation + "/" + image.getId() + "." + extension);
                 BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(serveFile));
                 bos.write(file.getBytes());
                 bos.close();
@@ -74,7 +79,7 @@ public class ImageController {
 
     @GetMapping("/media/static/{filename:.+}")
     public ResponseEntity<Object> downloadFile(@PathVariable String filename) {
-        File file = new File(UPLOAD_DIR + "/" + filename);
+        File file = new File(rootLocation + "/" + filename);
         if (!file.exists()) {
             throw new NotFoundException("File không tồn tại!");
         }
@@ -91,9 +96,9 @@ public class ImageController {
                 .body(resource);
     }
 
-    @DeleteMapping("/api/delete-image/{filename:.+}")
-    public ResponseEntity<Object> deleteImage(@PathVariable String filename){
-        imageService.deleteImage(UPLOAD_DIR,filename);
-        return ResponseEntity.ok("Xóa file thành công!");
-    }
+//    @DeleteMapping("/api/delete-image/{filename:.+}")
+//    public ResponseEntity<Object> deleteImage(@PathVariable String filename){
+//        imageService.deleteImage(UPLOAD_DIR,filename);
+//        return ResponseEntity.ok("Xóa file thành công!");
+//    }
 }
