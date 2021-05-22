@@ -121,7 +121,7 @@
                             <button class="btn btn-primary size trans-btn">
                                 <span class="size-text">Size</span>
                                 <span class="size-details"></span>
-                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                                <i class="fas dropdown-arrow"></i>
                             </button>
                         </div>
                         <div class="buy-btn">
@@ -145,17 +145,17 @@
                     <hr class="divider mb-1">
 
                     <div class="product-single-share">
-                        <label class="sr-only">Share:</label>
+<!--                        <label class="sr-only">Share:</label>-->
 
-                        <div class="social-icons mr-2">
-                            <a href="#" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>
-                            <a href="#" class="social-icon social-twitter icon-twitter" target="_blank" title="Twitter"></a>
-                            <a href="#" class="social-icon social-linkedin fab fa-linkedin-in" target="_blank" title="Linkedin"></a>
-                            <a href="#" class="social-icon social-gplus fab fa-google-plus-g" target="_blank" title="Google +"></a>
-                            <a href="#" class="social-icon social-mail icon-mail-alt" target="_blank" title="Mail"></a>
-                        </div><!-- End .social-icons -->
+<!--                        <div class="social-icons mr-2">-->
+<!--                            <a href="#" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>-->
+<!--                            <a href="#" class="social-icon social-twitter icon-twitter" target="_blank" title="Twitter"></a>-->
+<!--                            <a href="#" class="social-icon social-linkedin fab fa-linkedin-in" target="_blank" title="Linkedin"></a>-->
+<!--                            <a href="#" class="social-icon social-gplus fab fa-google-plus-g" target="_blank" title="Google +"></a>-->
+<!--                            <a href="#" class="social-icon social-mail icon-mail-alt" target="_blank" title="Mail"></a>-->
+<!--                        </div>&lt;!&ndash; End .social-icons &ndash;&gt;-->
 
-                        <a href="#" class="add-wishlist" title="Add to Wishlist">Add to Wishlist</a>
+<!--                        <a href="#" class="add-wishlist" title="Add to Wishlist">Add to Wishlist</a>-->
                     </div><!-- End .product single-share -->
                 </div><!-- End .product-single-details -->
             </div><!-- End .row -->
@@ -181,23 +181,17 @@
                 </div><!-- End .tab-pane -->
 
                 <div class="tab-pane fade fade" id="product-more-info-content" role="tabpanel" aria-labelledby="product-tab-more-info">
-                    <div class="product-desc-content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.</p>
-                    </div><!-- End .product-desc-content -->
+                    <div class="products-slider owl-carousel owl-theme dots-top">
+                        <th:block th:each="img :${product.feedbackImages}">
+                            <div class="product-default inner-quickview inner-icon">
+                                <figure>
+                                   <img th:src="@{${img}}">
+                                </figure>
+                            </div>
+                        </th:block>
+                    </div><!-- End .products-slider -->
                 </div><!-- End .tab-pane -->
 
-                <div class="tab-pane fade" id="product-tags-content" role="tabpanel" aria-labelledby="product-tab-tags">
-                    <div class="product-tags-content">
-                        <form action="#">
-                            <h4>Add Your Tags:</h4>
-                            <div class="form-group">
-                                <input type="text" class="form-control form-control-sm" required>
-                                <input type="submit" class="btn btn-dark" value="Add Tags">
-                            </div><!-- End .form-group -->
-                        </form>
-                        <p class="note">Use spaces to separate tags. Use single quotes (') for phrases.</p>
-                    </div><!-- End .product-tags-content -->
-                </div><!-- End .tab-pane -->
 
                 <div class="tab-pane fade" id="product-reviews-content" role="tabpanel" aria-labelledby="product-tab-reviews">
                     <div class="product-reviews-content">

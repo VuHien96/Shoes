@@ -51,15 +51,15 @@
                                 class="fas fa-redo-alt"></i></a>
                         <button id="btn-search" class="btn btn-primary">Tìm kiếm <i
                                 class="fas fa-search"></i></button>
-                        <button id="btn-delete" onclick="warningBeforeDelete()" type="button" class="btn btn-danger" disabled>Xóa sản phẩm  <i
-                                class="fas fa-trash-alt"></i></button>
+<!--                        <button id="btn-delete" onclick="warningBeforeDelete()" type="button" class="btn btn-danger" disabled>Xóa sản phẩm  <i-->
+<!--                                class="fas fa-trash-alt"></i></button>-->
                     </div>
                 </div>
             </div>
             <table class="table table-bordered table-striped mb-0" id="datatable-editable">
                 <thead>
                 <tr>
-                    <th><input type="checkbox" id="checkAll"></th>
+<!--                    <th><input type="checkbox" id="checkAll"></th>-->
                     <th width="8%">Mã sản phẩm</th>
                     <th>Tên sản phẩm</th>
                     <th>Ảnh</th>
@@ -74,7 +74,7 @@
                 </tr>
                 <tr>
                     <form method="GET" id="search-form">
-                        <th></th>
+<!--                        <th></th>-->
                         <th>
                             <input type="text" name="id" id="id" class="form-control search-input">
                         </th>
@@ -111,7 +111,7 @@
                 <tbody>
                 <th:block th:each="product : ${products}">
                     <tr data-item-id="1">
-                        <td><input type="checkbox" id="checkbox_${product.id}" class="myCheckbox" th:value="${product.id}"></td>
+<!--                        <td><input type="checkbox" id="checkbox_${product.id}" class="myCheckbox" th:value="${product.id}"></td>-->
                         <td th:text="${product.id}"></td>
                         <td th:text="${product.name}"></td>
                         <td><img th:src="@{${product.images[0]}}" width="60px" height="60px"></td>

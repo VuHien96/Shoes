@@ -14,6 +14,7 @@ import com.vuhien.application.model.mapper.ProductMapper;
 import com.vuhien.application.model.request.CreateProductRequest;
 import com.vuhien.application.model.request.CreateSizeCountRequest;
 import com.vuhien.application.model.request.FilterProductRequest;
+import com.vuhien.application.model.request.UpdateFeedBackRequest;
 import com.vuhien.application.repository.ProductRepository;
 import com.vuhien.application.repository.ProductSizeRepository;
 import com.vuhien.application.repository.PromotionRepository;
@@ -180,6 +181,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setTotalSold(product.getTotalSold());
         dto.setDescription(product.getDescription());
         dto.setBrand(product.getBrand());
+        dto.setFeedbackImages(product.getImageFeedBack());
         dto.setProductImages(product.getImages());
         dto.setComments(product.getComments());
 
@@ -351,5 +353,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public long getCountProduct() {
         return productRepository.count();
+    }
+
+    @Override
+    public void updatefeedBackImages(String id, UpdateFeedBackRequest req) {
+        // Check product exist
+        Optional<Product> rs = productRepository.findById(id);
+        if (rs.isEmpty()) {
+            throw new NotFoundException("Sản phẩm không tồn tại");
+        }
+
+        Product product = rs.get();
+        product.setImageFeedBack(req.getFeedBackImages());
+        try {
+            productRepository.save(product);
+        } catch (Exception ex) {
+            throw new InternalServerException("Lỗi khi cập nhật hình ảnh on feet");
+        }
     }
 }

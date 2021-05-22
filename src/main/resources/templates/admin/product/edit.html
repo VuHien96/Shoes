@@ -34,7 +34,7 @@
                     class="fas fa-chevron-left"></i></a>
         </div>
     </header>
-    <form action="" id="formProduct">
+
         <section class="card">
             <header class="card-header">
                 <div class="card-actions">
@@ -68,7 +68,9 @@
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
+
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <form action="" id="formProduct">
                         <div class="row">
                             <div class="col-12">
                                 <div class="card card-outline">
@@ -191,6 +193,7 @@
                                 </div>
                             </div>
                         </div>
+                            </form>
                     </div>
 
                     <!-- Tab product size -->
@@ -238,10 +241,47 @@
                             </table>
                         </div>
                     </div>
+
+                    <!-- Tab onfeet image -->
+                    <div class="tab-pane fade" id="tabs-3" role="tabpanel" >
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <button class="btn btn-success btn-update-feedback-img">
+                                        <span>Cập nhật</span>
+                                    </button>
+                                    <button type="button" class="btn btn-info" id="btn-upload-feedback-img">
+                                        Thêm ảnh
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="col-12">
+                                    <div>
+                                        <label>Hình ảnh phản hổi</label>
+                                    </div>
+                                    <div id="list-onfeet-image" class="grid-list-img">
+                                        <th:block th:each="img : ${product.imageFeedBack}">
+                                            <div class="grid-item">
+                                                <div class="img-container">
+                                                    <div class="img-div">
+                                                        <img th:src="${img}" alt="product img">
+                                                    </div>
+                                                </div>
+                                                <div class="remove-img" onclick="removeProductImage(this)">
+                                                    <i class="fas fa-times-circle"></i>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-    </form>
+
     <th:block th:replace="~{fragment/choose_image_modal :: choose-img-modal}"></th:block>
 </section>
 
@@ -292,6 +332,54 @@
                     </div>`)
             });
         });
+
+        $('#btn-upload-feedback-img').click(function() {
+            $('#choose-img-modal').modal('show');
+            $('.btn-choose-img').on('click', function(event) {
+                let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
+                if (url == "" || url == null) {
+                    toastr.warning("Bạn chưa chọn ảnh");
+                    return;
+                }
+                closeChooseImgModal();
+                $('.btn-choose-img').off('click');
+                $('#list-onfeet-image').append(`
+                    <div class="grid-item">
+                        <div class="img-container">
+                            <div class="img-div">
+                                <img src="${url}" alt="product img">
+                            </div>
+                        </div>
+                        <div class="remove-img" onclick="removeProductImage(this)">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                    </div>`)
+            });
+        })
+
+        $('.btn-update-feedback-img').click(function() {
+            let feedback_images = [];
+            $('#list-onfeet-image .grid-item .img-container .img-div img').each(function() {
+                feedback_images.push($(this).attr('src'));
+            })
+
+            req = {
+                feedback_images: feedback_images
+            }
+            var myJSON = JSON.stringify(req);
+            $.ajax({
+                url: '/api/admin/products/'+[[${product.id}]]+'/update-feedback-image',
+                type: 'PUT',
+                data: myJSON,
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    toastr.success("Cập nhật thành công");
+                },
+                error: function(data) {
+                    toastr.warning(data.responseJSON.message);
+                }
+            });
+        })
 
         function removeProductImage(btn) {
             $(btn).parent().remove();

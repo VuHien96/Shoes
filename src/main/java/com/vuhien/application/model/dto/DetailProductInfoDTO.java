@@ -29,6 +29,8 @@ public class DetailProductInfoDTO {
 
     private ArrayList<String> productImages;
 
+    private ArrayList<String> feedbackImages;
+
     private long promotionPrice;
 
     private String couponCode;

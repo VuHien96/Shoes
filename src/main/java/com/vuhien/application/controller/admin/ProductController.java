@@ -3,6 +3,7 @@ package com.vuhien.application.controller.admin;
 import com.vuhien.application.entity.*;
 import com.vuhien.application.model.request.CreateProductRequest;
 import com.vuhien.application.model.request.CreateSizeCountRequest;
+import com.vuhien.application.model.request.UpdateFeedBackRequest;
 import com.vuhien.application.security.CustomUserDetails;
 import com.vuhien.application.service.BrandService;
 import com.vuhien.application.service.CategoryService;
@@ -63,7 +64,7 @@ public class ProductController {
         //Lấy danh sách anh của user
         User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         List<String> images = imageService.getListImageOfUser(user.getId());
-        model.addAttribute("images",images);
+        model.addAttribute("images", images);
 
         //Lấy danh sách nhãn hiệu
         List<Brand> brands = brandService.getListBrand();
@@ -76,7 +77,7 @@ public class ProductController {
     }
 
     @GetMapping("/admin/products/{slug}/{id}")
-    public String getProductUpdatePage(Model model, @PathVariable String id){
+    public String getProductUpdatePage(Model model, @PathVariable String id) {
 
         // Lấy thông tin sản phẩm theo id
         Product product = productService.getProductById(id);
@@ -116,7 +117,7 @@ public class ProductController {
     }
 
     @GetMapping("/api/admin/products/{id}")
-    public ResponseEntity<Object> getProductDetail(@PathVariable String id){
+    public ResponseEntity<Object> getProductDetail(@PathVariable String id) {
         Product rs = productService.getProductById(id);
         return ResponseEntity.ok(rs);
     }
@@ -134,7 +135,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/api/admin/products")
-    public ResponseEntity<Object> deleteProduct(@RequestBody String[] ids){
+    public ResponseEntity<Object> deleteProduct(@RequestBody String[] ids) {
         productService.deleteProduct(ids);
         return ResponseEntity.ok("Xóa sản phẩm thành công!");
     }
@@ -144,5 +145,12 @@ public class ProductController {
         productService.createSizeCount(createSizeCountRequest);
 
         return ResponseEntity.ok("Cập nhật thành công!");
+    }
+
+    @PutMapping("/api/admin/products/{id}/update-feedback-image")
+    public ResponseEntity<?> updatefeedBackImages(@PathVariable String id, @Valid @RequestBody UpdateFeedBackRequest req) {
+        productService.updatefeedBackImages(id, req);
+
+        return ResponseEntity.ok("Cập nhật thành công");
     }
 }

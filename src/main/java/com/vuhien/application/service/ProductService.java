@@ -10,6 +10,7 @@ import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import com.vuhien.application.model.request.CreateProductRequest;
 import com.vuhien.application.model.request.CreateSizeCountRequest;
 import com.vuhien.application.model.request.FilterProductRequest;
+import com.vuhien.application.model.request.UpdateFeedBackRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -79,5 +80,8 @@ public interface ProductService {
 
     //Đếm số lượng sản phẩm
     long getCountProduct();
+
+    //Thêm ảnh feedBack
+    void updatefeedBackImages(String id, UpdateFeedBackRequest req);
 
 }
