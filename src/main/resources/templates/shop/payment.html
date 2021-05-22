@@ -56,7 +56,7 @@
                         <div class="pricing childs">
                             <h6 class="not-found-size" style="margin-top: 5px; color: #dc3545;"  th:styleappend="${notFoundSize} == true ? '' : 'display:none'">Size giày này đã hết. Vui lòng chọn size khác.</h6>
                             <div class="size-btn" data-toggle="modal" data-target="#modal-size-Choose">
-                                <button class="btn btn-primary size trans-btn"><span class="size-text">Size</span><span th:data-size="${size}" class="size-details">9US | 42.5VN | 26.2CM</span><i class="fas fa-chevron-down dropdown-arrow"></i></button>
+                                <button class="btn btn-primary size trans-btn"><span class="size-text">Size</span><span th:data-size="${size}" class="size-details">9US | 42.5VN | 26.2CM</span><i class="fas dropdown-arrow"></i></button>
                             </div>
                             <div class="input-group" style="margin-top:30px">
                                 <input type="text" class="form-control" placeholder="Nhập mã khuyến mãi" id="in-coupon" th:value="${product.couponCode}">
