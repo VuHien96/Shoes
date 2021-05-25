@@ -18,7 +18,7 @@ public class UpdateStatusOrderRequest {
     @JsonProperty("receiver_name")
     private String receiverName;
 
-    @Pattern(regexp="(09|01[2|6|8|9])+([0-9]{8})\\b", message = "Điện thoại không hợp lệ")
+    @Pattern(regexp="(09|03|07|08|05)+([0-9]{8})\\b", message = "Điện thoại không hợp lệ")
     @JsonProperty("receiver_phone")
     private String receiverPhone;
 
