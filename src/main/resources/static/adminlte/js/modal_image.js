@@ -38,6 +38,7 @@ function chooseImg(img) {
 $("#upload-thumbnail").change(function () {
     var fd = new FormData();
     var file = $(this)[0].files[0];
+    console.log(file);
     var fileName = file.name;
     var extension = fileName.substr((fileName.lastIndexOf('.') + 1));
     if (extension != "jpg" && extension != "png" && extension != "svg" && extension != "jpeg" && extension != "gif") {

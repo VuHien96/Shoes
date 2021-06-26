@@ -151,7 +151,7 @@
                                                     <tbody>
                                                     <tr>
                                                         <td>
-                                                            <a target="_blank" th:href="@{/admin/products/{id}(id=${order.product.id})}" th:text="${order.product.name}"></a>
+                                                            <a target="_blank" th:href="@{/admin/products/{slug}/{id}(id=${order.product.id}, slug=${order.product.slug})}" th:text="${order.product.name}"></a>
                                                         </td>
                                                         <td>
                                                             <span th:text="${order.size}"></span>

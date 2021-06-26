@@ -18,6 +18,7 @@
 </head>
 <body>
 <section role="main" class="content-body" id="main-content">
+
     <header class="page-header">
         <!--        <h2>Editable Tables</h2>-->
         <div class="right-wrapper text-right">
@@ -34,7 +35,7 @@
                     class="fas fa-chevron-left"></i></a>
         </div>
     </header>
-
+    <form action="" id="formProduct">
         <section class="card">
             <header class="card-header">
                 <div class="card-actions">
@@ -69,8 +70,8 @@
                 </ul>
                 <div class="tab-content">
 
-                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                            <form action="" id="formProduct">
+                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="card card-outline">
@@ -193,7 +194,7 @@
                                 </div>
                             </div>
                         </div>
-                            </form>
+
                     </div>
 
                     <!-- Tab product size -->
@@ -201,7 +202,7 @@
                         <div>
                             <div class="row">
                                 <form class="form-inline">
-                                    <div class="form-group col-md-2" >
+                                    <div class="form-group col-md-2">
                                         <label for="size">Size giày</label>&emsp;
                                         <select class="form-control" id="size">
                                             <th:block th:each="size : ${sizeVN}">
@@ -213,11 +214,14 @@
                                         <label for="count">Số lượng có sẵn</label>&emsp;
                                         <input type="number" class="form-control" id="count" min="0" value="0">
                                     </div>
-                                    <div class=" form-group col-md-2">
+                                    <div class=" form-group col-md-3">
                                         <label for="">Thực hiện</label>
-                                        <button type="submit" id="" class="btn btn-primary btn-update-size-count">Cập nhật số lượng <i class="fas fa-plus"></i></button>
                                         <br>
-                                        <span class="invalid-feedback" id="invalid-feedback-size">Vui lòng nhập số lượng</span>
+                                        <button type="button" id="" class="btn btn-primary btn-update-size-count">Cập
+                                            nhật số lượng <i class="fas fa-plus"></i></button>
+                                        <br>
+                                        <span class="invalid-feedback"
+                                              id="invalid-feedback-size">Vui lòng nhập số lượng</span>
                                     </div>
                                 </form>
                             </div>
@@ -243,11 +247,11 @@
                     </div>
 
                     <!-- Tab onfeet image -->
-                    <div class="tab-pane fade" id="tabs-3" role="tabpanel" >
+                    <div class="tab-pane fade" id="tabs-3" role="tabpanel">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <button class="btn btn-success btn-update-feedback-img">
+                                    <button type="button" class="btn btn-success btn-update-feedback-img">
                                         <span>Cập nhật</span>
                                     </button>
                                     <button type="button" class="btn btn-info" id="btn-upload-feedback-img">
@@ -281,7 +285,7 @@
                 </div>
             </div>
         </section>
-
+    </form>
     <th:block th:replace="~{fragment/choose_image_modal :: choose-img-modal}"></th:block>
 </section>
 
@@ -333,9 +337,9 @@
             });
         });
 
-        $('#btn-upload-feedback-img').click(function() {
+        $('#btn-upload-feedback-img').click(function () {
             $('#choose-img-modal').modal('show');
-            $('.btn-choose-img').on('click', function(event) {
+            $('.btn-choose-img').on('click', function (event) {
                 let url = $('#list-user-img .grid-item.choosen .grid-item-img').attr('src');
                 if (url == "" || url == null) {
                     toastr.warning("Bạn chưa chọn ảnh");
@@ -357,9 +361,9 @@
             });
         })
 
-        $('.btn-update-feedback-img').click(function() {
+        $('.btn-update-feedback-img').click(function () {
             let feedback_images = [];
-            $('#list-onfeet-image .grid-item .img-container .img-div img').each(function() {
+            $('#list-onfeet-image .grid-item .img-container .img-div img').each(function () {
                 feedback_images.push($(this).attr('src'));
             })
 
@@ -368,14 +372,14 @@
             }
             var myJSON = JSON.stringify(req);
             $.ajax({
-                url: '/api/admin/products/'+[[${product.id}]]+'/update-feedback-image',
+                url: '/api/admin/products/' + [[${product.id}]] + '/update-feedback-image',
                 type: 'PUT',
                 data: myJSON,
                 contentType: "application/json; charset=utf-8",
-                success: function(data) {
+                success: function (data) {
                     toastr.success("Cập nhật thành công");
                 },
-                error: function(data) {
+                error: function (data) {
                     toastr.warning(data.responseJSON.message);
                 }
             });
@@ -461,7 +465,7 @@
                 }
                 let myJson = JSON.stringify(req)
                 $.ajax({
-                    url: '/api/admin/products/'+[[${product.id}]],
+                    url: '/api/admin/products/' + [[${product.id}]],
                     type: 'PUT',
                     data: myJson,
                     contentType: "application/json; charset=utf-8",
@@ -475,7 +479,7 @@
             }
         })
 
-        $('.btn-update-size-count').click(function(event) {
+        $('.btn-update-size-count').click(function (event) {
             event.preventDefault();
             let size = parseInt($('#size').val());
             let count = parseInt($('#count').val());
@@ -494,8 +498,8 @@
                 type: 'PUT',
                 data: myJSON,
                 contentType: "application/json; charset=utf-8",
-                success: function(data) {
-                    let productSize = $('.product-size[data-size='+size+']')
+                success: function (data) {
+                    let productSize = $('.product-size[data-size=' + size + ']')
                     if (productSize.length === 0) {
                         $('.list-product-size').append(`<tr><td class="product-size" data-size="${size}">${size}</td><td class="product-count">${count}</td></tr>`);
                     } else {
@@ -503,10 +507,10 @@
                     }
                     toastr.success("Cập nhật thành công");
                 },
-                error: function(data) {
+                error: function (data) {
                     toastr.warning(data.responseJSON.message);
                 },
-                complete: function() {
+                complete: function () {
                     $('#invalid-feedback-size').hide();
                 }
             });
