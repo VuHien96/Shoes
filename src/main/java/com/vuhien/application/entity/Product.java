@@ -215,12 +215,12 @@ public class Product {
     )
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
-    private List<CartProduct> cartProducts = new ArrayList<>();
+//    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+//    private List<CartProduct> cartProducts = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "product")
-    private List<Rate> rates;
+//    @OneToMany(mappedBy = "product")
+//    private List<Rate> rates;
 }

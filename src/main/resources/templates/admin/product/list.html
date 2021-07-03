@@ -129,7 +129,7 @@
                         <td th:text="${product.totalSold}"></td>
                         <td class="actions">
                             <a th:href="@{/admin/products/{slug}/{id}(id=${product.id}, slug=${product.slug})}" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                            <a href="#" onclick="warningBeforeDelete()" class="on-default remove-row"><i class="far fa-trash-alt"></i></a>
+                            <a href="#" th:data-id="${product.id}" class="on-default remove-row delete-product"><i class="far fa-trash-alt"></i></a>
                         </td>
                     </tr>
                 </th:block>
@@ -210,6 +210,32 @@
                 }
             });
         }
+
+        $(".delete-product").on("click",function (){
+            let id = $(this).data('id');
+            swal({
+                title: 'Bạn chắc chắn muốn xóa!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                cancelButtonText: "Không",
+                confirmButtonText: "Có",
+            }).then(function (rs){
+                if (rs.value){
+                    $.ajax({
+                        url:"/api/admin/products/"+ id,
+                        type: "DELETE",
+                        success: function (data){
+                            toastr.success("Xóa danh mục thành công!");
+                            setTimeout(() => location.reload(), 500);
+                        },
+                        error: function (error){
+                            toastr.warning(error.responseJSON.message);
+                        }
+                    })
+                }
+            })
+        })
     </script>
 </th:block>
 </body>

@@ -15,6 +15,7 @@ import com.vuhien.application.model.request.CreateProductRequest;
 import com.vuhien.application.model.request.CreateSizeCountRequest;
 import com.vuhien.application.model.request.FilterProductRequest;
 import com.vuhien.application.model.request.UpdateFeedBackRequest;
+import com.vuhien.application.repository.OrderRepository;
 import com.vuhien.application.repository.ProductRepository;
 import com.vuhien.application.repository.ProductSizeRepository;
 import com.vuhien.application.repository.PromotionRepository;
@@ -28,6 +29,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -49,6 +51,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private PromotionRepository promotionRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Override
     public Page<Product> adminGetListProduct(String id, String name, String category, String brand, Integer page) {
@@ -139,6 +144,31 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(String[] ids) {
         for (String id : ids) {
             productRepository.deleteById(id);
+        }
+    }
+
+    @Override
+    public void deleteProductById(String id) {
+        // Check product exist
+        Optional<Product> rs = productRepository.findById(id);
+        if (rs.isEmpty()) {
+            throw new NotFoundException("Sản phẩm không tồn tại");
+        }
+
+        // If have order, can't delete
+        int countOrder = orderRepository.countByProductId(id);
+        if (countOrder > 0) {
+            throw new BadRequestException("Sản phẩm đã được đặt hàng không thể xóa");
+        }
+
+        try {
+            // Delete product size
+            productSizeRepository.deleteByProductId(id);
+
+            productRepository.deleteById(id);
+        } catch (Exception ex) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            throw new InternalServerException("Lỗi khi xóa sản phẩm");
         }
     }
 
@@ -236,6 +266,8 @@ public class ProductServiceImpl implements ProductService {
         if (product.isEmpty()) {
             throw new NotFoundException("Không tìm thấy sản phẩm trong hệ thống!");
         }
+
+//        Optional<ProductSize> productSizeOld = productSizeRepository.getProductSizeBySize(createSizeCountRequest.getSize(),createSizeCountRequest.getProductId());
 
         ProductSize productSize = new ProductSize();
         productSize.setProductId(createSizeCountRequest.getProductId());

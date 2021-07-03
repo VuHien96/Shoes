@@ -140,6 +140,12 @@ public class ProductController {
         return ResponseEntity.ok("Xóa sản phẩm thành công!");
     }
 
+    @DeleteMapping("/api/admin/products/{id}")
+    public ResponseEntity<Object> deleteProductById(@PathVariable String id) {
+        productService.deleteProductById(id);
+        return ResponseEntity.ok("Xóa sản phẩm thành công!");
+    }
+
     @PutMapping("/api/admin/products/sizes")
     public ResponseEntity<?> updateSizeCount(@Valid @RequestBody CreateSizeCountRequest createSizeCountRequest) {
         productService.createSizeCount(createSizeCountRequest);

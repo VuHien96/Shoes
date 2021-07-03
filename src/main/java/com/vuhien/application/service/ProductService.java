@@ -34,6 +34,9 @@ public interface ProductService {
     //Xóa sản phẩm theo id
     void deleteProduct(String[] ids);
 
+    //Xóa sản phẩm theo id
+    void deleteProductById(String id);
+
     //Lấy sản phẩm bán nhiều nhất
     List<ProductInfoDTO> getListBestSellProducts();
 
