@@ -102,6 +102,23 @@
 <th:block id="js-resources">
     <script>
         formatMoney();
+
+        $('.cancel-btn').click(function() {
+            let orderId = $(this).data("order");
+            $.ajax({
+                url: '/api/cancel-order/'+orderId,
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                success: function(data) {
+                    toastr.success("Hủy đơn hàng thành công");
+                    $('.status').html("Đã hủy");
+                    $('.cancel-btn').remove();
+                },
+                error: function(data) {
+                    toastr.warning(data.responseJSON.message);
+                }
+            });
+        })
     </script>
 </th:block>
 </body>
