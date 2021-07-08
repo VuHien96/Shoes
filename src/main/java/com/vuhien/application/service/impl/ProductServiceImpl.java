@@ -403,4 +403,9 @@ public class ProductServiceImpl implements ProductService {
             throw new InternalServerException("Lỗi khi cập nhật hình ảnh on feet");
         }
     }
+
+    @Override
+    public List<Product> getAllProduct() {
+        return productRepository.findAll();
+    }
 }

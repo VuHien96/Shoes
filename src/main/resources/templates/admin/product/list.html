@@ -45,12 +45,14 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="mb-3">
-                        <a href="/admin/products/create" id="addToTable" class="btn btn-primary">Thêm mới sản phẩm <i
+                        <a href="/admin/products/create" id="addToTable" class="btn btn-info">Thêm mới sản phẩm <i
                                 class="fas fa-plus"></i></a>
                         <a href="/admin/products" class="btn btn-primary">Refresh <i
                                 class="fas fa-redo-alt"></i></a>
-                        <button id="btn-search" class="btn btn-primary">Tìm kiếm <i
+                        <button id="btn-search" class="btn btn-success">Tìm kiếm <i
                                 class="fas fa-search"></i></button>
+                        <button class="btn btn-warning btn_export"><a th:href="@{/api/products/export/excel}">Xuất dữ liệu</a>
+                            <i class="fas fa-file-export"></i></button>
 <!--                        <button id="btn-delete" onclick="warningBeforeDelete()" type="button" class="btn btn-danger" disabled>Xóa sản phẩm  <i-->
 <!--                                class="fas fa-trash-alt"></i></button>-->
                     </div>
@@ -235,6 +237,21 @@
                     })
                 }
             })
+        })
+
+        $(".btn_export").on("click",function (){
+            $.ajax({
+                url: '/api/products/export/excel',
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (data){
+                    toastr.success("Xuất dữ liệu thành công!");
+                    setTimeout(() => location.reload(), 500);
+                },
+                error: function (error){
+                    toastr.warning("Xuất dữ liệu thất bại!");
+                }
+            });
         })
     </script>
 </th:block>
